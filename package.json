@@ -3,10 +3,10 @@
   "version": "0.0.1",
   "description": "Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used",
   "author": {
-    "name": "anierbeck",
+    "name": "ANierbeck",
     "email": "bcanhome@googlemail.com"
   },
-  "homepage": "https://github.com/anierbeck/ioBroker.stromgedacht",
+  "homepage": "https://github.com/ANierbeck/ioBroker.stromgedacht",
   "license": "Apache-2.0",
   "keywords": [
     "ioBroker",
@@ -16,7 +16,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/anierbeck/ioBroker.stromgedacht.git"
+    "url": "https://github.com/ANierbeck/ioBroker.stromgedacht.git"
   },
   "engines": {
     "node": ">= 16"

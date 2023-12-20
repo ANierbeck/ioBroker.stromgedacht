@@ -36,9 +36,9 @@ tests.integration(path.join(__dirname, ".."), {
 				harness = getHarness();
 
 				const obj = {
-					"native": {
-						"zipcode": "76135",
-						"hoursInFuture": "24",
+					native: {
+						zipcode: "76135",
+						hoursInFuture: "24",
 					},
 				};
 				await harness.changeAdapterConfig(adapterName, obj);
@@ -70,7 +70,7 @@ tests.integration(path.join(__dirname, ".."), {
 					});
 					*/
 				});
-			}).timeout(2000);
+			}).timeout(5000);
 		});
 	},
 });

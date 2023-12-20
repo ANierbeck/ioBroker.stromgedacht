@@ -13,9 +13,6 @@ iobroker.*.tgz
 
 Thumbs.db
 
-# lock files
-*-lock.json
-
 # NYC coverage files
 coverage
 

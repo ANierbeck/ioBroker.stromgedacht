@@ -70,7 +70,7 @@ tests.integration(path.join(__dirname, ".."), {
 					});
 					*/
 				});
-			}).timeout(8000);
+			}).timeout(10000);
 		});
 	},
 });

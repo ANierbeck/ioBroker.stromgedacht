@@ -8,7 +8,9 @@
 import * as utils from "@iobroker/adapter-core";
 import axios from "axios";
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const adapterName = require("./../package.json").name.split(".").pop();
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const instanceObjects = require("./../io-package.json").instanceObjects;
 
 interface State {
@@ -34,6 +36,24 @@ class Stromgedacht extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady(): Promise<void> {
+		try {
+			const instObj = await this.getForeignObjectAsync(`system.adapter.${this.namespace}`);
+			if (
+				instObj &&
+				instObj.common &&
+				instObj.common.schedule &&
+				(instObj.common.schedule === "11 * * * *" || instObj.common.schedule === "*/15 * * * *")
+			) {
+				instObj.common.schedule = `${Math.floor(Math.random() * 60)} * * * *`;
+				this.log.info(`Default schedule found and adjusted to spread calls better over the full hour!`);
+				await this.setForeignObjectAsync(`system.adapter.${this.namespace}`, instObj);
+				this.terminate ? this.terminate() : process.exit(0);
+				return;
+			}
+		} catch (err: any) {
+			this.log.error(`Could not check or adjust the schedule: ${err.message}`);
+		}
+
 		for (const obj of instanceObjects) {
 			await this.setObjectNotExistsAsync(obj._id, obj);
 		}
@@ -48,20 +68,6 @@ class Stromgedacht extends utils.Adapter {
 			return;
 		}
 
-		this.getStatesOf("forecast", "", async (err, states: any) => {
-			if (err) {
-				this.log.error(`Could not get states of forecast: ${err.message}`);
-				return;
-			}
-			//removing all states
-			/*
-			for (const state of states) {
-				this.log.info(`Deleting state ${state._id}`);
-				await this.delObjectAsync(state._id);
-			}
-			*/
-		});
-
 		this.getStatesOf("states", "", async (err, states: any) => {
 			if (err) {
 				this.log.error(`Could not get states of states: ${err.message}`);
@@ -73,7 +79,6 @@ class Stromgedacht extends utils.Adapter {
 			}
 		});
 
-		//this.requestForecast();
 		this.requestStates();
 	}
 

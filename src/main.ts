@@ -96,9 +96,7 @@ class Stromgedacht extends utils.Adapter {
 
 	requestStates(): void {
 		const zipcode = this.config.zipcode;
-		const url = "https://api.stromgedacht.de/v1/statesRelative?zip=";
-		const fullUrl = url + zipcode + "&hoursInFuture=24";
-		this.log.info(`Requesting states for ${zipcode} from ${fullUrl}`);
+		const hoursInFuture = this.config.hoursInFuture;
 
 		const queryParams = {
 			zip: zipcode,
@@ -116,7 +114,7 @@ class Stromgedacht extends utils.Adapter {
 			.then(async (response) => {
 				this.log.info(`Received states for ${zipcode}: ${JSON.stringify(response.data)}`);
 				this.setState("forecast.states.json", JSON.stringify(response.data), true);
-				this.setState("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
+				this.setState("forecast.states.hoursInFuture", hoursInFuture, true);
 				this.parseState(response.data);
 			})
 			.catch((error) => {

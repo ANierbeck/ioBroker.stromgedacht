@@ -5,6 +5,7 @@ declare global {
 	namespace ioBroker {
 		interface AdapterConfig {
 			zipcode: string;
+			hoursInFuture: number;
 		}
 	}
 }

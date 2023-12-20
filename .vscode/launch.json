@@ -1,0 +1,22 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "node-terminal",
+			"name": "launch script: test:integration",
+			"request": "launch",
+			"command": "npm run test:integration",
+			"cwd": "${workspaceFolder}"
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "launch TypeScript adapter",
+			"skipFiles": ["<node_internals>/**"],
+			"program": "${workspaceFolder}/src/main.ts",
+			"args": ["--debug", "0"],
+			"preLaunchTask": "tsc: build - ${workspaceFolder}/tsconfig.build.json",
+			"outFiles": ["${workspaceFolder}/build/**/*.js"]
+		}
+	]
+}

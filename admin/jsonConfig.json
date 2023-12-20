@@ -1,0 +1,21 @@
+{
+	"i18n": true,
+	"type": "panel",
+	"items": {
+		"zipcode": {
+			"type": "text",
+			"label": "Zip Code",
+			"newLine": true
+		},
+		"hoursInFuture": {
+			"type": "text",
+			"label": "Hours in Future",
+			"newLine": true
+		},
+		"_staticText": {
+			"type": "staticText",
+			"text": "Hours in Future can max be 48 hours.",
+			"sm": 12
+		}
+	}
+}

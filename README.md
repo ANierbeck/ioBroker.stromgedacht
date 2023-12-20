@@ -95,7 +95,7 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 
 ### **WORK IN PROGRESS**
 
--   (anierbeck) initial release
+-  0.0.1 (anierbeck) initial release
 
 ## License
 

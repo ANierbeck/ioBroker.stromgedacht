@@ -17,7 +17,6 @@
 				"zh-cn": "首次出版"
 			}
 		},
-		"title": "stromgedacht",
 		"titleLang": {
 			"en": "stromgedacht",
 			"de": "stromgedacht",
@@ -45,7 +44,7 @@
 			"zh-cn": "从 Strom Gedacht API 读取值。它可以用来检查系统中是否有更多的绿色能源，因此可以使用密集型消费者"
 		},
 		"authors": ["anierbeck <bcanhome@googlemail.com>"],
-		"keywords": ["ioBroker", "template", "Smart Home", "home automation"],
+		"keywords": ["stromgedacht"],
 		"license": "Apache-2.0",
 		"platform": "Javascript/Node.js",
 		"main": "build/main.js",

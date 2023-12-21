@@ -18,5 +18,6 @@
 			"url": "https://raw.githubusercontent.com/ioBroker/adapter-react-v5/main/schemas/jsonConfig.json"
 		}
 	],
-	"cmake.configureOnOpen": false
+	"cmake.configureOnOpen": false,
+	"cSpell.words": ["Stromgedacht"]
 }

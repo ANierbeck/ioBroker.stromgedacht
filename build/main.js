@@ -21,6 +21,7 @@ var utils = __toESM(require("@iobroker/adapter-core"));
 var import_axios = __toESM(require("axios"));
 const adapterName = require("./../package.json").name.split(".").pop();
 const instanceObjects = require("./../io-package.json").instanceObjects;
+const stromgedachtApi = "https://api.stromgedacht.de/v1/statesRelative";
 class Stromgedacht extends utils.Adapter {
   constructor(options = {}) {
     super({
@@ -63,7 +64,20 @@ class Stromgedacht extends utils.Adapter {
         await this.delObjectAsync(state._id);
       }
     });
-    this.requestStates();
+    this.requestStates().then(async (response) => {
+      if (response === null) {
+        this.log.error(`No response received`);
+        return;
+      }
+      this.log.info(`Received states for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
+      this.setState("forecast.states.json", JSON.stringify(response.data), true);
+      this.setState("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
+      this.setState("info.connection", true, true);
+      return response.data;
+    }).then((data) => this.parseState(data)).catch((error) => {
+      this.log.error(`Error: ${error.message}`);
+      this.setState("info.connection", true, true);
+    });
   }
   onUnload(callback) {
     try {
@@ -77,20 +91,17 @@ class Stromgedacht extends utils.Adapter {
     const hoursInFuture = this.config.hoursInFuture;
     const queryParams = {
       zip: zipcode,
-      hoursInFuture: 24
+      hoursInFuture
     };
-    (0, import_axios.default)({
+    return (0, import_axios.default)({
       method: "get",
-      baseURL: "https://api.stromgedacht.de/v1/statesRelative",
+      baseURL: stromgedachtApi,
       params: queryParams,
       timeout: 1e4,
       responseType: "json",
       validateStatus: (status) => status === 200
-    }).then(async (response) => {
-      this.log.info(`Received states for ${zipcode}: ${JSON.stringify(response.data)}`);
-      this.setState("forecast.states.json", JSON.stringify(response.data), true);
-      this.setState("forecast.states.hoursInFuture", hoursInFuture, true);
-      this.parseState(response.data);
+    }).then((response) => {
+      return response;
     }).catch((error) => {
       if (error.response) {
         this.log.error(`Error: ${error.response.status}`);
@@ -100,8 +111,8 @@ class Stromgedacht extends utils.Adapter {
         this.log.error(`Error: ${error.message}`);
       }
       console.log(error.config);
+      throw error;
     });
-    this.setState("info.connection", true, true);
   }
   parseState(json) {
     this.log.info(`Parsing state ${JSON.stringify(json)}`);

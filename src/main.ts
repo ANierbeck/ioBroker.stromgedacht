@@ -19,6 +19,8 @@ interface State {
 	state: number;
 }
 
+const stromgedachtApi = "https://api.stromgedacht.de/v1/statesRelative";
+
 class Stromgedacht extends utils.Adapter {
 	public constructor(options: Partial<utils.AdapterOptions> = {}) {
 		super({
@@ -79,7 +81,23 @@ class Stromgedacht extends utils.Adapter {
 			}
 		});
 
-		this.requestStates();
+		this.requestStates()
+			.then(async (response) => {
+				if (response === null) {
+					this.log.error(`No response received`);
+					return;
+				}
+				this.log.info(`Received states for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
+				this.setState("forecast.states.json", JSON.stringify(response.data), true);
+				this.setState("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
+				this.setState("info.connection", true, true);
+				return response.data;
+			})
+			.then((data) => this.parseState(data))
+			.catch((error) => {
+				this.log.error(`Error: ${error.message}`);
+				this.setState("info.connection", true, true);
+			});
 	}
 
 	/**
@@ -99,28 +117,25 @@ class Stromgedacht extends utils.Adapter {
 		}
 	}
 
-	requestStates(): void {
+	requestStates(): Promise<any> {
 		const zipcode = this.config.zipcode;
 		const hoursInFuture = this.config.hoursInFuture;
 
 		const queryParams = {
 			zip: zipcode,
-			hoursInFuture: 24,
+			hoursInFuture: hoursInFuture,
 		};
 
-		axios({
+		return axios({
 			method: "get",
-			baseURL: "https://api.stromgedacht.de/v1/statesRelative",
+			baseURL: stromgedachtApi,
 			params: queryParams,
 			timeout: 10000,
 			responseType: "json",
 			validateStatus: (status) => status === 200,
 		})
-			.then(async (response) => {
-				this.log.info(`Received states for ${zipcode}: ${JSON.stringify(response.data)}`);
-				this.setState("forecast.states.json", JSON.stringify(response.data), true);
-				this.setState("forecast.states.hoursInFuture", hoursInFuture, true);
-				this.parseState(response.data);
+			.then((response) => {
+				return response;
 			})
 			.catch((error) => {
 				if (error.response) {
@@ -131,8 +146,8 @@ class Stromgedacht extends utils.Adapter {
 					this.log.error(`Error: ${error.message}`);
 				}
 				console.log(error.config);
+				throw error;
 			});
-		this.setState("info.connection", true, true);
 	}
 
 	parseState(json: any): void {

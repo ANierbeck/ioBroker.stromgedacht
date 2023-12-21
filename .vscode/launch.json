@@ -17,6 +17,17 @@
 			"args": ["--debug", "0"],
 			"preLaunchTask": "tsc: build - ${workspaceFolder}/tsconfig.build.json",
 			"outFiles": ["${workspaceFolder}/build/**/*.js"]
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "attach to ioBroker-Adapter",
+			"address": "127.0.0.1",
+			"port": 9229,
+			"localRoot": "${workspaceFolder}",
+			"remoteRoot": "${workspaceFolder}/.dev-server/default/node_modules/${workspaceFolderBasename}",
+			"smartStep": true,
+			"skipFiles": ["<node_internals>/**"]
 		}
 	]
 }

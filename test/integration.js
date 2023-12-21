@@ -25,8 +25,10 @@ tests.integration(path.join(__dirname, ".."), {
 		// The adapter will run until the end of each suite.
 
 		// Create mocks and asserts
+		/*
 		const { adapter, database } = utils.unit.createMocks();
 		const { assertObjectExists } = utils.unit.createAsserts(database, adapter);
+		*/
 
 		// Since the tests are heavily instrumented, each suite gives access to a so called "harness" to control the tests.
 		suite("Test retrieveJson()", (getHarness) => {
@@ -44,12 +46,14 @@ tests.integration(path.join(__dirname, ".."), {
 				await harness.changeAdapterConfig(adapterName, obj);
 			});
 
+			/*
 			afterEach(() => {
 				// The mocks keep track of all method invocations - reset them after each single test
 				adapter.resetMockHistory();
 				// We want to start each test with a fresh database
 				database.clear();
 			});
+			*/
 
 			it("Should work", () => {
 				return new Promise(async (resolve) => {
@@ -57,7 +61,7 @@ tests.integration(path.join(__dirname, ".."), {
 
 					//log.debug("check if zipcode is configured");
 
-					//harness.databases.adapter.config.zipcode.should.equal("72135");
+					harness.databases.adapter.config.zipcode.should.equal("72135");
 					log.debug("Start adapter");
 					await harness.startAdapterAndWait();
 

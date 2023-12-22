@@ -88,14 +88,9 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 
 ## Changelog
 
-<!--
-	Placeholder for the next version (at the beginning of the line):
-	### **WORK IN PROGRESS**
--->
+### 0.0.1 (2023-12-22)
 
-### **WORK IN PROGRESS**
-
--  0.0.1 (anierbeck) initial release
+-   initial release
 
 ## License
 

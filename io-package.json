@@ -1,161 +1,178 @@
 {
-	"common": {
-		"name": "stromgedacht",
-		"version": "0.0.1",
-		"news": {
-			"0.0.1": {
-				"en": "initial release",
-				"de": "Erstveröffentlichung",
-				"ru": "Начальная версия",
-				"pt": "lançamento inicial",
-				"nl": "Eerste uitgave",
-				"fr": "Première version",
-				"it": "Versione iniziale",
-				"es": "Versión inicial",
-				"pl": "Pierwsze wydanie",
-				"uk": "Початкова версія",
-				"zh-cn": "首次出版"
-			}
-		},
-		"titleLang": {
-			"en": "stromgedacht",
-			"de": "stromgedacht",
-			"ru": "Стромгедахт",
-			"pt": "stromgedacht",
-			"nl": "stromgedacht",
-			"fr": "stromgedacht",
-			"it": "stromgedacht",
-			"es": "stromgedacht",
-			"pl": "strogedacht",
-			"uk": "stromgedacht",
-			"zh-cn": "斯特罗姆格赫特"
-		},
-		"desc": {
-			"en": "Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used",
-			"de": "Liest die Werte von der Strom Gedacht API. Damit könnte überprüft werden, ob mehr Ökostrom im System vorhanden ist, sodass Intensivverbraucher genutzt werden könnten",
-			"ru": "Считывает значения из API Strom Gedacht. Его можно использовать для проверки наличия в системе большего количества зеленой энергии, чтобы можно было использовать интенсивных потребителей.",
-			"pt": "Lê os valores da API Strom Gedacht. Poderia ser usado para verificar se há mais energia verde no sistema, para que consumidores intensivos pudessem ser usados",
-			"nl": "Leest de waarden uit de Strom Gedacht API. Hiermee kan worden gecontroleerd of er meer groene energie in het systeem zit, zodat intensieve verbruikers kunnen worden ingezet",
-			"fr": "Lit les valeurs de l'API Strom Gedacht. Il pourrait être utilisé pour vérifier s'il y a plus d'énergie verte dans le système, de sorte que des consommateurs intensifs pourraient être utilisés.",
-			"it": "Legge i valori dall'API Strom Gedacht. Potrebbe essere utilizzato per verificare se c’è più energia verde nel sistema, in modo da poter utilizzare i consumatori intensivi",
-			"es": "Lee los valores de la API Strom Gedacht. Se podría utilizar para comprobar si hay más energía verde en el sistema, por lo que se podrían utilizar consumidores intensivos.",
-			"pl": "Odczytuje wartości z API Strom Gedacht. Można by go wykorzystać do sprawdzenia, czy w systemie jest więcej zielonej energii, aby można było wykorzystać odbiorniki intensywne",
-			"uk": "Читає значення з API Strom Gedacht. Його можна використовувати, щоб перевірити, чи є в системі більше зеленої енергії, щоб можна було використовувати інтенсивних споживачів",
-			"zh-cn": "从 Strom Gedacht API 读取值。它可以用来检查系统中是否有更多的绿色能源，因此可以使用密集型消费者"
-		},
-		"authors": ["anierbeck <bcanhome@googlemail.com>"],
-		"keywords": ["stromgedacht"],
-		"license": "Apache-2.0",
-		"mode": "schedule",
-		"schedule": "*/5 * * * *",
-		"platform": "Javascript/Node.js",
-		"main": "build/main.js",
-		"icon": "stromgedacht.png",
-		"enabled": true,
-		"extIcon": "https://raw.githubusercontent.com/anierbeck/ioBroker.stromgedacht/main/admin/stromgedacht.png",
-		"readme": "https://github.com/anierbeck/ioBroker.stromgedacht/blob/main/README.md",
-		"loglevel": "info",
-		"type": "misc-data",
-		"compact": true,
-		"connectionType": "cloud",
-		"dataSource": "poll",
-		"adminUI": {
-			"config": "json"
-		},
-		"dependencies": [
-			{
-				"js-controller": ">=3.3.22"
-			}
-		],
-		"globalDependencies": [
-			{
-				"admin": ">=5.1.13"
-			}
-		]
-	},
-	"native": {
-		"zipcode": "76135",
-		"hoursInFuture": "24"
-	},
-	"objects": [],
-	"instanceObjects": [
-		{
-			"_id": "forecast",
-			"type": "device",
-			"common": {
-				"name": "Actual States",
-				"role": "states"
-			},
-			"native": {}
-		},
-		{
-			"_id": "forecast.states",
-			"type": "channel"
-		},
-		{
-			"_id": "forecast.states.json",
-			"type": "state",
-			"common": {
-				"name": "State Json",
-				"type": "string",
-				"role": "json",
-				"read": true,
-				"write": true
-			},
-			"native": {}
-		},
-		{
-			"_id": "forecast.states.hoursInFuture",
-			"type": "state",
-			"common": {
-				"name": "State hours in future",
-				"type": "string",
-				"role": "hoursInFuture",
-				"read": true,
-				"write": true
-			},
-			"native": {}
-		},
-		{
-			"_id": "forecast.states.supergruen",
-			"type": "channel",
-			"native": {}
-		},
-		{
-			"_id": "forecast.states.gruen",
-			"type": "channel",
-			"native": {}
-		},
-		{
-			"_id": "forecast.states.gelb",
-			"type": "channel",
-			"native": {}
-		},
-		{
-			"_id": "forecast.states.rot",
-			"type": "channel",
-			"native": {}
-		},
-		{
-			"_id": "info",
-			"type": "channel",
-			"common": {
-				"name": "Information"
-			},
-			"native": {}
-		},
-		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"role": "indicator.connected",
-				"name": "If connected to Strom Gedacht API",
-				"type": "boolean",
-				"read": true,
-				"write": true,
-				"def": false
-			},
-			"native": {}
-		}
-	]
+  "common": {
+    "name": "stromgedacht",
+    "version": "0.0.2",
+    "news": {
+      "0.0.2": {
+        "en": "0.0.2 - more tests and integration tests",
+        "de": "0.0.2 - mehr tests und integrationstests",
+        "ru": "0.0.2 - больше тестов и интеграционных тестов",
+        "pt": "0,0.2 - mais testes e testes de integração",
+        "nl": "0.0.2 - meer testen en integratie testen",
+        "fr": "0.0.2 - plus d'essais et d'essais d'intégration",
+        "it": "0.0.2 - più test e test di integrazione",
+        "es": "0.0.2 - más pruebas y pruebas de integración",
+        "pl": "0,0,2 – więcej testów i testów integracji",
+        "uk": "0.0.2 - більше тестів та інтеграційних тестів",
+        "zh-cn": "0.0.2 - 更多的试验和一体化试验"
+      },
+      "0.0.1": {
+        "en": "initial release",
+        "de": "Erstveröffentlichung",
+        "ru": "Начальная версия",
+        "pt": "lançamento inicial",
+        "nl": "Eerste uitgave",
+        "fr": "Première version",
+        "it": "Versione iniziale",
+        "es": "Versión inicial",
+        "pl": "Pierwsze wydanie",
+        "uk": "Початкова версія",
+        "zh-cn": "首次出版"
+      }
+    },
+    "titleLang": {
+      "en": "stromgedacht",
+      "de": "stromgedacht",
+      "ru": "Стромгедахт",
+      "pt": "stromgedacht",
+      "nl": "stromgedacht",
+      "fr": "stromgedacht",
+      "it": "stromgedacht",
+      "es": "stromgedacht",
+      "pl": "strogedacht",
+      "uk": "stromgedacht",
+      "zh-cn": "斯特罗姆格赫特"
+    },
+    "desc": {
+      "en": "Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used",
+      "de": "Liest die Werte von der Strom Gedacht API. Damit könnte überprüft werden, ob mehr Ökostrom im System vorhanden ist, sodass Intensivverbraucher genutzt werden könnten",
+      "ru": "Считывает значения из API Strom Gedacht. Его можно использовать для проверки наличия в системе большего количества зеленой энергии, чтобы можно было использовать интенсивных потребителей.",
+      "pt": "Lê os valores da API Strom Gedacht. Poderia ser usado para verificar se há mais energia verde no sistema, para que consumidores intensivos pudessem ser usados",
+      "nl": "Leest de waarden uit de Strom Gedacht API. Hiermee kan worden gecontroleerd of er meer groene energie in het systeem zit, zodat intensieve verbruikers kunnen worden ingezet",
+      "fr": "Lit les valeurs de l'API Strom Gedacht. Il pourrait être utilisé pour vérifier s'il y a plus d'énergie verte dans le système, de sorte que des consommateurs intensifs pourraient être utilisés.",
+      "it": "Legge i valori dall'API Strom Gedacht. Potrebbe essere utilizzato per verificare se c’è più energia verde nel sistema, in modo da poter utilizzare i consumatori intensivi",
+      "es": "Lee los valores de la API Strom Gedacht. Se podría utilizar para comprobar si hay más energía verde en el sistema, por lo que se podrían utilizar consumidores intensivos.",
+      "pl": "Odczytuje wartości z API Strom Gedacht. Można by go wykorzystać do sprawdzenia, czy w systemie jest więcej zielonej energii, aby można było wykorzystać odbiorniki intensywne",
+      "uk": "Читає значення з API Strom Gedacht. Його можна використовувати, щоб перевірити, чи є в системі більше зеленої енергії, щоб можна було використовувати інтенсивних споживачів",
+      "zh-cn": "从 Strom Gedacht API 读取值。它可以用来检查系统中是否有更多的绿色能源，因此可以使用密集型消费者"
+    },
+    "authors": [
+      "anierbeck <bcanhome@googlemail.com>"
+    ],
+    "keywords": [
+      "stromgedacht"
+    ],
+    "license": "Apache-2.0",
+    "mode": "schedule",
+    "schedule": "*/5 * * * *",
+    "platform": "Javascript/Node.js",
+    "main": "build/main.js",
+    "icon": "stromgedacht.png",
+    "enabled": true,
+    "extIcon": "https://raw.githubusercontent.com/anierbeck/ioBroker.stromgedacht/main/admin/stromgedacht.png",
+    "readme": "https://github.com/anierbeck/ioBroker.stromgedacht/blob/main/README.md",
+    "loglevel": "info",
+    "type": "misc-data",
+    "compact": true,
+    "connectionType": "cloud",
+    "dataSource": "poll",
+    "adminUI": {
+      "config": "json"
+    },
+    "dependencies": [
+      {
+        "js-controller": ">=3.3.22"
+      }
+    ],
+    "globalDependencies": [
+      {
+        "admin": ">=5.1.13"
+      }
+    ]
+  },
+  "native": {
+    "zipcode": "76135",
+    "hoursInFuture": "24"
+  },
+  "objects": [],
+  "instanceObjects": [
+    {
+      "_id": "forecast",
+      "type": "device",
+      "common": {
+        "name": "Actual States",
+        "role": "states"
+      },
+      "native": {}
+    },
+    {
+      "_id": "forecast.states",
+      "type": "channel"
+    },
+    {
+      "_id": "forecast.states.json",
+      "type": "state",
+      "common": {
+        "name": "State Json",
+        "type": "string",
+        "role": "json",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "forecast.states.hoursInFuture",
+      "type": "state",
+      "common": {
+        "name": "State hours in future",
+        "type": "string",
+        "role": "hoursInFuture",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "forecast.states.supergruen",
+      "type": "channel",
+      "native": {}
+    },
+    {
+      "_id": "forecast.states.gruen",
+      "type": "channel",
+      "native": {}
+    },
+    {
+      "_id": "forecast.states.gelb",
+      "type": "channel",
+      "native": {}
+    },
+    {
+      "_id": "forecast.states.rot",
+      "type": "channel",
+      "native": {}
+    },
+    {
+      "_id": "info",
+      "type": "channel",
+      "common": {
+        "name": "Information"
+      },
+      "native": {}
+    },
+    {
+      "_id": "info.connection",
+      "type": "state",
+      "common": {
+        "role": "indicator.connected",
+        "name": "If connected to Strom Gedacht API",
+        "type": "boolean",
+        "read": true,
+        "write": true,
+        "def": false
+      },
+      "native": {}
+    }
+  ]
 }

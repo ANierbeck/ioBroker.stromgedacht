@@ -1,5 +1,3 @@
-import { log } from "console";
-
 const path = require("path");
 const { tests, utils } = require("@iobroker/testing");
 const { util } = require("chai");
@@ -7,6 +5,7 @@ const assert = require("assert");
 
 const adapterName = require("./../package.json").name.split(".").pop();
 
+const zipCode = "76135";
 // Run integration tests - See https://github.com/ioBroker/testing for a detailed explanation and further options
 tests.integration(path.join(__dirname, ".."), {
 	//            ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -41,11 +40,11 @@ tests.integration(path.join(__dirname, ".."), {
 
 				const obj = {
 					native: {
-						zipcode: "76135",
+						zipcode: zipCode,
 						hoursInFuture: "24",
 					},
 				};
-				log.debug("change adapter config");
+				console.log("change adapter config");
 				await harness.changeAdapterConfig(adapterName, obj);
 			});
 
@@ -58,26 +57,35 @@ tests.integration(path.join(__dirname, ".."), {
 			});
 			*/
 
-			it("Should work", () => {
-				return new Promise(async (resolve) => {
+			it("Check Zip Code ist set", (done) => {
+				const promise = new Promise(async (resolve) => {
+					// Perform the test
+					await harness.startAdapterAndWait();
+					await harness.databases.adapter.config.zipcode.should.equal(zipCode);
+					resolve();
+				});
+				done();
+				return promise;
+			});
+
+			it("Should work", (done) => {
+				const promise = new Promise(async (resolve) => {
 					// Start the adapter and wait until it has started
-
-					//log.debug("check if zipcode is configured");
-
-					harness.databases.adapter.config.zipcode.should.equal("72135");
-					log.debug("Start adapter");
 					await harness.startAdapterAndWait();
 
 					// Perform the actual test:
-					harness.states.getState("stromgedacht.0.forecast.states.json").val.should.not.equal(null);
+					await harness.states.getState("stromgedacht.0.forecast.states.json").val.should.not.equal(null);
 					/*
 					harness.sendTo("adapter.0", "test", "message", (resp) => {
 						console.dir(resp);
 						resolve();
 					});
 					*/
+					resolve();
 				});
-			}).timeout(10000);
+				done();
+				return promise;
+			}).timeout(6000);
 		});
 	},
 });

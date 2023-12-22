@@ -88,6 +88,10 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 
 ## Changelog
 
+### **WORK IN PROGRESS**
+
+-   0.0.2 - more tests and integration tests
+
 ### 0.0.1 (2023-12-22)
 
 -   initial release

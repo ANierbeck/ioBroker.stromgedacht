@@ -1,3 +1,5 @@
+import { log } from "console";
+
 const path = require("path");
 const { tests, utils } = require("@iobroker/testing");
 const { util } = require("chai");
@@ -43,6 +45,7 @@ tests.integration(path.join(__dirname, ".."), {
 						hoursInFuture: "24",
 					},
 				};
+				log.debug("change adapter config");
 				await harness.changeAdapterConfig(adapterName, obj);
 			});
 

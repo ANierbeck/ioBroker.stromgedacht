@@ -40,6 +40,15 @@ describe("parse JSON => states", () => {
 	});
 });
 
+describe("parse JSON => checkStates", () => {
+	it("should return a valid response", async () => {
+		const json = JSON.parse(sampleStateJSON);
+		json.states.forEach((state: any) => {
+			expect(state.state).to.be.a("number");
+		});
+	});
+});
+
 /**
  * unfortunately I was not able to test the Stromgedacht class
  */

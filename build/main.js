@@ -33,18 +33,6 @@ class Stromgedacht extends utils.Adapter {
     this.on("unload", this.onUnload.bind(this));
   }
   async onReady() {
-    try {
-      const instObj = await this.getForeignObjectAsync(`system.adapter.${this.namespace}`);
-      if (instObj && instObj.common && instObj.common.schedule && (instObj.common.schedule === "11 * * * *" || instObj.common.schedule === "*/15 * * * *")) {
-        instObj.common.schedule = `${Math.floor(Math.random() * 60)} * * * *`;
-        this.log.info(`Default schedule found and adjusted to spread calls better over the full hour!`);
-        await this.setForeignObjectAsync(`system.adapter.${this.namespace}`, instObj);
-        this.terminate ? this.terminate() : process.exit(0);
-        return;
-      }
-    } catch (err) {
-      this.log.error(`Could not check or adjust the schedule: ${err.message}`);
-    }
     for (const obj of instanceObjects) {
       await this.setObjectNotExistsAsync(obj._id, obj);
     }
@@ -116,36 +104,151 @@ class Stromgedacht extends utils.Adapter {
   }
   parseState(json) {
     this.log.info(`Parsing state ${JSON.stringify(json)}`);
-    let states = [];
-    states = json.states;
+    const states = json.states;
     this.log.debug(`States: ${JSON.stringify(states)}`);
     let stateId = "";
+    const supergruenStates = [];
+    const gruenStates = [];
+    const gelbStates = [];
+    const rotStates = [];
     states.forEach((state) => {
       switch (state.state) {
         case -1:
-          stateId = "forecast.states.supergruen";
           this.log.info(`state ${stateId}`);
+          supergruenStates.push(state);
           break;
         case 1:
-          stateId = "forecast.states.gruen";
           this.log.info(`state ${stateId}`);
+          gruenStates.push(state);
           break;
         case 2:
-          stateId = "forecast.states.gelb";
           this.log.info(`state ${stateId}`);
+          gelbStates.push(state);
           break;
         case 3:
-          stateId = "forecast.states.rot";
           this.log.info(`state ${stateId}`);
+          rotStates.push(state);
           break;
         default:
           break;
       }
-      this.log.info(`Setting state ${stateId}.begin to ${state.from}`);
-      this.setState(stateId + ".begin", state.from, true);
-      this.log.info(`Setting state ${stateId}.end to ${state.to}`);
-      this.setState(stateId + ".end", state.to, true);
     });
+    for (let i = 0; i < supergruenStates.length; i++) {
+      stateId = `forecast.states.supergruen.${i}`;
+      this.setObjectNotExists(`${stateId}.begin`, {
+        type: "state",
+        common: {
+          name: "Begin of supergruen",
+          type: "string",
+          role: "time",
+          read: true,
+          write: false
+        },
+        native: {}
+      });
+      this.setObjectNotExists(`${stateId}.end`, {
+        type: "state",
+        common: {
+          name: "End of supergruen",
+          type: "string",
+          role: "time",
+          read: true,
+          write: false
+        },
+        native: {}
+      });
+      const state = supergruenStates[i];
+      this.log.info(`Setting state ${stateId} to ${JSON.stringify(state)}`);
+      this.setState(`${stateId}.begin`, state.from, true);
+      this.setState(`${stateId}.end`, state.to, true);
+    }
+    for (let i = 0; i < gruenStates.length; i++) {
+      stateId = `forecast.states.gruen.${i}`;
+      this.setObjectNotExists(`${stateId}.begin`, {
+        type: "state",
+        common: {
+          name: "Begin of gruen",
+          type: "string",
+          role: "time",
+          read: true,
+          write: false
+        },
+        native: {}
+      });
+      this.setObjectNotExists(`${stateId}.end`, {
+        type: "state",
+        common: {
+          name: "End of gruen",
+          type: "string",
+          role: "time",
+          read: true,
+          write: false
+        },
+        native: {}
+      });
+      const state = gruenStates[i];
+      this.log.info(`Setting state ${stateId} to ${JSON.stringify(state)}`);
+      this.setState(`${stateId}.begin`, state.from, true);
+      this.setState(`${stateId}.end`, state.to, true);
+    }
+    for (let i = 0; i < gelbStates.length; i++) {
+      stateId = `forecast.states.gelb.${i}`;
+      this.setObjectNotExists(`${stateId}.begin`, {
+        type: "state",
+        common: {
+          name: "Begin of gelb",
+          type: "string",
+          role: "time",
+          read: true,
+          write: false
+        },
+        native: {}
+      });
+      this.setObjectNotExists(`${stateId}.end`, {
+        type: "state",
+        common: {
+          name: "End of gelb",
+          type: "string",
+          role: "time",
+          read: true,
+          write: false
+        },
+        native: {}
+      });
+      const state = gelbStates[i];
+      this.log.info(`Setting state ${stateId} to ${JSON.stringify(state)}`);
+      this.setState(`${stateId}.begin`, state.from, true);
+      this.setState(`${stateId}.end`, state.to, true);
+    }
+    for (let i = 0; i < rotStates.length; i++) {
+      stateId = `forecast.states.rot.${i}`;
+      this.setObjectNotExists(`${stateId}.begin`, {
+        type: "state",
+        common: {
+          name: "Begin of rot",
+          type: "string",
+          role: "time",
+          read: true,
+          write: false
+        },
+        native: {}
+      });
+      this.setObjectNotExists(`${stateId}.end`, {
+        type: "state",
+        common: {
+          name: "End of rot",
+          type: "string",
+          role: "time",
+          read: true,
+          write: false
+        },
+        native: {}
+      });
+      const state = rotStates[i];
+      this.log.info(`Setting state ${stateId} to ${JSON.stringify(state)}`);
+      this.setState(`${stateId}.begin`, state.from, true);
+      this.setState(`${stateId}.end`, state.to, true);
+    }
   }
 }
 if (require.main !== module) {

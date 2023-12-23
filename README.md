@@ -15,6 +15,14 @@
 
 Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used
 
+## Settings
+
+this adapter needs just two settings.
+| setting | description |
+|---------|-------------|
+| zipcode | needed for the API, it's the select mechanism for the region|
+| hoursInFuture | a value between 1 and 48, the power prediction for the requested time. 48h is the maximum provided by the stromgedacht api |
+
 ## Developer manual
 
 This section is intended for the developer. It can be deleted later.
@@ -41,18 +49,6 @@ Several npm scripts are predefined for your convenience. You can run them using 
 The adapter template uses [esbuild](https://esbuild.github.io/) to compile TypeScript and/or React code. You can configure many compilation settings
 either in `tsconfig.json` or by changing options for the build tasks. These options are described in detail in the
 [`@iobroker/adapter-dev` documentation](https://github.com/ioBroker/adapter-dev#compile-adapter-files).
-
-### Writing tests
-
-When done right, testing code is invaluable, because it gives you the
-confidence to change your code while knowing exactly if and when
-something breaks. A good read on the topic of test-driven development
-is https://hackernoon.com/introduction-to-test-driven-development-tdd-61a13bc92d92.
-Although writing tests before the code might seem strange at first, but it has very
-clear upsides.
-
-The template provides you with basic tests for the adapter startup and package files.
-It is recommended that you add your own tests into the mix.
 
 ### Publishing the adapter
 

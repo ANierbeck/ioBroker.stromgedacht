@@ -78,7 +78,7 @@ class Stromgedacht extends utils.Adapter {
 			.then((data) => this.parseState(data))
 			.catch((error) => {
 				this.log.error(`Error: ${error.message}`);
-				this.setState("info.connection", true, true);
+				this.setState("info.connection", false, true);
 			});
 	}
 
@@ -92,6 +92,8 @@ class Stromgedacht extends utils.Adapter {
 			// clearTimeout(timeout2);
 			// ...
 			// clearInterval(interval1);
+			// setting connection state to false
+			this.setState("info.connection", false, true);
 
 			callback();
 		} catch (e) {

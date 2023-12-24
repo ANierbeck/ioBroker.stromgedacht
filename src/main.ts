@@ -42,7 +42,7 @@ class Stromgedacht extends utils.Adapter {
 			await this.setObjectNotExistsAsync(obj._id, obj);
 		}
 
-		//schedule it to run every 15 minutes
+		//schedule it to run every 2 hours
 		this.log.info(`config zipcode: ${this.config.zipcode}`);
 
 		this.setState("info.connection", false, true);

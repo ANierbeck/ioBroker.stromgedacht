@@ -52,13 +52,15 @@ class Stromgedacht extends utils.Adapter {
 			return;
 		}
 
-		this.getStatesOf("states", "", async (err, states: any) => {
+		this.log.debug(`Deleting states`);
+		this.getStatesOf("stromgedacht.0.forecast", "", async (err, states: any) => {
 			if (err) {
 				this.log.error(`Could not get states of states: ${err.message}`);
 				return;
 			}
+			this.log.debug(`States: ${JSON.stringify(states)}`);
 			for (const state of states) {
-				this.log.info(`Deleting state ${state._id}`);
+				this.log.debug(`Deleting state ${state._id}`);
 				await this.delObjectAsync(state._id);
 			}
 		});
@@ -69,7 +71,7 @@ class Stromgedacht extends utils.Adapter {
 					this.log.error(`No response received`);
 					return;
 				}
-				this.log.info(`Received states for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
+				this.log.debug(`Received states for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
 				this.setState("forecast.states.json", JSON.stringify(response.data), true);
 				this.setState("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
 				this.setState("info.connection", true, true);
@@ -135,7 +137,7 @@ class Stromgedacht extends utils.Adapter {
 	}
 
 	parseState(json: any): void {
-		this.log.info(`Parsing state ${JSON.stringify(json)}`);
+		this.log.debug(`Parsing state ${JSON.stringify(json)}`);
 		const states: State[] = json.states;
 		this.log.debug(`States: ${JSON.stringify(states)}`);
 		let stateId = "";
@@ -146,19 +148,15 @@ class Stromgedacht extends utils.Adapter {
 		states.forEach((state: any) => {
 			switch (state.state) {
 				case -1: //supergruen
-					this.log.info(`state ${stateId}`);
 					supergruenStates.push(state);
 					break;
 				case 1: //gruen
-					this.log.info(`state ${stateId}`);
 					gruenStates.push(state);
 					break;
 				case 2: //gelb
-					this.log.info(`state ${stateId}`);
 					gelbStates.push(state);
 					break;
 				case 3: //rot
-					this.log.info(`state ${stateId}`);
 					rotStates.push(state);
 					break;
 				default:
@@ -168,6 +166,7 @@ class Stromgedacht extends utils.Adapter {
 
 		for (let i = 0; i < supergruenStates.length; i++) {
 			stateId = `forecast.states.supergruen.${i}`;
+			this.log.debug(`state ${stateId}`);
 			this.setObjectNotExists(`${stateId}.begin`, {
 				type: "state",
 				common: {
@@ -191,12 +190,13 @@ class Stromgedacht extends utils.Adapter {
 				native: {},
 			});
 			const state = supergruenStates[i];
-			this.log.info(`Setting state ${stateId} to ${JSON.stringify(state)}`);
+			this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
 			this.setState(`${stateId}.begin`, state.from, true);
 			this.setState(`${stateId}.end`, state.to, true);
 		}
 		for (let i = 0; i < gruenStates.length; i++) {
 			stateId = `forecast.states.gruen.${i}`;
+			this.log.debug(`state ${stateId}`);
 			this.setObjectNotExists(`${stateId}.begin`, {
 				type: "state",
 				common: {
@@ -220,12 +220,13 @@ class Stromgedacht extends utils.Adapter {
 				native: {},
 			});
 			const state = gruenStates[i];
-			this.log.info(`Setting state ${stateId} to ${JSON.stringify(state)}`);
+			this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
 			this.setState(`${stateId}.begin`, state.from, true);
 			this.setState(`${stateId}.end`, state.to, true);
 		}
 		for (let i = 0; i < gelbStates.length; i++) {
 			stateId = `forecast.states.gelb.${i}`;
+			this.log.debug(`state ${stateId}`);
 			this.setObjectNotExists(`${stateId}.begin`, {
 				type: "state",
 				common: {
@@ -249,12 +250,13 @@ class Stromgedacht extends utils.Adapter {
 				native: {},
 			});
 			const state = gelbStates[i];
-			this.log.info(`Setting state ${stateId} to ${JSON.stringify(state)}`);
+			this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
 			this.setState(`${stateId}.begin`, state.from, true);
 			this.setState(`${stateId}.end`, state.to, true);
 		}
 		for (let i = 0; i < rotStates.length; i++) {
 			stateId = `forecast.states.rot.${i}`;
+			this.log.debug(`state ${stateId}`);
 			this.setObjectNotExists(`${stateId}.begin`, {
 				type: "state",
 				common: {
@@ -278,7 +280,7 @@ class Stromgedacht extends utils.Adapter {
 				native: {},
 			});
 			const state = rotStates[i];
-			this.log.info(`Setting state ${stateId} to ${JSON.stringify(state)}`);
+			this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
 			this.setState(`${stateId}.begin`, state.from, true);
 			this.setState(`${stateId}.end`, state.to, true);
 		}

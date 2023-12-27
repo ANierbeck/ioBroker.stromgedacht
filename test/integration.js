@@ -5,7 +5,12 @@ const assert = require("assert");
 
 const adapterName = require("./../package.json").name.split(".").pop();
 
-const zipCode = "76135";
+const zipCode = "76229";
+
+// Create mocks and asserts
+//const { adapter, database } = utils.unit.createMocks();
+//const { assertObjectExists } = utils.unit.createAsserts(database, adapter);
+
 // Run integration tests - See https://github.com/ioBroker/testing for a detailed explanation and further options
 tests.integration(path.join(__dirname, ".."), {
 	//            ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -25,12 +30,6 @@ tests.integration(path.join(__dirname, ".."), {
 		// At the beginning of each suite, the databases will be reset and the adapter will be started.
 		// The adapter will run until the end of each suite.
 
-		// Create mocks and asserts
-		/*
-		const { adapter, database } = utils.unit.createMocks();
-		const { assertObjectExists } = utils.unit.createAsserts(database, adapter);
-		*/
-
 		// Since the tests are heavily instrumented, each suite gives access to a so called "harness" to control the tests.
 		suite("Test retrieveJson()", (getHarness) => {
 			// For convenience, get the current suite's harness before all tests
@@ -44,8 +43,9 @@ tests.integration(path.join(__dirname, ".."), {
 						hoursInFuture: "24",
 					},
 				};
-				console.log("change adapter config");
-				await harness.changeAdapterConfig(adapterName, obj);
+				console.warn("change adapter config");
+				//await harness.changeAdapterConfig(adapterName, obj);
+				await harness.states.setState("stromgedacht.0.config.zipcode", { val: zipCode, ack: true });
 			});
 
 			/*
@@ -57,19 +57,19 @@ tests.integration(path.join(__dirname, ".."), {
 			});
 			*/
 
-			it("Check Zip Code ist set", (done) => {
-				const promise = new Promise(async (resolve) => {
+			it("Check Zip Code ist set", () => {
+				return new Promise(async (resolve) => {
 					// Perform the test
 					await harness.startAdapterAndWait();
-					await harness.databases.adapter.config.zipcode.should.equal(zipCode);
+					await harness.states.getState("stromgedacht.0.config.zipcode").val.should.equal(zipCode);
+					database.hasState(adapterName + ".0.config.zipcode").should.equal(true);
+					//await harness.databases.adapter.config.zipcode.should.equal(zipCode);
 					resolve();
 				});
-				done();
-				return promise;
 			});
 
-			it("Should work", (done) => {
-				const promise = new Promise(async (resolve) => {
+			it("Should work", () => {
+				return new Promise(async (resolve) => {
 					// Start the adapter and wait until it has started
 					await harness.startAdapterAndWait();
 
@@ -83,8 +83,6 @@ tests.integration(path.join(__dirname, ".."), {
 					*/
 					resolve();
 				});
-				done();
-				return promise;
 			}).timeout(6000);
 		});
 	},

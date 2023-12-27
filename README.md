@@ -85,7 +85,7 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 ## Changelog
 
 ### ***WORK IN PROGRESS***
-- scheduler is not rescheduled, to to running adapter. 
+- scheduler is not rescheduled due to already running instance. 
 
 ### 0.0.3 (2023-12-27)
 - fixing integration tests by making them fail again. Problem is due to missing connection to database

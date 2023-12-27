@@ -54,7 +54,7 @@ class Stromgedacht extends utils.Adapter {
         await this.delObjectAsync(state._id);
       }
     });
-    this.requestStates().then(async (response) => {
+    await this.requestStates().then(async (response) => {
       if (response === null) {
         this.log.error(`No response received`);
         return;
@@ -72,6 +72,7 @@ class Stromgedacht extends utils.Adapter {
   onUnload(callback) {
     try {
       this.setState("info.connection", false, true);
+      this.log.info("cleaned everything up...");
       callback();
     } catch (e) {
       callback();
@@ -97,7 +98,7 @@ class Stromgedacht extends utils.Adapter {
       if (error.response) {
         this.log.error(`Error: ${error.response.status}`);
       } else if (error.request) {
-        this.log.error(`Error: no data received for Current Weather data`);
+        this.log.error(`Error: no data received for time frame`);
       } else {
         this.log.error(`Error: ${error.message}`);
       }

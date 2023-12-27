@@ -65,7 +65,7 @@ class Stromgedacht extends utils.Adapter {
 			}
 		});
 
-		this.requestStates()
+		await this.requestStates()
 			.then(async (response) => {
 				if (response === null) {
 					this.log.error(`No response received`);
@@ -96,14 +96,14 @@ class Stromgedacht extends utils.Adapter {
 			// clearInterval(interval1);
 			// setting connection state to false
 			this.setState("info.connection", false, true);
-
+			this.log.info("cleaned everything up...");
 			callback();
 		} catch (e) {
 			callback();
 		}
 	}
 
-	requestStates(): Promise<any> {
+	requestStates(): Promise<axios.AxiosResponse<any, any>> {
 		const zipcode = this.config.zipcode;
 		const hoursInFuture = this.config.hoursInFuture;
 
@@ -127,7 +127,7 @@ class Stromgedacht extends utils.Adapter {
 				if (error.response) {
 					this.log.error(`Error: ${error.response.status}`);
 				} else if (error.request) {
-					this.log.error(`Error: no data received for Current Weather data`);
+					this.log.error(`Error: no data received for time frame`);
 				} else {
 					this.log.error(`Error: ${error.message}`);
 				}

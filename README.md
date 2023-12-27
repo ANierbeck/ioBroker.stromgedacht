@@ -84,7 +84,7 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 
 ## Changelog
 
-### ***WORK IN PROGRESS***
+### **WORK IN PROGRESS**
 - scheduler is not rescheduled due to already running instance. 
 
 ### 0.0.3 (2023-12-27)

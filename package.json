@@ -1,6 +1,6 @@
 {
   "name": "iobroker.stromgedacht",
-  "version": "0.0.4-SNAPSHOT",
+  "version": "0.0.5-SNAPSHOT",
   "description": "Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used",
   "author": {
     "name": "ANierbeck",

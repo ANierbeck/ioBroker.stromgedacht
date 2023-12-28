@@ -39,12 +39,9 @@ class Stromgedacht extends utils.Adapter {
 			await this.setObjectNotExistsAsync(obj._id, obj);
 		}
 
-		this.setState("info.connection", false, true);
-
 		//schedule it to run every 2 hours
 		this.log.info(`config zipcode: ${this.config.zipcode}`);
-
-		this.setState("info.connection", false, true);
+		await this.setStateAsync("info.connection", false, true);
 
 		if (this.config.zipcode === undefined || this.config.zipcode === "") {
 			this.log.error("No zipcode configured");
@@ -52,7 +49,7 @@ class Stromgedacht extends utils.Adapter {
 		}
 
 		this.log.debug(`Deleting states`);
-		this.getStatesOf("stromgedacht.0.forecast", "", async (err, states: any) => {
+		await this.getStatesOfAsync("stromgedacht.0.forecast", "", async (err: any, states: any) => {
 			if (err) {
 				this.log.error(`Could not get states of states: ${err.message}`);
 				return;
@@ -76,7 +73,7 @@ class Stromgedacht extends utils.Adapter {
 				this.setState("info.connection", true, true);
 				return response.data;
 			})
-			.then((data) => this.parseState(data))
+			.then(async (data) => this.parseState(data))
 			.catch((error) => {
 				this.log.error(`Error: ${error.message}`);
 				this.setState("info.connection", false, true);
@@ -102,7 +99,11 @@ class Stromgedacht extends utils.Adapter {
 		}
 	}
 
-	requestStates(): Promise<axios.AxiosResponse<any, any>> {
+	/**
+	 * Sends a request to the stromgedacht API to retrieve states based on the provided zipcode and hoursInFuture.
+	 * @returns A promise that resolves to an AxiosResponse object containing the API response.
+	 */
+	async requestStates(): Promise<axios.AxiosResponse<any, any>> {
 		const zipcode = this.config.zipcode;
 		const hoursInFuture = this.config.hoursInFuture;
 
@@ -135,7 +136,11 @@ class Stromgedacht extends utils.Adapter {
 			});
 	}
 
-	parseState(json: any): void {
+	/**
+	 * Parses the state from the provided JSON object and sets the corresponding states in the system.
+	 * @param json - The JSON object containing the states.
+	 */
+	async parseState(json: any): Promise<void> {
 		this.log.debug(`Parsing state ${JSON.stringify(json)}`);
 		const states: State[] = json.states;
 		this.log.debug(`States: ${JSON.stringify(states)}`);
@@ -280,8 +285,8 @@ class Stromgedacht extends utils.Adapter {
 			});
 			const state = rotStates[i];
 			this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
-			this.setState(`${stateId}.begin`, state.from, true);
-			this.setState(`${stateId}.end`, state.to, true);
+			this.setStateAsync(`${stateId}.begin`, state.from, true);
+			this.setStateAsync(`${stateId}.end`, state.to, true);
 		}
 	}
 }

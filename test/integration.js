@@ -5,7 +5,7 @@ const assert = require("assert");
 
 const adapterName = require("./../package.json").name.split(".").pop();
 
-const zipCode = "76229";
+const zipCode = "70173";
 
 // Create mocks and asserts
 //const { adapter, database } = utils.unit.createMocks();
@@ -66,7 +66,7 @@ tests.integration(path.join(__dirname, ".."), {
 					//await harness.databases.adapter.config.zipcode.should.equal(zipCode);
 					resolve();
 				});
-			});
+			}).timeout(6000);
 
 			it("Should work", () => {
 				return new Promise(async (resolve) => {

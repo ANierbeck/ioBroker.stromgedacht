@@ -28,7 +28,6 @@ class Stromgedacht extends utils.Adapter {
       ...options,
       name: adapterName
     });
-    this.setState("info.connection", false, true);
     this.on("ready", this.onReady.bind(this));
     this.on("unload", this.onUnload.bind(this));
   }
@@ -36,6 +35,7 @@ class Stromgedacht extends utils.Adapter {
     for (const obj of instanceObjects) {
       await this.setObjectNotExistsAsync(obj._id, obj);
     }
+    this.setState("info.connection", false, true);
     this.log.info(`config zipcode: ${this.config.zipcode}`);
     this.setState("info.connection", false, true);
     if (this.config.zipcode === void 0 || this.config.zipcode === "") {

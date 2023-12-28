@@ -35,42 +35,69 @@ class Stromgedacht extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady(): Promise<void> {
+		/*
 		for (const obj of instanceObjects) {
 			await this.setObjectNotExistsAsync(obj._id, obj);
+			this.log.info(`Created object ${obj._id}`);
 		}
+		*/
+
+		//await this.setStateAsync("info.connection", false, true);
 
 		//schedule it to run every 2 hours
 		this.log.info(`config zipcode: ${this.config.zipcode}`);
-		await this.setStateAsync("info.connection", false, true);
 
 		if (this.config.zipcode === undefined || this.config.zipcode === "") {
 			this.log.error("No zipcode configured");
 			return;
 		}
 
+		//cleanup of old states
 		this.log.debug(`Deleting states`);
-		await this.getStatesOfAsync("stromgedacht.0.forecast", "", async (err: any, states: any) => {
+		/*
+		await this.getStatesOfAsync("stromgedacht.0.forecast", "", (err: any, states: any) => {
 			if (err) {
-				this.log.error(`Could not get states of states: ${err.message}`);
+				this.log.error(`Could not get states: ${err.message}`);
 				return;
 			}
 			this.log.debug(`States: ${JSON.stringify(states)}`);
 			for (const state of states) {
 				this.log.debug(`Deleting state ${state._id}`);
-				await this.delObjectAsync(state._id);
+				this.delObject(state._id);
 			}
 		});
+		*/
+		await this.getStatesOfAsync("stromgedacht.0.forecast", "")
+			.then((states) => {
+				this.log.debug(`States: ${JSON.stringify(states)}`);
+				for (const state of states) {
+					this.log.debug(`Deleting state ${state._id}`);
+					this.delObject(state._id);
+				}
+				return;
+			})
+			.catch((error) => {
+				this.log.error(`Could not get states: ${error.message}`);
+				return;
+			});
 
-		await this.requestStates()
+		this.log.debug(`recreating states`);
+		//recreate basic object structure
+		for (const obj of instanceObjects) {
+			this.log.debug(`Creating object ${obj._id}`);
+			this.setObjectNotExistsAsync(obj._id, obj);
+		}
+
+		this.requestStates()
 			.then(async (response) => {
 				if (response === null) {
 					this.log.error(`No response received`);
 					return;
 				}
 				this.log.debug(`Received states for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
-				this.setState("forecast.states.json", JSON.stringify(response.data), true);
-				this.setState("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
-				this.setState("info.connection", true, true);
+				this.setStateAsync("forecast.states.json", JSON.stringify(response.data), true);
+				this.setStateAsync("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
+				//this.setStateAsync("info.connection", true, true);
 				return response.data;
 			})
 			.then(async (data) => this.parseState(data))

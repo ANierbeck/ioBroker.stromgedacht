@@ -32,39 +32,40 @@ class Stromgedacht extends utils.Adapter {
     this.on("unload", this.onUnload.bind(this));
   }
   async onReady() {
-    for (const obj of instanceObjects) {
-      await this.setObjectNotExistsAsync(obj._id, obj);
-    }
-    this.setState("info.connection", false, true);
+    await this.setStateAsync("info.connection", false, true);
     this.log.info(`config zipcode: ${this.config.zipcode}`);
-    this.setState("info.connection", false, true);
     if (this.config.zipcode === void 0 || this.config.zipcode === "") {
       this.log.error("No zipcode configured");
       return;
     }
     this.log.debug(`Deleting states`);
-    this.getStatesOf("stromgedacht.0.forecast", "", async (err, states) => {
-      if (err) {
-        this.log.error(`Could not get states of states: ${err.message}`);
-        return;
-      }
+    await this.getStatesOfAsync("stromgedacht.0.forecast", "").then((states) => {
       this.log.debug(`States: ${JSON.stringify(states)}`);
       for (const state of states) {
         this.log.debug(`Deleting state ${state._id}`);
-        await this.delObjectAsync(state._id);
+        this.delObject(state._id);
       }
+      return;
+    }).catch((error) => {
+      this.log.error(`Could not get states: ${error.message}`);
+      return;
     });
-    await this.requestStates().then(async (response) => {
+    this.log.debug(`recreating states`);
+    for (const obj of instanceObjects) {
+      this.log.debug(`Creating object ${obj._id}`);
+      this.setObjectNotExistsAsync(obj._id, obj);
+    }
+    this.requestStates().then(async (response) => {
       if (response === null) {
         this.log.error(`No response received`);
         return;
       }
       this.log.debug(`Received states for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
-      this.setState("forecast.states.json", JSON.stringify(response.data), true);
-      this.setState("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
-      this.setState("info.connection", true, true);
+      this.setStateAsync("forecast.states.json", JSON.stringify(response.data), true);
+      this.setStateAsync("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
+      this.setStateAsync("info.connection", true, true);
       return response.data;
-    }).then((data) => this.parseState(data)).catch((error) => {
+    }).then(async (data) => this.parseState(data)).catch((error) => {
       this.log.error(`Error: ${error.message}`);
       this.setState("info.connection", false, true);
     });
@@ -78,7 +79,7 @@ class Stromgedacht extends utils.Adapter {
       callback();
     }
   }
-  requestStates() {
+  async requestStates() {
     const zipcode = this.config.zipcode;
     const hoursInFuture = this.config.hoursInFuture;
     const queryParams = {
@@ -106,7 +107,7 @@ class Stromgedacht extends utils.Adapter {
       throw error;
     });
   }
-  parseState(json) {
+  async parseState(json) {
     this.log.debug(`Parsing state ${JSON.stringify(json)}`);
     const states = json.states;
     this.log.debug(`States: ${JSON.stringify(states)}`);
@@ -250,8 +251,8 @@ class Stromgedacht extends utils.Adapter {
       });
       const state = rotStates[i];
       this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
-      this.setState(`${stateId}.begin`, state.from, true);
-      this.setState(`${stateId}.end`, state.to, true);
+      this.setStateAsync(`${stateId}.begin`, state.from, true);
+      this.setStateAsync(`${stateId}.end`, state.to, true);
     }
   }
 }

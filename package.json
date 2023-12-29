@@ -85,6 +85,7 @@
     "lint": "eslint --ext .ts src/",
     "translate": "translate-adapter",
     "release": "release-script",
+    "all-tests": "npm run test && npm run test:integration",
     "full": "npm run prebuild && npm run build && npm run lint && npm run test && npm run check && npm run coverage && npm run translate && npm run test:integration"
   },
   "nyc": {

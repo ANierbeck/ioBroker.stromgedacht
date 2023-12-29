@@ -54,7 +54,7 @@ class Stromgedacht extends utils.Adapter {
       this.log.debug(`Creating object ${obj._id}`);
       this.setObjectNotExistsAsync(obj._id, obj);
     }
-    this.requestStates().then(async (response) => {
+    await this.requestStates().then(async (response) => {
       if (response === null) {
         this.log.error(`No response received`);
         return;
@@ -67,6 +67,7 @@ class Stromgedacht extends utils.Adapter {
       this.log.error(`Error: ${error.message}`);
       this.setState("info.connection", false, true);
     });
+    return;
   }
   onUnload(callback) {
     try {

@@ -36,6 +36,9 @@ tests.integration(path.join(__dirname, ".."), {
 			let harness;
 			before(async () => {
 				harness = getHarness();
+			});
+
+			beforeEach(async () => {
 				const obj = {
 					native: {
 						zipcode: zipCode,
@@ -43,6 +46,7 @@ tests.integration(path.join(__dirname, ".."), {
 					},
 				};
 				console.warn("change adapter config");
+				// @ts-ignore
 				await harness.changeAdapterConfig(adapterName, obj);
 			});
 
@@ -57,7 +61,8 @@ tests.integration(path.join(__dirname, ".."), {
 			it.skip("Check Zip Code ist set", () => {
 				return new Promise(async (resolve) => {
 					// Perform the test
-					await harness.startAdapterAndWait(true);
+					//await harness.startAdapterAndWait(true);
+					await harness.startAdapter();
 
 					assert.equal((await harness.states.getState("system.adapter.stromgedacht.0.alive")).val, true);
 					//alive.val.should.equal(true);
@@ -65,13 +70,12 @@ tests.integration(path.join(__dirname, ".."), {
 
 					const zip = (await harness.objects.getObject(`system.adapter.${adapterName}`)).native.zipcode;
 					console.log(`zip: ${zip}`);
-					/*
+
 					assert.equal(
 						(await harness.objects.getObject(`system.adapter.${adapterName}`)).native.zipcode,
 						zipCode,
+						"Zip Code is not set correctly",
 					);
-					*/
-					await harness.stopAdapter(); // Stop the adapter and clean up
 					resolve();
 				});
 			});
@@ -81,11 +85,11 @@ tests.integration(path.join(__dirname, ".."), {
 				return new Promise(async (resolve) => {
 					// Start the adapter and wait until it has started
 					console.log("Should Work Test started");
-					await harness.startAdapterAndWait(true);
+					await harness.startAdapterAndWait();
 					console.log("adapter started");
 
 					const val = (await harness.states.getState("stromgedacht.0.forecast.states.json")).val;
-					assert.notEqual(val, null);
+					assert.notEqual(val, null, "val is null");
 
 					/*
 					harness.sendTo("adapter.0", "test", "message", (resp) => {

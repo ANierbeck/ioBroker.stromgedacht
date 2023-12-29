@@ -1,6 +1,6 @@
 {
   "name": "iobroker.stromgedacht",
-  "version": "0.0.5",
+  "version": "0.0.6-SNAPSHOT",
   "description": "Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used",
   "author": {
     "name": "ANierbeck",
@@ -84,7 +84,8 @@
     "coverage": "nyc npm run test:ts",
     "lint": "eslint --ext .ts src/",
     "translate": "translate-adapter",
-    "release": "release-script"
+    "release": "release-script",
+    "full": "npm run prebuild && npm run build && npm run lint && npm run test && npm run check && npm run coverage && npm run translate && npm run test:integration"
   },
   "nyc": {
     "include": [

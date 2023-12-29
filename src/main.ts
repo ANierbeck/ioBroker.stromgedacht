@@ -35,15 +35,6 @@ class Stromgedacht extends utils.Adapter {
 	 * Is called when databases are connected and adapter received configuration.
 	 */
 	async onReady(): Promise<void> {
-		/*
-		for (const obj of instanceObjects) {
-			await this.setObjectNotExistsAsync(obj._id, obj);
-			this.log.info(`Created object ${obj._id}`);
-		}
-		*/
-
-		//await this.setStateAsync("info.connection", false, true);
-
 		//schedule it to run every 2 hours
 		this.log.info(`config zipcode: ${this.config.zipcode}`);
 
@@ -54,19 +45,6 @@ class Stromgedacht extends utils.Adapter {
 
 		//cleanup of old states
 		this.log.debug(`Deleting states`);
-		/*
-		await this.getStatesOfAsync("stromgedacht.0.forecast", "", (err: any, states: any) => {
-			if (err) {
-				this.log.error(`Could not get states: ${err.message}`);
-				return;
-			}
-			this.log.debug(`States: ${JSON.stringify(states)}`);
-			for (const state of states) {
-				this.log.debug(`Deleting state ${state._id}`);
-				this.delObject(state._id);
-			}
-		});
-		*/
 		await this.getStatesOfAsync("stromgedacht.0.forecast", "")
 			.then((states) => {
 				this.log.debug(`States: ${JSON.stringify(states)}`);
@@ -88,7 +66,7 @@ class Stromgedacht extends utils.Adapter {
 			this.setObjectNotExistsAsync(obj._id, obj);
 		}
 
-		this.requestStates()
+		await this.requestStates()
 			.then(async (response) => {
 				if (response === null) {
 					this.log.error(`No response received`);
@@ -105,6 +83,7 @@ class Stromgedacht extends utils.Adapter {
 				this.log.error(`Error: ${error.message}`);
 				this.setState("info.connection", false, true);
 			});
+		return;
 	}
 
 	/**

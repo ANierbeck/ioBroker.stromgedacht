@@ -83,10 +83,16 @@ The ioBroker.admin interface will then be available at http://localhost:8081/
 Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#command-line) for more details.
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+
+-   experimenting with exit of adapter itself
+-   fixing integration test
+
 ### 0.0.5 (2023-12-29)
 
 -   Fixing integration tests, partially
-- Integration tests don't fully functional, only one test can be run, because adapter isn't stopped in time
+-   Integration tests don't fully functional, only one test can be run, because adapter isn't stopped in time
 
 ### 0.0.4 (2023-12-27)
 

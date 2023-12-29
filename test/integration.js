@@ -62,7 +62,7 @@ tests.integration(path.join(__dirname, ".."), {
 				return new Promise(async (resolve) => {
 					// Perform the test
 					//await harness.startAdapterAndWait(true);
-					await harness.startAdapter();
+					await harness.startAdapterAndWait();
 
 					assert.equal((await harness.states.getState("system.adapter.stromgedacht.0.alive")).val, true);
 					//alive.val.should.equal(true);
@@ -76,6 +76,7 @@ tests.integration(path.join(__dirname, ".."), {
 						zipCode,
 						"Zip Code is not set correctly",
 					);
+					// @ts-ignore
 					resolve();
 				});
 			});
@@ -91,12 +92,7 @@ tests.integration(path.join(__dirname, ".."), {
 					const val = (await harness.states.getState("stromgedacht.0.forecast.states.json")).val;
 					assert.notEqual(val, null, "val is null");
 
-					/*
-					harness.sendTo("adapter.0", "test", "message", (resp) => {
-						console.dir(resp);
-						resolve();
-					});
-					*/
+					// @ts-ignore
 					resolve();
 				});
 			});

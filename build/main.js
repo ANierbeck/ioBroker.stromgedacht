@@ -32,7 +32,6 @@ class Stromgedacht extends utils.Adapter {
     this.on("unload", this.onUnload.bind(this));
   }
   async onReady() {
-    await this.setStateAsync("info.connection", false, true);
     this.log.info(`config zipcode: ${this.config.zipcode}`);
     if (this.config.zipcode === void 0 || this.config.zipcode === "") {
       this.log.error("No zipcode configured");
@@ -63,7 +62,6 @@ class Stromgedacht extends utils.Adapter {
       this.log.debug(`Received states for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
       this.setStateAsync("forecast.states.json", JSON.stringify(response.data), true);
       this.setStateAsync("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
-      this.setStateAsync("info.connection", true, true);
       return response.data;
     }).then(async (data) => this.parseState(data)).catch((error) => {
       this.log.error(`Error: ${error.message}`);

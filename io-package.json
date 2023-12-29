@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "stromgedacht",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "news": {
+      "0.0.5": {
+        "en": "Fixing integration tests, partially\nIntegration tests don't fully functional, only one test can be run, because adapter isn't stopped in time",
+        "de": "Festlegen von Integrationstests, teilweise\nIntegrationstests sind nicht voll funktionsfähig, nur ein Test kann durchgeführt werden, weil Adapter nicht rechtzeitig gestoppt wird",
+        "ru": "Исправление интеграционных тестов, частично\nИнтеграционные тесты не полностью функциональны, только один тест можно запустить, потому что адаптер не останавливается вовремя",
+        "pt": "Fixação de testes de integração, parcialmente\nOs testes de integração não são totalmente funcionais, apenas um teste pode ser executado, porque o adaptador não é interrompido no tempo",
+        "nl": "Integratie testen maken, gedeeltelijk\nIntegratietests functioneren niet volledig, maar één test kan worden geleid, want adapter is niet gestopt op tijd",
+        "fr": "Essais d ' intégration, en partie\nLes tests d'intégration ne sont pas entièrement fonctionnels, un seul test peut être exécuté, car l'adaptateur n'est pas arrêté dans le temps",
+        "it": "Fissaggio dei test di integrazione, in parte\nI test di integrazione non sono completamente funzionali, solo un test può essere eseguito, perché l'adattatore non viene fermato in tempo",
+        "es": "Fijar pruebas de integración, parcialmente\nLas pruebas de integración no funcionan completamente, sólo se puede realizar una prueba, porque el adaptador no se detiene en el tiempo",
+        "pl": "Testy integracji Fixinga, częściowo przetestowane\nTesty integracji nie mogą być w pełni funkcjonalne, tylko jeden test może być uruchamiany, ponieważ adapter nie został zatrzymany w czasie",
+        "uk": "Виправлення інтеграційних випробувань, частково\nІнтеграційні тести не повністю функціональні, тільки один тест може бути запущений, оскільки адаптер не зупиняється в часі",
+        "zh-cn": "固定一体化试验,部分\n一体化试验完全发挥功能,只有一个试验能够进行,因为适应人员在时间内被阻拦。"
+      },
       "0.0.4": {
         "en": "scheduler is not rescheduled due to already running instance.",
         "de": "der scheduler wird aufgrund bereits laufender instanz nicht umgeplant.",

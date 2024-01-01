@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "stromgedacht",
-    "version": "0.0.6",
+    "version": "0.0.7-SNAPSHOT",
     "news": {
       "0.0.6": {
         "en": "experimenting with exit of adapter itself\nfixing integration test",
@@ -168,6 +168,18 @@
       "type": "state",
       "common": {
         "name": "State Json",
+        "type": "string",
+        "role": "json",
+        "read": true,
+        "write": true
+      },
+      "native": {}
+    },
+    {
+      "_id": "forecast.states.timeseries",
+      "type": "state",
+      "common": {
+        "name": "State timeseries",
         "type": "string",
         "role": "json",
         "read": true,

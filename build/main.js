@@ -115,6 +115,7 @@ class Stromgedacht extends utils.Adapter {
     const gruenStates = [];
     const gelbStates = [];
     const rotStates = [];
+    const timeseries = [];
     states.forEach((state) => {
       switch (state.state) {
         case -1:
@@ -132,7 +133,17 @@ class Stromgedacht extends utils.Adapter {
         default:
           break;
       }
+      const timeDifference = this.getTimeOffset(new Date(state.from), new Date(state.to));
+      const offSet = this.getOffset(new Date(state.from));
+      for (let i = 0; i < timeDifference; i++) {
+        const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1e3 - offSet;
+        const timeslot = new Date(newTime);
+        const timeslotState = state.state;
+        timeseries.push([timeslot, timeslotState]);
+      }
     });
+    this.log.debug(`Timeseries: ${JSON.stringify(timeseries)}`);
+    this.setStateAsync("forecast.states.timeseries", JSON.stringify(timeseries), true);
     for (let i = 0; i < supergruenStates.length; i++) {
       stateId = `forecast.states.supergruen.${i}`;
       this.log.debug(`state ${stateId}`);
@@ -253,6 +264,18 @@ class Stromgedacht extends utils.Adapter {
       this.setStateAsync(`${stateId}.begin`, state.from, true);
       this.setStateAsync(`${stateId}.end`, state.to, true);
     }
+  }
+  getOffset(from) {
+    const offSetMinutes = from.getMinutes();
+    const offSetSeconds = from.getSeconds();
+    const offSetMilliseconds = from.getMilliseconds();
+    const offSet = offSetMinutes * 60 * 1e3 + offSetSeconds * 1e3 + offSetMilliseconds;
+    return offSet;
+  }
+  getTimeOffset(startDate, endDate) {
+    const timeDifference = endDate.getTime() - startDate.getTime();
+    const hoursOffset = timeDifference / (1e3 * 60 * 60);
+    return hoursOffset;
   }
 }
 if (require.main !== module) {

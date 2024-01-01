@@ -90,8 +90,9 @@ tests.integration(path.join(__dirname, ".."), {
 					console.log("adapter started");
 
 					const val = (await harness.states.getState("stromgedacht.0.forecast.states.json")).val;
-					assert.notEqual(val, null, "val is null");
-
+					console.log("val: " + val);
+					const ok = assert.notEqual(val, null, "val is null");
+					console.log("ok: " + ok);
 					// @ts-ignore
 					resolve();
 				});

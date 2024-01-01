@@ -52,7 +52,7 @@ class Stromgedacht extends utils.Adapter {
     this.log.debug(`recreating states`);
     for (const obj of instanceObjects) {
       this.log.debug(`Creating object ${obj._id}`);
-      this.setObjectNotExistsAsync(obj._id, obj);
+      await this.setObjectNotExistsAsync(obj._id, obj);
     }
     await this.requestStates().then(async (response) => {
       if (response === null) {

@@ -63,7 +63,7 @@ class Stromgedacht extends utils.Adapter {
 		//recreate basic object structure
 		for (const obj of instanceObjects) {
 			this.log.debug(`Creating object ${obj._id}`);
-			this.setObjectNotExistsAsync(obj._id, obj);
+			await this.setObjectNotExistsAsync(obj._id, obj);
 		}
 
 		await this.requestStates()

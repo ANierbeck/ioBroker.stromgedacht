@@ -84,7 +84,6 @@ describe("parse JSON => create Timeseries", () => {
 			for (let i = 0; i < timeDifference; i++) {
 				const newTime = from.getTime() + i * 60 * 60 * 1000 - offSet;
 				const timeslot = new Date(newTime);
-				const timeslotHour = timeslot.getHours();
 				const timeslotState = state.state;
 				timeseries.push([timeslot, timeslotState]);
 			}

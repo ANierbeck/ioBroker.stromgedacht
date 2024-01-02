@@ -169,8 +169,7 @@ class Stromgedacht extends utils.Adapter {
 					for (let i = 0; i < timeDifference; i++) {
 						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
 						const timeslot = new Date(newTime);
-						const timeslotState = state.state;
-						supergruenTimeseries.push([timeslot, timeslotState]);
+						supergruenTimeseries.push([timeslot, 1]);
 					}
 					break;
 				case 1: //gruen
@@ -178,8 +177,7 @@ class Stromgedacht extends utils.Adapter {
 					for (let i = 0; i < timeDifference; i++) {
 						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
 						const timeslot = new Date(newTime);
-						const timeslotState = state.state;
-						gruenTimeseries.push([timeslot, timeslotState]);
+						gruenTimeseries.push([timeslot, 1]);
 					}
 					break;
 				case 2: //gelb
@@ -187,8 +185,7 @@ class Stromgedacht extends utils.Adapter {
 					for (let i = 0; i < timeDifference; i++) {
 						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
 						const timeslot = new Date(newTime);
-						const timeslotState = state.state;
-						gelbTimeseries.push([timeslot, timeslotState]);
+						gelbTimeseries.push([timeslot, 1]);
 					}
 					break;
 				case 3: //rot
@@ -196,8 +193,7 @@ class Stromgedacht extends utils.Adapter {
 					for (let i = 0; i < timeDifference; i++) {
 						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
 						const timeslot = new Date(newTime);
-						const timeslotState = state.state;
-						rotTimeseries.push([timeslot, timeslotState]);
+						rotTimeseries.push([timeslot, 1]);
 					}
 					break;
 				default:

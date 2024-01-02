@@ -23,6 +23,23 @@ this adapter needs just two settings.
 | zipcode | needed for the API, it's the select mechanism for the region|
 | hoursInFuture | a value between 1 and 48, the power prediction for the requested time. 48h is the maximum provided by the stromgedacht api |
 
+## How to use?
+
+Right now the data is available in two forms. 
+
+### Available as _to_ and _from_
+For each Stromgedacht State there is a State available in the Object tree. These state objects hava a begin and end Timestamp: 
+
+![ObjectTree](stromgedacht_tree.png)
+
+These timestamps can be used for using in your own scriptings. 
+
+For visualization there is now also a timeseries state object for the complete forecast and also for each different state.
+
+These timesamps can be used in a visualization. For example using the [Apex-Chard Card](https://github.com/RomRider/apexcharts-card) for the [Lovelace](https://github.com/ioBroker/ioBroker.lovelace) visualization.
+
+![Visualization](stromgedacht_visual.png)
+
 ## Developer manual
 
 This section is intended for the developer. It can be deleted later.

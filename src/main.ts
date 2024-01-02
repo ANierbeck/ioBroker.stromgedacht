@@ -75,7 +75,6 @@ class Stromgedacht extends utils.Adapter {
 				this.log.debug(`Received states for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
 				this.setStateAsync("forecast.states.json", JSON.stringify(response.data), true);
 				this.setStateAsync("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
-				//this.setStateAsync("info.connection", true, true);
 				return response.data;
 			})
 			.then(async (data) => this.parseState(data))
@@ -152,30 +151,58 @@ class Stromgedacht extends utils.Adapter {
 		this.log.debug(`States: ${JSON.stringify(states)}`);
 		let stateId = "";
 		const supergruenStates: State[] = [];
+		const supergruenTimeseries: [Date, number][] = [];
 		const gruenStates: State[] = [];
+		const gruenTimeseries: [Date, number][] = [];
 		const gelbStates: State[] = [];
+		const gelbTimeseries: [Date, number][] = [];
 		const rotStates: State[] = [];
+		const rotTimeseries: [Date, number][] = [];
 		const timeseries: [Date, number][] = [];
 		states.forEach((state: any) => {
+			const timeDifference = this.getTimeOffset(new Date(state.from), new Date(state.to));
+			const offSet = this.getOffset(new Date(state.from));
+
 			switch (state.state) {
 				case -1: //supergruen
 					supergruenStates.push(state);
+					for (let i = 0; i < timeDifference; i++) {
+						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
+						const timeslot = new Date(newTime);
+						const timeslotState = state.state;
+						supergruenTimeseries.push([timeslot, timeslotState]);
+					}
 					break;
 				case 1: //gruen
 					gruenStates.push(state);
+					for (let i = 0; i < timeDifference; i++) {
+						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
+						const timeslot = new Date(newTime);
+						const timeslotState = state.state;
+						gruenTimeseries.push([timeslot, timeslotState]);
+					}
 					break;
 				case 2: //gelb
 					gelbStates.push(state);
+					for (let i = 0; i < timeDifference; i++) {
+						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
+						const timeslot = new Date(newTime);
+						const timeslotState = state.state;
+						gelbTimeseries.push([timeslot, timeslotState]);
+					}
 					break;
 				case 3: //rot
 					rotStates.push(state);
+					for (let i = 0; i < timeDifference; i++) {
+						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
+						const timeslot = new Date(newTime);
+						const timeslotState = state.state;
+						rotTimeseries.push([timeslot, timeslotState]);
+					}
 					break;
 				default:
 					break;
 			}
-
-			const timeDifference = this.getTimeOffset(new Date(state.from), new Date(state.to));
-			const offSet = this.getOffset(new Date(state.from));
 
 			for (let i = 0; i < timeDifference; i++) {
 				const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
@@ -188,6 +215,7 @@ class Stromgedacht extends utils.Adapter {
 		this.log.debug(`Timeseries: ${JSON.stringify(timeseries)}`);
 		this.setStateAsync("forecast.states.timeseries", JSON.stringify(timeseries), true);
 
+		this.setStateAsync("forecast.states.supergruen.timeseries", JSON.stringify(supergruenTimeseries), true);
 		for (let i = 0; i < supergruenStates.length; i++) {
 			stateId = `forecast.states.supergruen.${i}`;
 			this.log.debug(`state ${stateId}`);
@@ -218,6 +246,7 @@ class Stromgedacht extends utils.Adapter {
 			this.setState(`${stateId}.begin`, state.from, true);
 			this.setState(`${stateId}.end`, state.to, true);
 		}
+		this.setStateAsync("forecast.states.gruen.timeseries", JSON.stringify(gruenTimeseries), true);
 		for (let i = 0; i < gruenStates.length; i++) {
 			stateId = `forecast.states.gruen.${i}`;
 			this.log.debug(`state ${stateId}`);
@@ -248,6 +277,7 @@ class Stromgedacht extends utils.Adapter {
 			this.setState(`${stateId}.begin`, state.from, true);
 			this.setState(`${stateId}.end`, state.to, true);
 		}
+		this.setStateAsync("forecast.states.gelb.timeseries", JSON.stringify(gelbTimeseries), true);
 		for (let i = 0; i < gelbStates.length; i++) {
 			stateId = `forecast.states.gelb.${i}`;
 			this.log.debug(`state ${stateId}`);
@@ -278,6 +308,7 @@ class Stromgedacht extends utils.Adapter {
 			this.setState(`${stateId}.begin`, state.from, true);
 			this.setState(`${stateId}.end`, state.to, true);
 		}
+		this.setStateAsync("forecast.states.rot.timeseries", JSON.stringify(rotTimeseries), true);
 		for (let i = 0; i < rotStates.length; i++) {
 			stateId = `forecast.states.rot.${i}`;
 			this.log.debug(`state ${stateId}`);

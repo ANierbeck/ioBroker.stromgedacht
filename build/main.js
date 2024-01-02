@@ -21,7 +21,20 @@ var utils = __toESM(require("@iobroker/adapter-core"));
 var import_axios = __toESM(require("axios"));
 const adapterName = require("./../package.json").name.split(".").pop();
 const instanceObjects = require("./../io-package.json").instanceObjects;
+var StateEnum = /* @__PURE__ */ ((StateEnum2) => {
+  StateEnum2[StateEnum2["SUPERGRUEN"] = -1] = "SUPERGRUEN";
+  StateEnum2[StateEnum2["GRUEN"] = 1] = "GRUEN";
+  StateEnum2[StateEnum2["GELB"] = 2] = "GELB";
+  StateEnum2[StateEnum2["ROT"] = 3] = "ROT";
+  return StateEnum2;
+})(StateEnum || {});
 const stromgedachtApi = "https://api.stromgedacht.de/v1/statesRelative";
+const statePaths = [
+  "forecast.states.supergruen",
+  "forecast.states.gruen",
+  "forecast.states.gelb",
+  "forecast.states.rot"
+];
 class Stromgedacht extends utils.Adapter {
   constructor(options = {}) {
     super({
@@ -37,18 +50,17 @@ class Stromgedacht extends utils.Adapter {
       this.log.error("No zipcode configured");
       return;
     }
-    this.log.debug(`Deleting states`);
-    await this.getStatesOfAsync("stromgedacht.0.forecast", "").then((states) => {
-      this.log.debug(`States: ${JSON.stringify(states)}`);
-      for (const state of states) {
-        this.log.debug(`Deleting state ${state._id}`);
-        this.delObject(state._id);
-      }
-      return;
-    }).catch((error) => {
-      this.log.error(`Could not get states: ${error.message}`);
-      return;
-    });
+    this.log.debug(`removing stale states`);
+    for (const path of statePaths) {
+      this.log.debug(`Deleting states for ${path}`);
+      await this.getChannelsOfAsync(path).then((channels) => {
+        this.log.debug(`Channels to remove: ${JSON.stringify(channels)}`);
+        for (const channel of channels) {
+          this.log.debug(`ChannelID: ${channel._id}`);
+          this.delObject(channel._id);
+        }
+      });
+    }
     this.log.debug(`recreating states`);
     for (const obj of instanceObjects) {
       this.log.debug(`Creating object ${obj._id}`);
@@ -124,40 +136,36 @@ class Stromgedacht extends utils.Adapter {
       const timeDifference = this.getTimeOffset(new Date(state.from), new Date(state.to));
       const offSet = this.getOffset(new Date(state.from));
       switch (state.state) {
-        case -1:
+        case -1 /* SUPERGRUEN */:
           supergruenStates.push(state);
           for (let i = 0; i < timeDifference; i++) {
             const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1e3 - offSet;
             const timeslot = new Date(newTime);
-            const timeslotState = state.state;
-            supergruenTimeseries.push([timeslot, timeslotState]);
+            supergruenTimeseries.push([timeslot, 1]);
           }
           break;
-        case 1:
+        case 1 /* GRUEN */:
           gruenStates.push(state);
           for (let i = 0; i < timeDifference; i++) {
             const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1e3 - offSet;
             const timeslot = new Date(newTime);
-            const timeslotState = state.state;
-            gruenTimeseries.push([timeslot, timeslotState]);
+            gruenTimeseries.push([timeslot, 1]);
           }
           break;
-        case 2:
+        case 2 /* GELB */:
           gelbStates.push(state);
           for (let i = 0; i < timeDifference; i++) {
             const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1e3 - offSet;
             const timeslot = new Date(newTime);
-            const timeslotState = state.state;
-            gelbTimeseries.push([timeslot, timeslotState]);
+            gelbTimeseries.push([timeslot, 1]);
           }
           break;
-        case 3:
+        case 3 /* ROT */:
           rotStates.push(state);
           for (let i = 0; i < timeDifference; i++) {
             const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1e3 - offSet;
             const timeslot = new Date(newTime);
-            const timeslotState = state.state;
-            rotTimeseries.push([timeslot, timeslotState]);
+            rotTimeseries.push([timeslot, 1]);
           }
           break;
         default:
@@ -176,7 +184,8 @@ class Stromgedacht extends utils.Adapter {
     for (let i = 0; i < supergruenStates.length; i++) {
       stateId = `forecast.states.supergruen.${i}`;
       this.log.debug(`state ${stateId}`);
-      this.setObjectNotExists(`${stateId}.begin`, {
+      await this.createChannelAsync("forecast.states.supergruen", `${stateId}`);
+      await this.setObjectNotExists(`${stateId}.begin`, {
         type: "state",
         common: {
           name: "Begin of supergruen",
@@ -187,7 +196,7 @@ class Stromgedacht extends utils.Adapter {
         },
         native: {}
       });
-      this.setObjectNotExists(`${stateId}.end`, {
+      await this.setObjectNotExists(`${stateId}.end`, {
         type: "state",
         common: {
           name: "End of supergruen",
@@ -200,14 +209,15 @@ class Stromgedacht extends utils.Adapter {
       });
       const state = supergruenStates[i];
       this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
-      this.setState(`${stateId}.begin`, state.from, true);
-      this.setState(`${stateId}.end`, state.to, true);
+      this.setState(`${stateId}.begin`, state.from.toString(), true);
+      this.setState(`${stateId}.end`, state.to.toString(), true);
     }
     this.setStateAsync("forecast.states.gruen.timeseries", JSON.stringify(gruenTimeseries), true);
     for (let i = 0; i < gruenStates.length; i++) {
       stateId = `forecast.states.gruen.${i}`;
       this.log.debug(`state ${stateId}`);
-      this.setObjectNotExists(`${stateId}.begin`, {
+      await this.createChannelAsync("forecast.states.gruen", `${stateId}`);
+      await this.setObjectNotExists(`${stateId}.begin`, {
         type: "state",
         common: {
           name: "Begin of gruen",
@@ -218,7 +228,7 @@ class Stromgedacht extends utils.Adapter {
         },
         native: {}
       });
-      this.setObjectNotExists(`${stateId}.end`, {
+      await this.setObjectNotExists(`${stateId}.end`, {
         type: "state",
         common: {
           name: "End of gruen",
@@ -231,14 +241,15 @@ class Stromgedacht extends utils.Adapter {
       });
       const state = gruenStates[i];
       this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
-      this.setState(`${stateId}.begin`, state.from, true);
-      this.setState(`${stateId}.end`, state.to, true);
+      this.setState(`${stateId}.begin`, state.from.toString(), true);
+      this.setState(`${stateId}.end`, state.to.toString(), true);
     }
     this.setStateAsync("forecast.states.gelb.timeseries", JSON.stringify(gelbTimeseries), true);
     for (let i = 0; i < gelbStates.length; i++) {
       stateId = `forecast.states.gelb.${i}`;
       this.log.debug(`state ${stateId}`);
-      this.setObjectNotExists(`${stateId}.begin`, {
+      await this.createChannelAsync("forecast.states.gelb", `${stateId}`);
+      await this.setObjectNotExists(`${stateId}.begin`, {
         type: "state",
         common: {
           name: "Begin of gelb",
@@ -249,7 +260,7 @@ class Stromgedacht extends utils.Adapter {
         },
         native: {}
       });
-      this.setObjectNotExists(`${stateId}.end`, {
+      await this.setObjectNotExists(`${stateId}.end`, {
         type: "state",
         common: {
           name: "End of gelb",
@@ -262,14 +273,15 @@ class Stromgedacht extends utils.Adapter {
       });
       const state = gelbStates[i];
       this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
-      this.setState(`${stateId}.begin`, state.from, true);
-      this.setState(`${stateId}.end`, state.to, true);
+      this.setState(`${stateId}.begin`, state.from.toString(), true);
+      this.setState(`${stateId}.end`, state.to.toString(), true);
     }
     this.setStateAsync("forecast.states.rot.timeseries", JSON.stringify(rotTimeseries), true);
     for (let i = 0; i < rotStates.length; i++) {
       stateId = `forecast.states.rot.${i}`;
       this.log.debug(`state ${stateId}`);
-      this.setObjectNotExists(`${stateId}.begin`, {
+      await this.createChannelAsync("forecast.states.rot", `${stateId}`);
+      await this.setObjectNotExists(`${stateId}.begin`, {
         type: "state",
         common: {
           name: "Begin of rot",
@@ -280,7 +292,7 @@ class Stromgedacht extends utils.Adapter {
         },
         native: {}
       });
-      this.setObjectNotExists(`${stateId}.end`, {
+      await this.setObjectNotExists(`${stateId}.end`, {
         type: "state",
         common: {
           name: "End of rot",
@@ -293,8 +305,8 @@ class Stromgedacht extends utils.Adapter {
       });
       const state = rotStates[i];
       this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
-      this.setStateAsync(`${stateId}.begin`, state.from, true);
-      this.setStateAsync(`${stateId}.end`, state.to, true);
+      this.setStateAsync(`${stateId}.begin`, state.from.toString(), true);
+      this.setStateAsync(`${stateId}.end`, state.to.toString(), true);
     }
   }
   getOffset(from) {

@@ -61,8 +61,7 @@ tests.integration(path.join(__dirname, ".."), {
 			it.skip("Check Zip Code ist set", () => {
 				return new Promise(async (resolve) => {
 					// Perform the test
-					//await harness.startAdapterAndWait(true);
-					await harness.startAdapterAndWait();
+					await harness.startAdapterAndWait(true);
 
 					assert.equal((await harness.states.getState("system.adapter.stromgedacht.0.alive")).val, true);
 					//alive.val.should.equal(true);
@@ -93,6 +92,11 @@ tests.integration(path.join(__dirname, ".."), {
 					console.log("val: " + val);
 					const ok = assert.notEqual(val, null, "val is null");
 					console.log("ok: " + ok);
+
+					assert.notEqual(
+						await harness.states.getState("stromgedacht.0.forecast.states.timeseries"),
+						"timeseries is null",
+					);
 					// @ts-ignore
 					resolve();
 				});

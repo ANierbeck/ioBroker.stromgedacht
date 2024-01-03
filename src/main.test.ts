@@ -68,6 +68,7 @@ describe("parse JSON => create Timeseries", () => {
 		expect(toHour).to.be.equal(23);
 
 		for (let i = 0; i < duration; i++) {
+			const offSet = getOffset(from);
 			const newTime = from.getTime() + i * 60 * 60 * 1000 - offSet;
 			const timeslot = new Date(newTime);
 			const timeslotHour = timeslot.getHours();
@@ -80,6 +81,7 @@ describe("parse JSON => create Timeseries", () => {
 			const from = (state.from = new Date(state.from));
 			const to = (state.to = new Date(state.to));
 			const timeDifference = getTimeOffset(from, to);
+			const offSet = getOffset(from);
 
 			for (let i = 0; i < timeDifference; i++) {
 				const newTime = from.getTime() + i * 60 * 60 * 1000 - offSet;
@@ -118,5 +120,14 @@ function getTimeOffset(startDate: Date, endDate: Date) {
 
 	return hoursOffset;
 }
+
+function getOffset(from: Date): number {
+	const offSetMinutes = from.getMinutes();
+	const offSetSeconds = from.getSeconds();
+	const offSetMilliseconds = from.getMilliseconds();
+	const offSet = offSetMinutes * 60 * 1000 + offSetSeconds * 1000 + offSetMilliseconds;
+	return offSet;
+}
+
 
 // ... more test suites => describe

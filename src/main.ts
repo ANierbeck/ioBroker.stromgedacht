@@ -162,7 +162,7 @@ class Stromgedacht extends utils.Adapter {
 		this.log.debug(`Parsing state ${JSON.stringify(json)}`);
 		const states: State[] = json.states;
 		this.log.debug(`States: ${JSON.stringify(states)}`);
-		let stateId = "";
+
 		const supergruenStates: State[] = [];
 		const supergruenTimeseries: [Date, number][] = [];
 		const gruenStates: State[] = [];
@@ -232,11 +232,10 @@ class Stromgedacht extends utils.Adapter {
 
 	/**
 	 * Sets the states and corresponding objects in the ioBroker adapter.
-	 * 
-	 * @param states - The array of states to set.
-	 * @param stateIdPrefix - The prefix for the state IDs.
-	 * @param timeseries - The timeseries data to set.
-	 * @returns A promise that resolves when the states and objects are set.
+	 * @param states - The array of states to set
+	 * @param stateIdPrefix - The prefix for the state IDs
+	 * @param timeseries - The timeseries data to set
+	 * @returns A promise that resolves when the states and objects are set
 	 */
 	private async setStates(states: State[], stateIdPrefix: string, timeseries: [Date, number][]): Promise<void> {
 		for (let i = 0; i < states.length; i++) {

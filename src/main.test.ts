@@ -128,6 +128,4 @@ function getOffset(from: Date): number {
 	const offSet = offSetMinutes * 60 * 1000 + offSetSeconds * 1000 + offSetMilliseconds;
 	return offSet;
 }
-
-
 // ... more test suites => describe

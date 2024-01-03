@@ -226,7 +226,6 @@ class Stromgedacht extends utils.Adapter {
 		for (let i = 0; i < supergruenStates.length; i++) {
 			stateId = `forecast.states.supergruen.${i}`;
 			this.log.debug(`state ${stateId}`);
-			//await this.createChannelAsync("forecast.states.supergruen", `${stateId}`);
 			await this.setObjectNotExists(`${stateId}.begin`, {
 				type: "state",
 				common: {
@@ -258,7 +257,6 @@ class Stromgedacht extends utils.Adapter {
 		for (let i = 0; i < gruenStates.length; i++) {
 			stateId = `forecast.states.gruen.${i}`;
 			this.log.debug(`state ${stateId}`);
-			//await this.createChannelAsync("forecast.states.gruen", `${stateId}`);
 			await this.setObjectNotExists(`${stateId}.begin`, {
 				type: "state",
 				common: {
@@ -290,7 +288,6 @@ class Stromgedacht extends utils.Adapter {
 		for (let i = 0; i < gelbStates.length; i++) {
 			stateId = `forecast.states.gelb.${i}`;
 			this.log.debug(`state ${stateId}`);
-			//await this.createChannelAsync("forecast.states.gelb", `${stateId}`);
 			await this.setObjectNotExists(`${stateId}.begin`, {
 				type: "state",
 				common: {
@@ -322,7 +319,6 @@ class Stromgedacht extends utils.Adapter {
 		for (let i = 0; i < rotStates.length; i++) {
 			stateId = `forecast.states.rot.${i}`;
 			this.log.debug(`state ${stateId}`);
-			//await this.createChannelAsync("forecast.states.rot", `${stateId}`);
 			await this.setObjectNotExists(`${stateId}.begin`, {
 				type: "state",
 				common: {

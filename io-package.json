@@ -196,6 +196,18 @@
 			"native": {}
 		},
 		{
+			"_id": "forecast.states.lastUpdated",
+			"type": "state",
+			"common": {
+				"name": "timestamp of last update",
+				"type": "date",
+				"role": "date",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
 			"_id": "forecast.states.supergruen",
 			"type": "channel",
 			"native": {}

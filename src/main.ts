@@ -221,15 +221,21 @@ class Stromgedacht extends utils.Adapter {
 
 		this.log.debug(`Timeseries: ${JSON.stringify(timeseries)}`);
 		this.setStateAsync("forecast.states.timeseries", JSON.stringify(timeseries), true);
+		this.setStates(supergruenStates, "forecast.states.supergruen", supergruenTimeseries);
+		this.setStates(gruenStates, "forecast.states.gruen", gruenTimeseries);
+		this.setStates(gelbStates, "forecast.states.gelb", gelbTimeseries);
+		this.setStates(rotStates, "forecast.states.rot", rotTimeseries);
+		this.setStateAsync("forecast.states.lastUpdated", new Date().toString(), true);
+	}
 
-		this.setStateAsync("forecast.states.supergruen.timeseries", JSON.stringify(supergruenTimeseries), true);
-		for (let i = 0; i < supergruenStates.length; i++) {
-			stateId = `forecast.states.supergruen.${i}`;
+	private async setStates(states: State[], stateIdPrefix: string, timeseries: [Date, number][]): Promise<void> {
+		for (let i = 0; i < states.length; i++) {
+			const stateId = `${stateIdPrefix}.${i}`;
 			this.log.debug(`state ${stateId}`);
 			await this.setObjectNotExists(`${stateId}.begin`, {
 				type: "state",
 				common: {
-					name: "Begin of supergruen",
+					name: `Begin of ${stateIdPrefix}`,
 					type: "string",
 					role: "time",
 					read: true,
@@ -240,7 +246,7 @@ class Stromgedacht extends utils.Adapter {
 			await this.setObjectNotExists(`${stateId}.end`, {
 				type: "state",
 				common: {
-					name: "End of supergruen",
+					name: `End of ${stateIdPrefix}`,
 					type: "string",
 					role: "time",
 					read: true,
@@ -248,104 +254,13 @@ class Stromgedacht extends utils.Adapter {
 				},
 				native: {},
 			});
-			const state = supergruenStates[i];
+			const state = states[i];
 			this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
 			this.setState(`${stateId}.begin`, state.from.toString(), true);
 			this.setState(`${stateId}.end`, state.to.toString(), true);
 		}
-		this.setStateAsync("forecast.states.gruen.timeseries", JSON.stringify(gruenTimeseries), true);
-		for (let i = 0; i < gruenStates.length; i++) {
-			stateId = `forecast.states.gruen.${i}`;
-			this.log.debug(`state ${stateId}`);
-			await this.setObjectNotExists(`${stateId}.begin`, {
-				type: "state",
-				common: {
-					name: "Begin of gruen",
-					type: "string",
-					role: "time",
-					read: true,
-					write: false,
-				},
-				native: {},
-			});
-			await this.setObjectNotExists(`${stateId}.end`, {
-				type: "state",
-				common: {
-					name: "End of gruen",
-					type: "string",
-					role: "time",
-					read: true,
-					write: false,
-				},
-				native: {},
-			});
-			const state = gruenStates[i];
-			this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
-			this.setState(`${stateId}.begin`, state.from.toString(), true);
-			this.setState(`${stateId}.end`, state.to.toString(), true);
-		}
-		this.setStateAsync("forecast.states.gelb.timeseries", JSON.stringify(gelbTimeseries), true);
-		for (let i = 0; i < gelbStates.length; i++) {
-			stateId = `forecast.states.gelb.${i}`;
-			this.log.debug(`state ${stateId}`);
-			await this.setObjectNotExists(`${stateId}.begin`, {
-				type: "state",
-				common: {
-					name: "Begin of gelb",
-					type: "string",
-					role: "time",
-					read: true,
-					write: false,
-				},
-				native: {},
-			});
-			await this.setObjectNotExists(`${stateId}.end`, {
-				type: "state",
-				common: {
-					name: "End of gelb",
-					type: "string",
-					role: "time",
-					read: true,
-					write: false,
-				},
-				native: {},
-			});
-			const state = gelbStates[i];
-			this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
-			this.setState(`${stateId}.begin`, state.from.toString(), true);
-			this.setState(`${stateId}.end`, state.to.toString(), true);
-		}
-		this.setStateAsync("forecast.states.rot.timeseries", JSON.stringify(rotTimeseries), true);
-		for (let i = 0; i < rotStates.length; i++) {
-			stateId = `forecast.states.rot.${i}`;
-			this.log.debug(`state ${stateId}`);
-			await this.setObjectNotExists(`${stateId}.begin`, {
-				type: "state",
-				common: {
-					name: "Begin of rot",
-					type: "string",
-					role: "time",
-					read: true,
-					write: false,
-				},
-				native: {},
-			});
-			await this.setObjectNotExists(`${stateId}.end`, {
-				type: "state",
-				common: {
-					name: "End of rot",
-					type: "string",
-					role: "time",
-					read: true,
-					write: false,
-				},
-				native: {},
-			});
-			const state = rotStates[i];
-			this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
-			this.setStateAsync(`${stateId}.begin`, state.from.toString(), true);
-			this.setStateAsync(`${stateId}.end`, state.to.toString(), true);
-		}
+
+		this.setStateAsync(`forecast.states.${stateIdPrefix}.timeseries`, JSON.stringify(timeseries), true);
 	}
 
 	private getOffset(from: Date): number {

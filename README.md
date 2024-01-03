@@ -40,6 +40,47 @@ These timesamps can be used in a visualization. For example using the [Apex-Char
 
 ![Visualization](stromgedacht_visual.png)
 
+the following config can be use:
+```yaml
+type: custom:apexcharts-card
+graph_span: 2d
+span:
+  start: hour
+header:
+  show: true
+  title: Stromgedacht
+  show_states: false
+  colorize_states: true
+yaxis:
+  - show: false
+    min: 0
+series:
+  - entity: sensor.forecast_states_supergruen_timeseries
+    name: Supergrün
+    type: column
+    color: green
+    data_generator: |
+      return JSON.parse(entity.state);
+  - entity: sensor.forecast_states_gruen_timeseries
+    name: Grün
+    type: column
+    color: blue
+    data_generator: |
+      return JSON.parse(entity.state);
+  - entity: sensor.forecast_states_gelb_timeseries
+    name: Gelb
+    type: column
+    color: orange
+    data_generator: |
+      return JSON.parse(entity.state);
+  - entity: sensor.forecast_states_rot_timeseries
+    name: Red
+    type: column
+    color: red
+    data_generator: |
+      return JSON.parse(entity.state);
+```
+
 ## Developer manual
 
 This section is intended for the developer. It can be deleted later.

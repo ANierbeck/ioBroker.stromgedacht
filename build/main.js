@@ -123,7 +123,6 @@ class Stromgedacht extends utils.Adapter {
     this.log.debug(`Parsing state ${JSON.stringify(json)}`);
     const states = json.states;
     this.log.debug(`States: ${JSON.stringify(states)}`);
-    let stateId = "";
     const supergruenStates = [];
     const supergruenTimeseries = [];
     const gruenStates = [];

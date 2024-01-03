@@ -79,6 +79,7 @@ class Stromgedacht extends utils.Adapter {
       this.log.error(`Error: ${error.message}`);
       this.setState("info.connection", false, true);
     });
+    this.setState("info.connection", true, true);
     return;
   }
   onUnload(callback) {
@@ -217,7 +218,7 @@ class Stromgedacht extends utils.Adapter {
       this.setState(`${stateId}.begin`, state.from.toString(), true);
       this.setState(`${stateId}.end`, state.to.toString(), true);
     }
-    this.setStateAsync(`forecast.states.${stateIdPrefix}.timeseries`, JSON.stringify(timeseries), true);
+    this.setStateAsync(`${stateIdPrefix}.timeseries`, JSON.stringify(timeseries), true);
   }
   getOffset(from) {
     const offSetMinutes = from.getMinutes();

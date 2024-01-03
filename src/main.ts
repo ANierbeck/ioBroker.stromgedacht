@@ -93,6 +93,8 @@ class Stromgedacht extends utils.Adapter {
 				this.log.error(`Error: ${error.message}`);
 				this.setState("info.connection", false, true);
 			});
+
+		this.setState("info.connection", true, true);
 		return;
 	}
 
@@ -228,6 +230,14 @@ class Stromgedacht extends utils.Adapter {
 		this.setStateAsync("forecast.states.lastUpdated", new Date().toString(), true);
 	}
 
+	/**
+	 * Sets the states and corresponding objects in the ioBroker adapter.
+	 * 
+	 * @param states - The array of states to set.
+	 * @param stateIdPrefix - The prefix for the state IDs.
+	 * @param timeseries - The timeseries data to set.
+	 * @returns A promise that resolves when the states and objects are set.
+	 */
 	private async setStates(states: State[], stateIdPrefix: string, timeseries: [Date, number][]): Promise<void> {
 		for (let i = 0; i < states.length; i++) {
 			const stateId = `${stateIdPrefix}.${i}`;
@@ -260,7 +270,7 @@ class Stromgedacht extends utils.Adapter {
 			this.setState(`${stateId}.end`, state.to.toString(), true);
 		}
 
-		this.setStateAsync(`forecast.states.${stateIdPrefix}.timeseries`, JSON.stringify(timeseries), true);
+		this.setStateAsync(`${stateIdPrefix}.timeseries`, JSON.stringify(timeseries), true);
 	}
 
 	private getOffset(from: Date): number {

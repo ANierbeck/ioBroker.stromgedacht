@@ -101,7 +101,7 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 
 ## Changelog
 
-### ** WORK IN PROGRESS **
+### **WORK IN PROGRESS**
 - code cleanup
 - adding timeseries
 - adding sample to readme about how to visualize

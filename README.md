@@ -105,6 +105,7 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 - code cleanup
 - adding timeseries
 - adding sample to readme about how to visualize
+- itests now functional
 
 ### 0.0.6 (2023-12-30)
 

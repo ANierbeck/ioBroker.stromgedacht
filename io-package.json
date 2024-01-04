@@ -1,308 +1,304 @@
 {
-  "common": {
-    "name": "stromgedacht",
-    "version": "0.1.0",
-    "news": {
-      "0.1.0": {
-        "en": "code cleanup\nadding timeseries\nadding sample to readme about how to visualize\nitests now functional",
-        "de": "code-reinigung\nzeitreihen hinzufügen\nhinzufügen von probe zu readme über die visualisierung\njetzt funktionsfähig",
-        "ru": "очистка кода\nдобавлять временные серии\nдобавить образец для чтения о том, как визуализировать\nitests теперь функциональный",
-        "pt": "limpeza de código\nadicionando tempos\nadicionar amostra para me ler sobre como visualizar\nagora funcional",
-        "nl": "code schoonmaakcode\n♪\nvoeg monster toe om me te lezen over hoe je je moet visualiseren\n_",
-        "fr": "nettoyage du code\najouter des temps\najouter de l'échantillon pour lire comment visualiser\nitests now functional",
-        "it": "pulizia del codice\naggiunta di timeerie\naggiungere il campione per leggere su come visualizzare\nè ora funzionale",
-        "es": "limpieza de código\nañadir tiempo\nañadir muestra para leerme sobre cómo visualizar\nitests now functional",
-        "pl": "czyszczenie kodu\ndodawanie razy\ndodać próbki do odczytu, jak wizualizować\nobecnie funkcjonalny",
-        "uk": "очищення коду\nдодаючи час\nдодавати зразок для читання про те, як візуалізувати\nтепер функціональні",
-        "zh-cn": "守则的清理\n增加时间\n增加样品,以了解如何看待图像\n目前最能发挥职能"
-      },
-      "0.0.6": {
-        "en": "experimenting with exit of adapter itself\nfixing integration test",
-        "de": "experimentieren mit ausgang des adapters selbst\nprüfung der integration",
-        "ru": "экспериментирование с выходом сам адаптер\nфиксация тестирования интеграции",
-        "pt": "experimentando com saída do próprio adaptador\nteste de integração de fixação",
-        "nl": "experimenteren met uitgang van adapter zelf\nintegratietest repareren",
-        "fr": "expérimenter la sortie de l'adaptateur lui-même\ntest d ' intégration",
-        "it": "sperimentare con l'uscita dell'adattatore stesso\ntest di integrazione di fissaggio",
-        "es": "experimentando con la salida del propio adaptador\nprueba de integración",
-        "pl": "eksperyment z wyjściem samego adaptera\nulepszanie testu integracji",
-        "uk": "експериментувати з виходом самого адаптера\nфіксація тестування інтеграції",
-        "zh-cn": "试验适应人员本身的撤离\n确定一体化试验"
-      },
-      "0.0.5": {
-        "en": "Fixing integration tests, partially\nIntegration tests don't fully functional, only one test can be run, because adapter isn't stopped in time",
-        "de": "Festlegen von Integrationstests, teilweise\nIntegrationstests sind nicht voll funktionsfähig, nur ein Test kann durchgeführt werden, weil Adapter nicht rechtzeitig gestoppt wird",
-        "ru": "Исправление интеграционных тестов, частично\nИнтеграционные тесты не полностью функциональны, только один тест можно запустить, потому что адаптер не останавливается вовремя",
-        "pt": "Fixação de testes de integração, parcialmente\nOs testes de integração não são totalmente funcionais, apenas um teste pode ser executado, porque o adaptador não é interrompido no tempo",
-        "nl": "Integratie testen maken, gedeeltelijk\nIntegratietests functioneren niet volledig, maar één test kan worden geleid, want adapter is niet gestopt op tijd",
-        "fr": "Essais d ' intégration, en partie\nLes tests d'intégration ne sont pas entièrement fonctionnels, un seul test peut être exécuté, car l'adaptateur n'est pas arrêté dans le temps",
-        "it": "Fissaggio dei test di integrazione, in parte\nI test di integrazione non sono completamente funzionali, solo un test può essere eseguito, perché l'adattatore non viene fermato in tempo",
-        "es": "Fijar pruebas de integración, parcialmente\nLas pruebas de integración no funcionan completamente, sólo se puede realizar una prueba, porque el adaptador no se detiene en el tiempo",
-        "pl": "Testy integracji Fixinga, częściowo przetestowane\nTesty integracji nie mogą być w pełni funkcjonalne, tylko jeden test może być uruchamiany, ponieważ adapter nie został zatrzymany w czasie",
-        "uk": "Виправлення інтеграційних випробувань, частково\nІнтеграційні тести не повністю функціональні, тільки один тест може бути запущений, оскільки адаптер не зупиняється в часі",
-        "zh-cn": "固定一体化试验,部分\n一体化试验完全发挥功能,只有一个试验能够进行,因为适应人员在时间内被阻拦。"
-      },
-      "0.0.4": {
-        "en": "scheduler is not rescheduled due to already running instance.",
-        "de": "der scheduler wird aufgrund bereits laufender instanz nicht umgeplant.",
-        "ru": "планировщик не перепланируется из-за уже запущенного экземпляра.",
-        "pt": "scheduler não é remarcado devido a instância já em execução.",
-        "nl": "de schema is niet verzet door al instance.",
-        "fr": "le programmeur n'est pas reprogrammé en raison de l'instance déjà en cours.",
-        "it": "scheduler non è riprogrammato a causa di istanza già in esecuzione.",
-        "es": "scheduler no es reprogramado debido a la instancia ya en ejecución.",
-        "pl": "nie jest przerobiony ze względu na wcześniejsze wystąpienie.",
-        "uk": "планувальник не перепланований через вже запущений екземпляр.",
-        "zh-cn": "由于已经发生过的情况,没有重新安排时间表。."
-      },
-      "0.0.3": {
-        "en": "fixing integration tests by making them fail again. Problem is due to missing connection to database\ndebug log messages are now in debug level\ntrying to run as scheduled instance",
-        "de": "die Integrationstests durch erneutes Versagen zu fixieren. Problem ist die fehlende Verbindung zur Datenbank\ndebug log-nachrichten sind jetzt in debug-ebene\nversuchen, als geplante instanz zu laufen",
-        "ru": "исправление интеграционных тестов, сделав их снова неудачными. Проблема обусловлена отсутствующим подключением к базе данных\ndebug log сообщения теперь в debug уровне\nпытаться запустить как запланированный экземпляр",
-        "pt": "corrigir testes de integração fazendo com que eles falhem novamente. O problema é devido à falta de conexão ao banco de dados\nmensagens de log de debug estão agora no nível de depuração\ntentar executar como instância programada",
-        "nl": "integratietests repareren door ze weer te laten falen. Het probleem is dat er geen verband is met de database\ndebug logberichten zijn nu in debug niveau\nproberen zoals gepland",
-        "fr": "fixer les tests d'intégration en les faisant échouer à nouveau. Le problème est dû au manque de connexion à la base de données\ndebug journal messages sont maintenant dans le niveau debug\nessayer de fonctionner comme instance programmée",
-        "it": "fissare i test di integrazione facendoli fallire di nuovo. Il problema è dovuto alla mancanza di connessione al database\ni messaggi di registro di debug sono ora in livello di debug\ncercare di eseguire come istanza programmata",
-        "es": "arreglar las pruebas de integración haciéndolos fracasar de nuevo. El problema se debe a la falta de conexión a la base de datos\nlos mensajes de registro de depuración están ahora en nivel de depuración\ntratando de correr como instancia programada",
-        "pl": "po naprawieniu testów integracji z nimi nie powiodło się. Problem z powodu braku związku z bazą danych\nobecnie komunikaty debugowe są debugowe\nstarać się udać się do określonej instancji",
-        "uk": "фіксація інтеграційних тестів, роблячи їх знову. Проблемний зв'язок з базою даних\ndebug log повідомлення тепер у рівні debug\nнамагатися запустити як запланований екземпляр",
-        "zh-cn": "通过再次失败来确定一体化试验。 问题在于数据库的缺失\n黑色逻辑信息现在正处于黑暗的水平。\n试图按预定例子进行"
-      },
-      "0.0.2": {
-        "en": "0.0.2 - more tests and integration tests",
-        "de": "0.0.2 - mehr tests und integrationstests",
-        "ru": "0.0.2 - больше тестов и интеграционных тестов",
-        "pt": "0,0.2 - mais testes e testes de integração",
-        "nl": "0.0.2 - meer testen en integratie testen",
-        "fr": "0.0.2 - plus d'essais et d'essais d'intégration",
-        "it": "0.0.2 - più test e test di integrazione",
-        "es": "0.0.2 - más pruebas y pruebas de integración",
-        "pl": "0,0,2 – więcej testów i testów integracji",
-        "uk": "0.0.2 - більше тестів та інтеграційних тестів",
-        "zh-cn": "0.0.2 - 更多的试验和一体化试验"
-      },
-      "0.0.1": {
-        "en": "initial release",
-        "de": "Erstveröffentlichung",
-        "ru": "Начальная версия",
-        "pt": "lançamento inicial",
-        "nl": "Eerste uitgave",
-        "fr": "Première version",
-        "it": "Versione iniziale",
-        "es": "Versión inicial",
-        "pl": "Pierwsze wydanie",
-        "uk": "Початкова версія",
-        "zh-cn": "首次出版"
-      }
-    },
-    "titleLang": {
-      "en": "stromgedacht",
-      "de": "stromgedacht",
-      "ru": "Стромгедахт",
-      "pt": "stromgedacht",
-      "nl": "stromgedacht",
-      "fr": "stromgedacht",
-      "it": "stromgedacht",
-      "es": "stromgedacht",
-      "pl": "strogedacht",
-      "uk": "stromgedacht",
-      "zh-cn": "斯特罗姆格赫特"
-    },
-    "desc": {
-      "en": "Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used",
-      "de": "Liest die Werte von der Strom Gedacht API. Damit könnte überprüft werden, ob mehr Ökostrom im System vorhanden ist, sodass Intensivverbraucher genutzt werden könnten",
-      "ru": "Считывает значения из API Strom Gedacht. Его можно использовать для проверки наличия в системе большего количества зеленой энергии, чтобы можно было использовать интенсивных потребителей.",
-      "pt": "Lê os valores da API Strom Gedacht. Poderia ser usado para verificar se há mais energia verde no sistema, para que consumidores intensivos pudessem ser usados",
-      "nl": "Leest de waarden uit de Strom Gedacht API. Hiermee kan worden gecontroleerd of er meer groene energie in het systeem zit, zodat intensieve verbruikers kunnen worden ingezet",
-      "fr": "Lit les valeurs de l'API Strom Gedacht. Il pourrait être utilisé pour vérifier s'il y a plus d'énergie verte dans le système, de sorte que des consommateurs intensifs pourraient être utilisés.",
-      "it": "Legge i valori dall'API Strom Gedacht. Potrebbe essere utilizzato per verificare se c’è più energia verde nel sistema, in modo da poter utilizzare i consumatori intensivi",
-      "es": "Lee los valores de la API Strom Gedacht. Se podría utilizar para comprobar si hay más energía verde en el sistema, por lo que se podrían utilizar consumidores intensivos.",
-      "pl": "Odczytuje wartości z API Strom Gedacht. Można by go wykorzystać do sprawdzenia, czy w systemie jest więcej zielonej energii, aby można było wykorzystać odbiorniki intensywne",
-      "uk": "Читає значення з API Strom Gedacht. Його можна використовувати, щоб перевірити, чи є в системі більше зеленої енергії, щоб можна було використовувати інтенсивних споживачів",
-      "zh-cn": "从 Strom Gedacht API 读取值。它可以用来检查系统中是否有更多的绿色能源，因此可以使用密集型消费者"
-    },
-    "authors": [
-      "anierbeck <bcanhome@googlemail.com>"
-    ],
-    "keywords": [
-      "stromgedacht"
-    ],
-    "materialize": true,
-    "license": "Apache-2.0",
-    "mode": "schedule",
-    "schedule": "* */2 * * *",
-    "allowInit": true,
-    "platform": "Javascript/Node.js",
-    "main": "build/main.js",
-    "icon": "stromgedacht.png",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/anierbeck/ioBroker.stromgedacht/main/admin/stromgedacht.png",
-    "readme": "https://github.com/anierbeck/ioBroker.stromgedacht/blob/main/README.md",
-    "loglevel": "info",
-    "type": "misc-data",
-    "compact": true,
-    "connectionType": "cloud",
-    "dataSource": "poll",
-    "adminUI": {
-      "config": "json"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=3.3.22"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.1.13"
-      }
-    ]
-  },
-  "native": {
-    "zipcode": "76135",
-    "hoursInFuture": "24"
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "name": "connection",
-        "type": "boolean",
-        "role": "indicator.connected",
-        "read": true,
-        "write": false,
-        "def": false
-      }
-    },
-    {
-      "_id": "forecast",
-      "type": "device",
-      "common": {
-        "name": "Actual States",
-        "role": "states"
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states",
-      "type": "channel"
-    },
-    {
-      "_id": "forecast.states.json",
-      "type": "state",
-      "common": {
-        "name": "State Json",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.timeseries",
-      "type": "state",
-      "common": {
-        "name": "State timeseries",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.hoursInFuture",
-      "type": "state",
-      "common": {
-        "name": "State hours in future",
-        "type": "string",
-        "role": "hoursInFuture",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.lastUpdated",
-      "type": "state",
-      "common": {
-        "name": "timestamp of last update",
-        "type": "date",
-        "role": "date",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.supergruen",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.supergruen.timeseries",
-      "type": "state",
-      "common": {
-        "name": "State timeseries",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.gruen",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.gruen.timeseries",
-      "type": "state",
-      "common": {
-        "name": "State timeseries",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.gelb",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.gelb.timeseries",
-      "type": "state",
-      "common": {
-        "name": "State timeseries",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.rot",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.rot.timeseries",
-      "type": "state",
-      "common": {
-        "name": "State timeseries",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    }
-  ]
+	"common": {
+		"name": "stromgedacht",
+		"version": "0.1.0",
+		"news": {
+			"0.1.0": {
+				"en": "code cleanup\nadding timeseries\nadding sample to readme about how to visualize\nitests now functional",
+				"de": "code-reinigung\nzeitreihen hinzufügen\nhinzufügen von probe zu readme über die visualisierung\njetzt funktionsfähig",
+				"ru": "очистка кода\nдобавлять временные серии\nдобавить образец для чтения о том, как визуализировать\nitests теперь функциональный",
+				"pt": "limpeza de código\nadicionando tempos\nadicionar amostra para me ler sobre como visualizar\nagora funcional",
+				"nl": "code schoonmaakcode\n♪\nvoeg monster toe om me te lezen over hoe je je moet visualiseren\n_",
+				"fr": "nettoyage du code\najouter des temps\najouter de l'échantillon pour lire comment visualiser\nitests now functional",
+				"it": "pulizia del codice\naggiunta di timeerie\naggiungere il campione per leggere su come visualizzare\nè ora funzionale",
+				"es": "limpieza de código\nañadir tiempo\nañadir muestra para leerme sobre cómo visualizar\nitests now functional",
+				"pl": "czyszczenie kodu\ndodawanie razy\ndodać próbki do odczytu, jak wizualizować\nobecnie funkcjonalny",
+				"uk": "очищення коду\nдодаючи час\nдодавати зразок для читання про те, як візуалізувати\nтепер функціональні",
+				"zh-cn": "守则的清理\n增加时间\n增加样品,以了解如何看待图像\n目前最能发挥职能"
+			},
+			"0.0.6": {
+				"en": "experimenting with exit of adapter itself\nfixing integration test",
+				"de": "experimentieren mit ausgang des adapters selbst\nprüfung der integration",
+				"ru": "экспериментирование с выходом сам адаптер\nфиксация тестирования интеграции",
+				"pt": "experimentando com saída do próprio adaptador\nteste de integração de fixação",
+				"nl": "experimenteren met uitgang van adapter zelf\nintegratietest repareren",
+				"fr": "expérimenter la sortie de l'adaptateur lui-même\ntest d ' intégration",
+				"it": "sperimentare con l'uscita dell'adattatore stesso\ntest di integrazione di fissaggio",
+				"es": "experimentando con la salida del propio adaptador\nprueba de integración",
+				"pl": "eksperyment z wyjściem samego adaptera\nulepszanie testu integracji",
+				"uk": "експериментувати з виходом самого адаптера\nфіксація тестування інтеграції",
+				"zh-cn": "试验适应人员本身的撤离\n确定一体化试验"
+			},
+			"0.0.5": {
+				"en": "Fixing integration tests, partially\nIntegration tests don't fully functional, only one test can be run, because adapter isn't stopped in time",
+				"de": "Festlegen von Integrationstests, teilweise\nIntegrationstests sind nicht voll funktionsfähig, nur ein Test kann durchgeführt werden, weil Adapter nicht rechtzeitig gestoppt wird",
+				"ru": "Исправление интеграционных тестов, частично\nИнтеграционные тесты не полностью функциональны, только один тест можно запустить, потому что адаптер не останавливается вовремя",
+				"pt": "Fixação de testes de integração, parcialmente\nOs testes de integração não são totalmente funcionais, apenas um teste pode ser executado, porque o adaptador não é interrompido no tempo",
+				"nl": "Integratie testen maken, gedeeltelijk\nIntegratietests functioneren niet volledig, maar één test kan worden geleid, want adapter is niet gestopt op tijd",
+				"fr": "Essais d ' intégration, en partie\nLes tests d'intégration ne sont pas entièrement fonctionnels, un seul test peut être exécuté, car l'adaptateur n'est pas arrêté dans le temps",
+				"it": "Fissaggio dei test di integrazione, in parte\nI test di integrazione non sono completamente funzionali, solo un test può essere eseguito, perché l'adattatore non viene fermato in tempo",
+				"es": "Fijar pruebas de integración, parcialmente\nLas pruebas de integración no funcionan completamente, sólo se puede realizar una prueba, porque el adaptador no se detiene en el tiempo",
+				"pl": "Testy integracji Fixinga, częściowo przetestowane\nTesty integracji nie mogą być w pełni funkcjonalne, tylko jeden test może być uruchamiany, ponieważ adapter nie został zatrzymany w czasie",
+				"uk": "Виправлення інтеграційних випробувань, частково\nІнтеграційні тести не повністю функціональні, тільки один тест може бути запущений, оскільки адаптер не зупиняється в часі",
+				"zh-cn": "固定一体化试验,部分\n一体化试验完全发挥功能,只有一个试验能够进行,因为适应人员在时间内被阻拦。"
+			},
+			"0.0.4": {
+				"en": "scheduler is not rescheduled due to already running instance.",
+				"de": "der scheduler wird aufgrund bereits laufender instanz nicht umgeplant.",
+				"ru": "планировщик не перепланируется из-за уже запущенного экземпляра.",
+				"pt": "scheduler não é remarcado devido a instância já em execução.",
+				"nl": "de schema is niet verzet door al instance.",
+				"fr": "le programmeur n'est pas reprogrammé en raison de l'instance déjà en cours.",
+				"it": "scheduler non è riprogrammato a causa di istanza già in esecuzione.",
+				"es": "scheduler no es reprogramado debido a la instancia ya en ejecución.",
+				"pl": "nie jest przerobiony ze względu na wcześniejsze wystąpienie.",
+				"uk": "планувальник не перепланований через вже запущений екземпляр.",
+				"zh-cn": "由于已经发生过的情况,没有重新安排时间表。."
+			},
+			"0.0.3": {
+				"en": "fixing integration tests by making them fail again. Problem is due to missing connection to database\ndebug log messages are now in debug level\ntrying to run as scheduled instance",
+				"de": "die Integrationstests durch erneutes Versagen zu fixieren. Problem ist die fehlende Verbindung zur Datenbank\ndebug log-nachrichten sind jetzt in debug-ebene\nversuchen, als geplante instanz zu laufen",
+				"ru": "исправление интеграционных тестов, сделав их снова неудачными. Проблема обусловлена отсутствующим подключением к базе данных\ndebug log сообщения теперь в debug уровне\nпытаться запустить как запланированный экземпляр",
+				"pt": "corrigir testes de integração fazendo com que eles falhem novamente. O problema é devido à falta de conexão ao banco de dados\nmensagens de log de debug estão agora no nível de depuração\ntentar executar como instância programada",
+				"nl": "integratietests repareren door ze weer te laten falen. Het probleem is dat er geen verband is met de database\ndebug logberichten zijn nu in debug niveau\nproberen zoals gepland",
+				"fr": "fixer les tests d'intégration en les faisant échouer à nouveau. Le problème est dû au manque de connexion à la base de données\ndebug journal messages sont maintenant dans le niveau debug\nessayer de fonctionner comme instance programmée",
+				"it": "fissare i test di integrazione facendoli fallire di nuovo. Il problema è dovuto alla mancanza di connessione al database\ni messaggi di registro di debug sono ora in livello di debug\ncercare di eseguire come istanza programmata",
+				"es": "arreglar las pruebas de integración haciéndolos fracasar de nuevo. El problema se debe a la falta de conexión a la base de datos\nlos mensajes de registro de depuración están ahora en nivel de depuración\ntratando de correr como instancia programada",
+				"pl": "po naprawieniu testów integracji z nimi nie powiodło się. Problem z powodu braku związku z bazą danych\nobecnie komunikaty debugowe są debugowe\nstarać się udać się do określonej instancji",
+				"uk": "фіксація інтеграційних тестів, роблячи їх знову. Проблемний зв'язок з базою даних\ndebug log повідомлення тепер у рівні debug\nнамагатися запустити як запланований екземпляр",
+				"zh-cn": "通过再次失败来确定一体化试验。 问题在于数据库的缺失\n黑色逻辑信息现在正处于黑暗的水平。\n试图按预定例子进行"
+			},
+			"0.0.2": {
+				"en": "0.0.2 - more tests and integration tests",
+				"de": "0.0.2 - mehr tests und integrationstests",
+				"ru": "0.0.2 - больше тестов и интеграционных тестов",
+				"pt": "0,0.2 - mais testes e testes de integração",
+				"nl": "0.0.2 - meer testen en integratie testen",
+				"fr": "0.0.2 - plus d'essais et d'essais d'intégration",
+				"it": "0.0.2 - più test e test di integrazione",
+				"es": "0.0.2 - más pruebas y pruebas de integración",
+				"pl": "0,0,2 – więcej testów i testów integracji",
+				"uk": "0.0.2 - більше тестів та інтеграційних тестів",
+				"zh-cn": "0.0.2 - 更多的试验和一体化试验"
+			},
+			"0.0.1": {
+				"en": "initial release",
+				"de": "Erstveröffentlichung",
+				"ru": "Начальная версия",
+				"pt": "lançamento inicial",
+				"nl": "Eerste uitgave",
+				"fr": "Première version",
+				"it": "Versione iniziale",
+				"es": "Versión inicial",
+				"pl": "Pierwsze wydanie",
+				"uk": "Початкова версія",
+				"zh-cn": "首次出版"
+			}
+		},
+		"titleLang": {
+			"en": "stromgedacht",
+			"de": "stromgedacht",
+			"ru": "Стромгедахт",
+			"pt": "stromgedacht",
+			"nl": "stromgedacht",
+			"fr": "stromgedacht",
+			"it": "stromgedacht",
+			"es": "stromgedacht",
+			"pl": "strogedacht",
+			"uk": "stromgedacht",
+			"zh-cn": "斯特罗姆格赫特"
+		},
+		"desc": {
+			"en": "Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used",
+			"de": "Liest die Werte von der Strom Gedacht API. Damit könnte überprüft werden, ob mehr Ökostrom im System vorhanden ist, sodass Intensivverbraucher genutzt werden könnten",
+			"ru": "Считывает значения из API Strom Gedacht. Его можно использовать для проверки наличия в системе большего количества зеленой энергии, чтобы можно было использовать интенсивных потребителей.",
+			"pt": "Lê os valores da API Strom Gedacht. Poderia ser usado para verificar se há mais energia verde no sistema, para que consumidores intensivos pudessem ser usados",
+			"nl": "Leest de waarden uit de Strom Gedacht API. Hiermee kan worden gecontroleerd of er meer groene energie in het systeem zit, zodat intensieve verbruikers kunnen worden ingezet",
+			"fr": "Lit les valeurs de l'API Strom Gedacht. Il pourrait être utilisé pour vérifier s'il y a plus d'énergie verte dans le système, de sorte que des consommateurs intensifs pourraient être utilisés.",
+			"it": "Legge i valori dall'API Strom Gedacht. Potrebbe essere utilizzato per verificare se c’è più energia verde nel sistema, in modo da poter utilizzare i consumatori intensivi",
+			"es": "Lee los valores de la API Strom Gedacht. Se podría utilizar para comprobar si hay más energía verde en el sistema, por lo que se podrían utilizar consumidores intensivos.",
+			"pl": "Odczytuje wartości z API Strom Gedacht. Można by go wykorzystać do sprawdzenia, czy w systemie jest więcej zielonej energii, aby można było wykorzystać odbiorniki intensywne",
+			"uk": "Читає значення з API Strom Gedacht. Його можна використовувати, щоб перевірити, чи є в системі більше зеленої енергії, щоб можна було використовувати інтенсивних споживачів",
+			"zh-cn": "从 Strom Gedacht API 读取值。它可以用来检查系统中是否有更多的绿色能源，因此可以使用密集型消费者"
+		},
+		"authors": ["anierbeck <bcanhome@googlemail.com>"],
+		"keywords": ["stromgedacht"],
+		"materialize": true,
+		"license": "Apache-2.0",
+		"mode": "schedule",
+		"schedule": "* */1 * * *",
+		"allowInit": true,
+		"platform": "Javascript/Node.js",
+		"main": "build/main.js",
+		"icon": "stromgedacht.png",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/anierbeck/ioBroker.stromgedacht/main/admin/stromgedacht.png",
+		"readme": "https://github.com/anierbeck/ioBroker.stromgedacht/blob/main/README.md",
+		"loglevel": "info",
+		"type": "misc-data",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"adminUI": {
+			"config": "json"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=3.3.22"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=5.1.13"
+			}
+		]
+	},
+	"native": {
+		"zipcode": "76135",
+		"hoursInFuture": "24"
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"name": "connection",
+				"type": "boolean",
+				"role": "indicator.connected",
+				"read": true,
+				"write": false,
+				"def": false
+			}
+		},
+		{
+			"_id": "forecast",
+			"type": "device",
+			"common": {
+				"name": "Actual States",
+				"role": "states"
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states",
+			"type": "channel"
+		},
+		{
+			"_id": "forecast.states.json",
+			"type": "state",
+			"common": {
+				"name": "State Json",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.timeseries",
+			"type": "state",
+			"common": {
+				"name": "State timeseries",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.hoursInFuture",
+			"type": "state",
+			"common": {
+				"name": "State hours in future",
+				"type": "string",
+				"role": "hoursInFuture",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.lastUpdated",
+			"type": "state",
+			"common": {
+				"name": "timestamp of last update",
+				"type": "date",
+				"role": "date",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.supergruen",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.supergruen.timeseries",
+			"type": "state",
+			"common": {
+				"name": "State timeseries",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.gruen",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.gruen.timeseries",
+			"type": "state",
+			"common": {
+				"name": "State timeseries",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.gelb",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.gelb.timeseries",
+			"type": "state",
+			"common": {
+				"name": "State timeseries",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.rot",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.rot.timeseries",
+			"type": "state",
+			"common": {
+				"name": "State timeseries",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		}
+	]
 }

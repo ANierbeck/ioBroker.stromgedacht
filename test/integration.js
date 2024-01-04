@@ -85,7 +85,7 @@ tests.integration(path.join(__dirname, ".."), {
 				return new Promise(async (resolve) => {
 					// Start the adapter and wait until it has started
 					console.log("Should Work Test started");
-					await harness.startAdapterAndWait(true);
+					await harness.startAdapter();
 					console.log("adapter started");
 
 					const val = (await harness.states.getState("stromgedacht.0.forecast.states.json")).val;

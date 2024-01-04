@@ -160,18 +160,6 @@
 	"objects": [],
 	"instanceObjects": [
 		{
-			"_id": "info.connection",
-			"type": "state",
-			"common": {
-				"name": "connection",
-				"type": "boolean",
-				"role": "indicator.connected",
-				"read": true,
-				"write": false,
-				"def": false
-			}
-		},
-		{
 			"_id": "forecast",
 			"type": "device",
 			"common": {

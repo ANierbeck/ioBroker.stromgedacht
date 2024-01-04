@@ -96,6 +96,7 @@ class Stromgedacht extends utils.Adapter {
 			});
 
 		this.setState("info.connection", false, true);
+		this.terminate(11);
 		return;
 	}
 

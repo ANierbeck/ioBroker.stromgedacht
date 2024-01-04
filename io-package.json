@@ -1,7 +1,7 @@
 {
 	"common": {
 		"name": "stromgedacht",
-		"version": "0.1.1-SNAPSHOT",
+		"version": "0.1.1-SNAPSHOT_2",
 		"news": {
 			"0.1.0": {
 				"en": "code cleanup\nadding timeseries\nadding sample to readme about how to visualize\nitests now functional",

@@ -126,7 +126,7 @@
 		"materialize": true,
 		"license": "Apache-2.0",
 		"mode": "schedule",
-		"schedule": "* */1 * * *",
+		"schedule": "5 * * * *",
 		"allowInit": true,
 		"platform": "Javascript/Node.js",
 		"main": "build/main.js",

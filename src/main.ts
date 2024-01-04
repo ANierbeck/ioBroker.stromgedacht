@@ -95,8 +95,8 @@ class Stromgedacht extends utils.Adapter {
 				this.setState("info.connection", false, true);
 			});
 
-		this.setState("info.connection", false, true);
-		this.terminate(11);
+		this.setStateAsync("info.connection", false, true);
+		this.terminate("Terminate done collecting data, waiting for next schedule", 11);
 		return;
 	}
 

@@ -93,11 +93,11 @@ class Stromgedacht extends utils.Adapter {
 			.catch(async (error) => {
 				this.log.error(`Error: ${error.message}`);
 				await this.setStateAsync("info.connection", false, true);
-				this.terminate("Error while collection, waiting for next schedule", 10);
+				this.terminate ? this.terminate(15) : process.exit(15);
 			});
 
 		await this.setStateAsync("info.connection", false, true);
-		this.terminate("Terminate done collecting data, waiting for next schedule", 11);
+		this.terminate ? this.terminate("Everything done. Going to terminate till next schedule", 11) : process.exit(0);
 		return;
 	}
 

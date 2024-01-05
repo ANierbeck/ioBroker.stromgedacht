@@ -16,6 +16,15 @@
 			"type": "staticText",
 			"text": "Hours in Future can max be 48 hours.",
 			"sm": 12
+		},
+		"influxinstance": {
+			"newLine": true,
+			"type": "instance",
+			"adapter": "influxdb",
+			"sm": 12,
+			"md": 4,
+			"lg": 4,
+			"label": "InfluxDB instance"
 		}
 	}
 }

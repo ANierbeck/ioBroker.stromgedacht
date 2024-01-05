@@ -1,7 +1,7 @@
 {
   "common": {
     "name": "stromgedacht",
-    "version": "0.1.1",
+    "version": "0.2.0-SNAPSHOT-2021-10-17",
     "news": {
       "0.1.1": {
         "en": "trying to make sure the adapter is restarted every hour",

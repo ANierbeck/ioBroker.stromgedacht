@@ -34,6 +34,7 @@ tests.integration(path.join(__dirname, ".."), {
 		suite("Test retrieveJson()", (getHarness) => {
 			// For convenience, get the current suite's harness before all tests
 			let harness;
+
 			before(async () => {
 				harness = getHarness();
 			});

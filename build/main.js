@@ -50,6 +50,9 @@ class Stromgedacht extends utils.Adapter {
       this.log.error("No zipcode configured");
       return;
     }
+    if (this.config.influxinstance) {
+      this.log.info("InfluxDB logging is enabled - forecasts will be available");
+    }
     this.log.debug(`removing stale states`);
     for (const path of statePaths) {
       this.log.debug(`Deleting states for ${path}`);
@@ -145,6 +148,7 @@ class Stromgedacht extends utils.Adapter {
             const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1e3 - offSet;
             const timeslot = new Date(newTime);
             supergruenTimeseries.push([timeslot, 1]);
+            this.addToInfluxDB("forecast.state.supergruen", timeslot.getTime(), 1);
           }
           break;
         case 1 /* GRUEN */:
@@ -153,6 +157,7 @@ class Stromgedacht extends utils.Adapter {
             const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1e3 - offSet;
             const timeslot = new Date(newTime);
             gruenTimeseries.push([timeslot, 1]);
+            this.addToInfluxDB("forecast.state.gruen", timeslot.getTime(), 1);
           }
           break;
         case 2 /* GELB */:
@@ -161,6 +166,7 @@ class Stromgedacht extends utils.Adapter {
             const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1e3 - offSet;
             const timeslot = new Date(newTime);
             gelbTimeseries.push([timeslot, 1]);
+            this.addToInfluxDB("forecast.state.gelb", timeslot.getTime(), 1);
           }
           break;
         case 3 /* ROT */:
@@ -169,6 +175,7 @@ class Stromgedacht extends utils.Adapter {
             const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1e3 - offSet;
             const timeslot = new Date(newTime);
             rotTimeseries.push([timeslot, 1]);
+            this.addToInfluxDB("forecast.state.red", timeslot.getTime(), 1);
           }
           break;
         default:
@@ -179,17 +186,36 @@ class Stromgedacht extends utils.Adapter {
         const timeslot = new Date(newTime);
         const timeslotState = state.state;
         timeseries.push([timeslot, timeslotState]);
+        this.addToInfluxDB("forecast.states", timeslot.getTime(), timeslotState);
       }
     });
     this.log.debug(`Timeseries: ${JSON.stringify(timeseries)}`);
     this.setStateAsync("forecast.states.timeseries", JSON.stringify(timeseries), true);
-    this.setStates(supergruenStates, "forecast.states.supergruen", supergruenTimeseries);
-    this.setStates(gruenStates, "forecast.states.gruen", gruenTimeseries);
-    this.setStates(gelbStates, "forecast.states.gelb", gelbTimeseries);
-    this.setStates(rotStates, "forecast.states.rot", rotTimeseries);
+    this.setForecastStates(supergruenStates, "forecast.states.supergruen", supergruenTimeseries);
+    this.setForecastStates(gruenStates, "forecast.states.gruen", gruenTimeseries);
+    this.setForecastStates(gelbStates, "forecast.states.gelb", gelbTimeseries);
+    this.setForecastStates(rotStates, "forecast.states.rot", rotTimeseries);
     this.setStateAsync("forecast.states.lastUpdated", new Date().toString(), true);
   }
-  async setStates(states, stateIdPrefix, timeseries) {
+  async addToInfluxDB(datapoint, timestamp, value) {
+    if (this.config.influxinstance) {
+      let influxInstance = this.config.influxinstance;
+      if (!influxInstance.startsWith("influxdb.")) {
+        influxInstance = `influxdb.${influxInstance}`;
+      }
+      const result = await this.sendToAsync(influxInstance, "storeState", {
+        id: `${this.namespace}.${datapoint}`,
+        state: {
+          ts: timestamp,
+          val: value,
+          ack: true,
+          from: `system.adapter.${this.namespace}`
+        }
+      });
+      this.log.debug(`InfluxDB result: ${JSON.stringify(result)}`);
+    }
+  }
+  async setForecastStates(states, stateIdPrefix, timeseries) {
     for (let i = 0; i < states.length; i++) {
       const stateId = `${stateIdPrefix}.${i}`;
       this.log.debug(`state ${stateId}`);

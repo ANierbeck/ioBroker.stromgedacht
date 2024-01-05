@@ -74,12 +74,15 @@ class Stromgedacht extends utils.Adapter {
       this.log.debug(`Received states for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
       this.setStateAsync("forecast.states.json", JSON.stringify(response.data), true);
       this.setStateAsync("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
+      this.setStateAsync("info.connection", true, true);
       return response.data;
-    }).then(async (data) => this.parseState(data)).catch((error) => {
+    }).then(async (data) => this.parseState(data)).catch(async (error) => {
       this.log.error(`Error: ${error.message}`);
-      this.setState("info.connection", false, true);
+      await this.setStateAsync("info.connection", false, true);
+      this.terminate ? this.terminate(15) : process.exit(15);
     });
-    this.setState("info.connection", true, true);
+    await this.setStateAsync("info.connection", false, true);
+    this.terminate ? this.terminate("Everything done. Going to terminate till next schedule", 11) : process.exit(0);
     return;
   }
   onUnload(callback) {

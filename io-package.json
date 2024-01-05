@@ -1,8 +1,21 @@
 {
   "common": {
     "name": "stromgedacht",
-    "version": "0.2.0-SNAPSHOT-2021-10-17",
+    "version": "0.2.0",
     "news": {
+      "0.2.0": {
+        "en": "timeseries are now also logged to InfluxDB-Adapter, if configured.",
+        "de": "zeitreihen werden nun auch bei InfluxDB-Adapter angemeldet, falls konfiguriert.",
+        "ru": "множества теперь также записываются в InfluxDB-Adapter, если настроены.",
+        "pt": "séries de tempos também são logados para InfluxDB-Adapter, se configurado.",
+        "nl": "tijdreeksen zijn nu ook aangemeld bij InfluxDB-Adapter, indien geconfigureerd.",
+        "fr": "les timeseries sont maintenant également connectées à InfluxDB-Adapter, si configurées.",
+        "it": "timeerie sono ora anche collegati a InfluxDB-Adapter, se configurati.",
+        "es": "timeseries are now also logged to InfluxDB-Adapter, if configured.",
+        "pl": "timeseries są teraz również zalogowane do InfluxDB- Adapter, jeśli skonfigurowane.",
+        "uk": "ласкаво просимо до InfluxDB-адаптера.",
+        "zh-cn": "如果配置, 时间序列现在也被登录到 InfluxDB- Adapter ."
+      },
       "0.1.1": {
         "en": "trying to make sure the adapter is restarted every hour",
         "de": "versuchen, sicherzustellen, dass der adapter jede stunde neu gestartet wird",
@@ -80,19 +93,6 @@
         "pl": "po naprawieniu testów integracji z nimi nie powiodło się. Problem z powodu braku związku z bazą danych\nobecnie komunikaty debugowe są debugowe\nstarać się udać się do określonej instancji",
         "uk": "фіксація інтеграційних тестів, роблячи їх знову. Проблемний зв'язок з базою даних\ndebug log повідомлення тепер у рівні debug\nнамагатися запустити як запланований екземпляр",
         "zh-cn": "通过再次失败来确定一体化试验。 问题在于数据库的缺失\n黑色逻辑信息现在正处于黑暗的水平。\n试图按预定例子进行"
-      },
-      "0.0.2": {
-        "en": "0.0.2 - more tests and integration tests",
-        "de": "0.0.2 - mehr tests und integrationstests",
-        "ru": "0.0.2 - больше тестов и интеграционных тестов",
-        "pt": "0,0.2 - mais testes e testes de integração",
-        "nl": "0.0.2 - meer testen en integratie testen",
-        "fr": "0.0.2 - plus d'essais et d'essais d'intégration",
-        "it": "0.0.2 - più test e test di integrazione",
-        "es": "0.0.2 - más pruebas y pruebas de integración",
-        "pl": "0,0,2 – więcej testów i testów integracji",
-        "uk": "0.0.2 - більше тестів та інтеграційних тестів",
-        "zh-cn": "0.0.2 - 更多的试验和一体化试验"
       }
     },
     "titleLang": {

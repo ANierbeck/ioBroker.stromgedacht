@@ -142,7 +142,7 @@ Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev
 
 ## Changelog
 
-### ** WORK IN PROGRESS **
+### **WORK IN PROGRESS**
 
 - trying to make sure the adapter is restarted every hour
 

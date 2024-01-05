@@ -57,6 +57,10 @@ class Stromgedacht extends utils.Adapter {
 			return;
 		}
 
+		if (this.config.influxinstance) {
+			this.log.info("InfluxDB logging is enabled - forecasts will be available");
+		}
+
 		//cleanup of old states
 		this.log.debug(`removing stale states`);
 		for (const path of statePaths) {
@@ -186,6 +190,8 @@ class Stromgedacht extends utils.Adapter {
 						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
 						const timeslot = new Date(newTime);
 						supergruenTimeseries.push([timeslot, 1]);
+						//at this point we can push the specific supergreen data to influxdb
+						this.addToInfluxDB("forecast.state.supergruen", timeslot.getTime(), 1);
 					}
 					break;
 				case StateEnum.GRUEN: //gruen
@@ -194,6 +200,8 @@ class Stromgedacht extends utils.Adapter {
 						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
 						const timeslot = new Date(newTime);
 						gruenTimeseries.push([timeslot, 1]);
+						//at this point we can push the specific green data to influxdb
+						this.addToInfluxDB("forecast.state.gruen", timeslot.getTime(), 1);
 					}
 					break;
 				case StateEnum.GELB: //gelb
@@ -202,6 +210,8 @@ class Stromgedacht extends utils.Adapter {
 						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
 						const timeslot = new Date(newTime);
 						gelbTimeseries.push([timeslot, 1]);
+						//at this point we can push the specific yellow data to influxdb
+						this.addToInfluxDB("forecast.state.gelb", timeslot.getTime(), 1);
 					}
 					break;
 				case StateEnum.ROT: //rot
@@ -210,6 +220,8 @@ class Stromgedacht extends utils.Adapter {
 						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
 						const timeslot = new Date(newTime);
 						rotTimeseries.push([timeslot, 1]);
+						//at this point we can push the specific red data to influxdb
+						this.addToInfluxDB("forecast.state.red", timeslot.getTime(), 1);
 					}
 					break;
 				default:
@@ -221,16 +233,46 @@ class Stromgedacht extends utils.Adapter {
 				const timeslot = new Date(newTime);
 				const timeslotState = state.state;
 				timeseries.push([timeslot, timeslotState]);
+				//at this point we can push "all data" to influxdb
+				this.addToInfluxDB("forecast.states", timeslot.getTime(), timeslotState);
 			}
 		});
 
 		this.log.debug(`Timeseries: ${JSON.stringify(timeseries)}`);
 		this.setStateAsync("forecast.states.timeseries", JSON.stringify(timeseries), true);
-		this.setStates(supergruenStates, "forecast.states.supergruen", supergruenTimeseries);
-		this.setStates(gruenStates, "forecast.states.gruen", gruenTimeseries);
-		this.setStates(gelbStates, "forecast.states.gelb", gelbTimeseries);
-		this.setStates(rotStates, "forecast.states.rot", rotTimeseries);
+		this.setForecastStates(supergruenStates, "forecast.states.supergruen", supergruenTimeseries);
+		this.setForecastStates(gruenStates, "forecast.states.gruen", gruenTimeseries);
+		this.setForecastStates(gelbStates, "forecast.states.gelb", gelbTimeseries);
+		this.setForecastStates(rotStates, "forecast.states.rot", rotTimeseries);
 		this.setStateAsync("forecast.states.lastUpdated", new Date().toString(), true);
+	}
+
+	/**
+	 * Adds data to InfluxDB.
+	 * @param datapoint - The name of the datapoint where to store the data
+	 * @param timestamp - The timestamp of the data
+	 * @param value - The value of the data
+	 */
+	private async addToInfluxDB(datapoint: string, timestamp: number, value: number): Promise<void> {
+		if (this.config.influxinstance) {
+			let influxInstance = this.config.influxinstance;
+
+			// Fallback for older instance configs
+			if (!influxInstance.startsWith("influxdb.")) {
+				influxInstance = `influxdb.${influxInstance}`;
+			}
+
+			const result = await this.sendToAsync(influxInstance, "storeState", {
+				id: `${this.namespace}.${datapoint}`,
+				state: {
+					ts: timestamp,
+					val: value,
+					ack: true,
+					from: `system.adapter.${this.namespace}`,
+				},
+			});
+			this.log.debug(`InfluxDB result: ${JSON.stringify(result)}`);
+		}
 	}
 
 	/**
@@ -240,7 +282,11 @@ class Stromgedacht extends utils.Adapter {
 	 * @param timeseries - The timeseries data to set
 	 * @returns A promise that resolves when the states and objects are set
 	 */
-	private async setStates(states: State[], stateIdPrefix: string, timeseries: [Date, number][]): Promise<void> {
+	private async setForecastStates(
+		states: State[],
+		stateIdPrefix: string,
+		timeseries: [Date, number][],
+	): Promise<void> {
 		for (let i = 0; i < states.length; i++) {
 			const stateId = `${stateIdPrefix}.${i}`;
 			this.log.debug(`state ${stateId}`);

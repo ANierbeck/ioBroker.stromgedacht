@@ -11,6 +11,17 @@ const zipCode = "70173";
 const { adapter, database } = utils.unit.createMocks();
 const { assertObjectExists } = utils.unit.createAsserts(database, adapter);
 
+/* 
+ * with a fully working adapter test environment I would normally used testcontainers for testing the data is written to influxdb
+ * but unfortunately, this isn't really supported. 
+ * It would require to install other adapters like InfluxDB-Adapter
+ *
+
+const { GenericContainer } = require("testcontainers");
+const { InfluxDB } = require("@influxdata/influxdb-client");
+
+*/
+
 // Run integration tests - See https://github.com/ioBroker/testing for a detailed explanation and further options
 tests.integration(path.join(__dirname, ".."), {
 	//            ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -34,8 +45,16 @@ tests.integration(path.join(__dirname, ".."), {
 		suite("Test retrieveJson()", (getHarness) => {
 			// For convenience, get the current suite's harness before all tests
 			let harness;
+			//let influxContainer;
+
 			before(async () => {
 				harness = getHarness();
+				/*
+				 * as mentioned above it's not possible to require other adapters like InfluxDB-Adapter
+				 * so using the testconteiner for influxdb is not possible
+				 *
+				 * influxContainer = await new GenericContainer("influxdb:1.8.3").withExposedPorts(8086).start();
+				 */
 			});
 
 			beforeEach(async () => {

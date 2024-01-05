@@ -141,6 +141,10 @@ The ioBroker.admin interface will then be available at http://localhost:8081/
 Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#command-line) for more details.
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+- timeseries are now also logged to InfluxDB-Adapter, if configured. 
+
 ### 0.1.1 (2024-01-05)
 
 - trying to make sure the adapter is restarted every hour

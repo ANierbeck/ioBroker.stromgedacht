@@ -148,8 +148,7 @@ The ioBroker.admin interface will then be available at http://localhost:8081/
 Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#command-line) for more details.
 
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 1.0.0 (2024-02-19)
 
 -   using the official logo with thanks to „StromGedacht, TransnetBW GmbH“
 -   terminology bugfix: instead of yellow use orange, yellow was removed from underlying API

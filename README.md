@@ -1,4 +1,5 @@
-![Logo](admin/stromgedacht.png)
+![Logo](admin/stromgedacht_appicon.svg)
+![Logo](admin/StromGedacht-Horizontal_white_Footer.svg)
 
 # ioBroker.stromgedacht
 
@@ -13,7 +14,11 @@
 
 ## stromgedacht adapter for ioBroker
 
-Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used
+Reads the values from Strom Gedacht API provided by „StromGedacht, TransnetBW GmbH“. It could be used to check if there is more green energy in the system, so intensive consumers could be used
+
+## Disclaimer
+
+The API used by this adapter is provided by „StromGedacht, TransnetBW GmbH“. Images of Stromgedacht do belong to „StromGedacht, TransnetBW GmbH“.
 
 ## Settings
 
@@ -25,14 +30,15 @@ this adapter needs just two settings.
 
 ## How to use?
 
-Right now the data is available in two forms. 
+Right now the data is available in two forms.
 
 ### Available as _to_ and _from_
-For each Stromgedacht State there is a State available in the Object tree. These state objects hava a begin and end Timestamp: 
+
+For each Stromgedacht State there is a State available in the Object tree. These state objects hava a begin and end Timestamp:
 
 ![ObjectTree](stromgedacht_tree.png)
 
-These timestamps can be used for using in your own scriptings. 
+These timestamps can be used for using in your own scriptings.
 
 For visualization there is now also a timeseries state object for the complete forecast and also for each different state.
 
@@ -41,44 +47,45 @@ These timesamps can be used in a visualization. For example using the [Apex-Char
 ![Visualization](stromgedacht_visual.png)
 
 the following config can be use:
+
 ```yaml
 type: custom:apexcharts-card
 graph_span: 2d
 span:
-  start: hour
+    start: hour
 header:
-  show: true
-  title: Stromgedacht
-  show_states: false
-  colorize_states: true
+    show: true
+    title: Stromgedacht
+    show_states: false
+    colorize_states: true
 yaxis:
-  - show: false
-    min: 0
+    - show: false
+      min: 0
 series:
-  - entity: sensor.forecast_states_supergruen_timeseries
-    name: Supergrün
-    type: column
-    color: green
-    data_generator: |
-      return JSON.parse(entity.state);
-  - entity: sensor.forecast_states_gruen_timeseries
-    name: Grün
-    type: column
-    color: blue
-    data_generator: |
-      return JSON.parse(entity.state);
-  - entity: sensor.forecast_states_gelb_timeseries
-    name: Gelb
-    type: column
-    color: orange
-    data_generator: |
-      return JSON.parse(entity.state);
-  - entity: sensor.forecast_states_rot_timeseries
-    name: Red
-    type: column
-    color: red
-    data_generator: |
-      return JSON.parse(entity.state);
+    - entity: sensor.forecast_states_supergruen_timeseries
+      name: Supergrün
+      type: column
+      color: green
+      data_generator: |
+          return JSON.parse(entity.state);
+    - entity: sensor.forecast_states_gruen_timeseries
+      name: Grün
+      type: column
+      color: blue
+      data_generator: |
+          return JSON.parse(entity.state);
+    - entity: sensor.forecast_states_orange_timeseries
+      name: Orange
+      type: column
+      color: orange
+      data_generator: |
+          return JSON.parse(entity.state);
+    - entity: sensor.forecast_states_rot_timeseries
+      name: Rot
+      type: column
+      color: red
+      data_generator: |
+          return JSON.parse(entity.state);
 ```
 
 ## Developer manual
@@ -141,18 +148,26 @@ The ioBroker.admin interface will then be available at http://localhost:8081/
 Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#command-line) for more details.
 
 ## Changelog
+
+### **WORK IN PROGRESS**
+
+-   using the official logo with thanks to „StromGedacht, TransnetBW GmbH“
+-   terminology bugfix: instead of yellow use orange, yellow was removed from underlying API
+
 ### 0.2.0 (2024-01-05)
-- timeseries are now also logged to InfluxDB-Adapter, if configured.
+
+-   timeseries are now also logged to InfluxDB-Adapter, if configured.
 
 ### 0.1.1 (2024-01-05)
 
-- trying to make sure the adapter is restarted every hour
+-   trying to make sure the adapter is restarted every hour
 
 ### 0.1.0 (2024-01-03)
-- code cleanup
-- adding timeseries
-- adding sample to readme about how to visualize
-- itests now functional
+
+-   code cleanup
+-   adding timeseries
+-   adding sample to readme about how to visualize
+-   itests now functional
 
 ### 0.0.6 (2023-12-30)
 

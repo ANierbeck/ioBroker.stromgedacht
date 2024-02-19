@@ -271,12 +271,12 @@
       "native": {}
     },
     {
-      "_id": "forecast.states.gelb",
+      "_id": "forecast.states.orange",
       "type": "channel",
       "native": {}
     },
     {
-      "_id": "forecast.states.gelb.timeseries",
+      "_id": "forecast.states.orange.timeseries",
       "type": "state",
       "common": {
         "name": "State timeseries",

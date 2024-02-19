@@ -22,7 +22,7 @@ interface State {
 enum StateEnum {
 	SUPERGRUEN = -1,
 	GRUEN = 1,
-	GELB = 2,
+	ORANGE = 2,
 	ROT = 3,
 }
 
@@ -31,7 +31,7 @@ const stromgedachtApi = "https://api.stromgedacht.de/v1/statesRelative";
 const statePaths = [
 	"forecast.states.supergruen",
 	"forecast.states.gruen",
-	"forecast.states.gelb",
+	"forecast.states.orange",
 	"forecast.states.rot",
 ];
 
@@ -204,14 +204,14 @@ class Stromgedacht extends utils.Adapter {
 						this.addToInfluxDB("forecast.state.gruen", timeslot.getTime(), 1);
 					}
 					break;
-				case StateEnum.GELB: //gelb
+				case StateEnum.ORANGE: //orange
 					gelbStates.push(state);
 					for (let i = 0; i < timeDifference; i++) {
 						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
 						const timeslot = new Date(newTime);
 						gelbTimeseries.push([timeslot, 1]);
-						//at this point we can push the specific yellow data to influxdb
-						this.addToInfluxDB("forecast.state.gelb", timeslot.getTime(), 1);
+						//at this point we can push the specific orange data to influxdb
+						this.addToInfluxDB("forecast.state.orange", timeslot.getTime(), 1);
 					}
 					break;
 				case StateEnum.ROT: //rot
@@ -242,7 +242,7 @@ class Stromgedacht extends utils.Adapter {
 		this.setStateAsync("forecast.states.timeseries", JSON.stringify(timeseries), true);
 		this.setForecastStates(supergruenStates, "forecast.states.supergruen", supergruenTimeseries);
 		this.setForecastStates(gruenStates, "forecast.states.gruen", gruenTimeseries);
-		this.setForecastStates(gelbStates, "forecast.states.gelb", gelbTimeseries);
+		this.setForecastStates(gelbStates, "forecast.states.orange", gelbTimeseries);
 		this.setForecastStates(rotStates, "forecast.states.rot", rotTimeseries);
 		this.setStateAsync("forecast.states.lastUpdated", new Date().toString(), true);
 	}

@@ -8,7 +8,7 @@ const adapterName = require("./../package.json").name.split(".").pop();
 const zipCode = "70173";
 
 // Create mocks and asserts
-const { adapter, database } = utils.unit.createMocks();
+const { adapter, database } = utils.unit.createMocks({ adapterOptions: {} });
 const { assertObjectExists } = utils.unit.createAsserts(database, adapter);
 
 /* 

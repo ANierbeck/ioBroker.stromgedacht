@@ -11,6 +11,8 @@ import { expect } from "chai";
 //import Stromgedacht from "./main";
 
 const stromgedachtApi = "https://api.stromgedacht.de/v1/statesRelative";
+const stromgedachtForecastApi = "https://api.stromgedacht.de/v1/forecast";
+
 const sampleStateJSON =
 	'{"states":[{"from":"2023-12-21T09:53:32.9424377+01:00","to":"2023-12-21T23:00:00+01:00","state":1},{"from":"2023-12-21T23:00:00+01:00","to":"2023-12-22T00:00:00+01:00","state":-1},{"from":"2023-12-22T00:00:00+01:00","to":"2023-12-22T09:53:32.9424378+01:00","state":1}]}';
 
@@ -23,6 +25,27 @@ describe("stromgedacht api => call", () => {
 		axios({
 			method: "get",
 			baseURL: stromgedachtApi,
+			params: queryParams,
+			timeout: 10000,
+			responseType: "json",
+			validateStatus: (status) => status === 200,
+		}).then((response) => {
+			expect(response.status).to.equal(200);
+		});
+	});
+});
+
+describe("stromgedacht forecast => call", () => {
+	it("should return a valid response", async () => {
+		const fromDate = new Date();
+		fromDate.setDate(fromDate.getDate() - 1);
+		const queryParams = {
+			zip: "72135",
+			from: fromDate.toDateString(),
+		};
+		axios({
+			method: "get",
+			baseURL: stromgedachtForecastApi,
 			params: queryParams,
 			timeout: 10000,
 			responseType: "json",

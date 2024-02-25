@@ -62,6 +62,7 @@ tests.integration(path.join(__dirname, ".."), {
 					native: {
 						zipcode: zipCode,
 						hoursInFuture: "24",
+						daysInPast: "1",
 					},
 				};
 				console.warn("change adapter config");
@@ -111,6 +112,12 @@ tests.integration(path.join(__dirname, ".."), {
 					console.log("val: " + val);
 					const ok = assert.notEqual(val, null, "val is null");
 					console.log("ok: " + ok);
+
+					assert.notEqual(
+						await harness.states.getState("stromgdeacht.0.forecast.load.json"),
+						null,
+						"load.json is null",
+					);
 
 					assert.notEqual(
 						await harness.states.getState("stromgedacht.0.forecast.states.timeseries"),

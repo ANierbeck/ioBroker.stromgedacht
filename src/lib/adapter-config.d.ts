@@ -6,6 +6,7 @@ declare global {
 		interface AdapterConfig {
 			zipcode: string;
 			hoursInFuture: number;
+			daysInPast: number;
 			influxinstance: string;
 		}
 	}

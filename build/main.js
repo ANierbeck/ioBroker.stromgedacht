@@ -28,7 +28,8 @@ var StateEnum = /* @__PURE__ */ ((StateEnum2) => {
   StateEnum2[StateEnum2["ROT"] = 3] = "ROT";
   return StateEnum2;
 })(StateEnum || {});
-const stromgedachtApi = "https://api.stromgedacht.de/v1/statesRelative";
+const stromgedachtStateApi = "https://api.stromgedacht.de/v1/statesRelative";
+const stromgedachtForecastApi = "https://api.stromgedacht.de/v1/forecast";
 const statePaths = [
   "forecast.states.supergruen",
   "forecast.states.gruen",
@@ -69,7 +70,7 @@ class Stromgedacht extends utils.Adapter {
       this.log.debug(`Creating object ${obj._id}`);
       await this.setObjectNotExistsAsync(obj._id, obj);
     }
-    await this.requestStates().then(async (response) => {
+    this.requestStates().then(async (response) => {
       if (response === null) {
         this.log.error(`No response received`);
         return;
@@ -80,6 +81,18 @@ class Stromgedacht extends utils.Adapter {
       this.setStateAsync("info.connection", true, true);
       return response.data;
     }).then(async (data) => this.parseState(data)).catch(async (error) => {
+      this.log.error(`Error: ${error.message}`);
+      await this.setStateAsync("info.connection", false, true);
+      this.terminate ? this.terminate(15) : process.exit(15);
+    });
+    this.requestForecast().then(async (response) => {
+      if (response === null) {
+        this.log.error(`No response received`);
+        return;
+      }
+      this.log.debug(`Received forecast for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
+      return response.data;
+    }).then(async (data) => this.parseForecast(data)).catch(async (error) => {
       this.log.error(`Error: ${error.message}`);
       await this.setStateAsync("info.connection", false, true);
       this.terminate ? this.terminate(15) : process.exit(15);
@@ -106,7 +119,7 @@ class Stromgedacht extends utils.Adapter {
     };
     return (0, import_axios.default)({
       method: "get",
-      baseURL: stromgedachtApi,
+      baseURL: stromgedachtStateApi,
       params: queryParams,
       timeout: 1e4,
       responseType: "json",
@@ -118,6 +131,36 @@ class Stromgedacht extends utils.Adapter {
         this.log.error(`Error: ${error.response.status}`);
       } else if (error.request) {
         this.log.error(`Error: no data received for time frame`);
+      } else {
+        this.log.error(`Error: ${error.message}`);
+      }
+      console.log(error.config);
+      throw error;
+    });
+  }
+  async requestForecast() {
+    const zipcode = this.config.zipcode;
+    const daysInPast = this.config.daysInPast;
+    const fromDate = new Date();
+    fromDate.setDate(fromDate.getDate() - daysInPast);
+    const queryParams = {
+      zip: zipcode,
+      from: fromDate.toDateString()
+    };
+    return (0, import_axios.default)({
+      method: "get",
+      baseURL: stromgedachtForecastApi,
+      params: queryParams,
+      timeout: 1e4,
+      responseType: "json",
+      validateStatus: (status) => status === 200
+    }).then((response) => {
+      return response;
+    }).catch((error) => {
+      if (error.response) {
+        this.log.error(`Error: ${error.response.status}`);
+      } else if (error.request) {
+        this.log.error(`Error: no data received for forecast`);
       } else {
         this.log.error(`Error: ${error.message}`);
       }
@@ -196,6 +239,32 @@ class Stromgedacht extends utils.Adapter {
     this.setForecastStates(gelbStates, "forecast.states.orange", gelbTimeseries);
     this.setForecastStates(rotStates, "forecast.states.rot", rotTimeseries);
     this.setStateAsync("forecast.states.lastUpdated", new Date().toString(), true);
+  }
+  parseForecast(json) {
+    if (json.load != void 0) {
+      this.setStateAsync("forecast.load.json", JSON.stringify(json.load), true);
+      this.setStateAsync("forecast.load.lastUpdated", new Date().toString(), true);
+    } else {
+      this.log.error(`No load data received`);
+    }
+    if (json.renewableEnergy != void 0) {
+      this.setStateAsync("forecast.renewableEnergy.json", JSON.stringify(json.renewableEnergy), true);
+      this.setStateAsync("forecast.renewableEnergy.lastUpdated", new Date().toString(), true);
+    } else {
+      this.log.error(`No renewableEnergy data received`);
+    }
+    if (json.residualLoad != void 0) {
+      this.setStateAsync("forecast.residualLoad.json", JSON.stringify(json.residualLoad), true);
+      this.setStateAsync("forecast.residualLoad.lastUpdated", new Date().toString(), true);
+    } else {
+      this.log.error(`No residualLoad data received`);
+    }
+    if (json.superGreenThreshold != void 0) {
+      this.setStateAsync("forecast.superGreenThreshold.json", JSON.stringify(json.superGreenThreshold), true);
+      this.setStateAsync("forecast.superGreenThreshold.lastUpdated", new Date().toString(), true);
+    } else {
+      this.log.error(`No superGreenThreshold data received`);
+    }
   }
   async addToInfluxDB(datapoint, timestamp, value) {
     if (this.config.influxinstance) {

@@ -26,7 +26,8 @@ enum StateEnum {
 	ROT = 3,
 }
 
-const stromgedachtApi = "https://api.stromgedacht.de/v1/statesRelative";
+const stromgedachtStateApi = "https://api.stromgedacht.de/v1/statesRelative";
+const stromgedachtForecastApi = "https://api.stromgedacht.de/v1/forecast";
 
 const statePaths = [
 	"forecast.states.supergruen",
@@ -81,7 +82,7 @@ class Stromgedacht extends utils.Adapter {
 			await this.setObjectNotExistsAsync(obj._id, obj);
 		}
 
-		await this.requestStates()
+		this.requestStates()
 			.then(async (response) => {
 				if (response === null) {
 					this.log.error(`No response received`);
@@ -94,6 +95,22 @@ class Stromgedacht extends utils.Adapter {
 				return response.data;
 			})
 			.then(async (data) => this.parseState(data))
+			.catch(async (error) => {
+				this.log.error(`Error: ${error.message}`);
+				await this.setStateAsync("info.connection", false, true);
+				this.terminate ? this.terminate(15) : process.exit(15);
+			});
+
+		this.requestForecast()
+			.then(async (response) => {
+				if (response === null) {
+					this.log.error(`No response received`);
+					return;
+				}
+				this.log.debug(`Received forecast for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
+				return response.data;
+			})
+			.then(async (data) => this.parseForecast(data))
 			.catch(async (error) => {
 				this.log.error(`Error: ${error.message}`);
 				await this.setStateAsync("info.connection", false, true);
@@ -139,7 +156,7 @@ class Stromgedacht extends utils.Adapter {
 
 		return axios({
 			method: "get",
-			baseURL: stromgedachtApi,
+			baseURL: stromgedachtStateApi,
 			params: queryParams,
 			timeout: 10000,
 			responseType: "json",
@@ -153,6 +170,42 @@ class Stromgedacht extends utils.Adapter {
 					this.log.error(`Error: ${error.response.status}`);
 				} else if (error.request) {
 					this.log.error(`Error: no data received for time frame`);
+				} else {
+					this.log.error(`Error: ${error.message}`);
+				}
+				console.log(error.config);
+				throw error;
+			});
+	}
+
+	async requestForecast(): Promise<axios.AxiosResponse<any, any>> {
+		const zipcode = this.config.zipcode;
+		const daysInPast = this.config.daysInPast;
+
+		const fromDate = new Date();
+		fromDate.setDate(fromDate.getDate() - daysInPast);
+
+		const queryParams = {
+			zip: zipcode,
+			from: fromDate.toDateString(),
+		};
+
+		return axios({
+			method: "get",
+			baseURL: stromgedachtForecastApi,
+			params: queryParams,
+			timeout: 10000,
+			responseType: "json",
+			validateStatus: (status) => status === 200,
+		})
+			.then((response) => {
+				return response;
+			})
+			.catch((error) => {
+				if (error.response) {
+					this.log.error(`Error: ${error.response.status}`);
+				} else if (error.request) {
+					this.log.error(`Error: no data received for forecast`);
 				} else {
 					this.log.error(`Error: ${error.message}`);
 				}
@@ -245,6 +298,37 @@ class Stromgedacht extends utils.Adapter {
 		this.setForecastStates(gelbStates, "forecast.states.orange", gelbTimeseries);
 		this.setForecastStates(rotStates, "forecast.states.rot", rotTimeseries);
 		this.setStateAsync("forecast.states.lastUpdated", new Date().toString(), true);
+	}
+
+	/**
+	 * Parses the forecast from the provided JSON object and sets the corresponding states in the system.
+	 * @param json - The JSON object containing the forecast.
+	 */
+	parseForecast(json: any): any {
+		if (json.load != undefined) {
+			this.setStateAsync("forecast.load.json", JSON.stringify(json.load), true);
+			this.setStateAsync("forecast.load.lastUpdated", new Date().toString(), true);
+		} else {
+			this.log.error(`No load data received`);
+		}
+		if (json.renewableEnergy != undefined) {
+			this.setStateAsync("forecast.renewableEnergy.json", JSON.stringify(json.renewableEnergy), true);
+			this.setStateAsync("forecast.renewableEnergy.lastUpdated", new Date().toString(), true);
+		} else {
+			this.log.error(`No renewableEnergy data received`);
+		}
+		if (json.residualLoad != undefined) {
+			this.setStateAsync("forecast.residualLoad.json", JSON.stringify(json.residualLoad), true);
+			this.setStateAsync("forecast.residualLoad.lastUpdated", new Date().toString(), true);
+		} else {
+			this.log.error(`No residualLoad data received`);
+		}
+		if (json.superGreenThreshold != undefined) {
+			this.setStateAsync("forecast.superGreenThreshold.json", JSON.stringify(json.superGreenThreshold), true);
+			this.setStateAsync("forecast.superGreenThreshold.lastUpdated", new Date().toString(), true);
+		} else {
+			this.log.error(`No superGreenThreshold data received`);
+		}
 	}
 
 	/**

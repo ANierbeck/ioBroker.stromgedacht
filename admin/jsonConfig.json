@@ -17,6 +17,16 @@
 			"text": "Hours in Future can max be 48 hours.",
 			"sm": 12
 		},
+		"daysInPast": {
+			"type": "text",
+			"label": "Days in past",
+			"newLine": true
+		},
+		"_staticText_daysInPast": {
+			"type": "staticText",
+			"text": "Days in past can max be 7 days.",
+			"sm": 12
+		},
 		"influxinstance": {
 			"newLine": true,
 			"type": "instance",

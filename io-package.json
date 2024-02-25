@@ -1,425 +1,417 @@
 {
-  "common": {
-    "name": "stromgedacht",
-    "version": "1.1.0",
-    "news": {
-      "1.1.0": {
-        "en": "adding new feature to retrieve JSON for net load, renewable Energy, residual Load and super green threshold",
-        "de": "hinzufügen neuer Features zum Abrufen von JSON für Netzlast, erneuerbare Energien, Restlast und super grüne Schwelle",
-        "ru": "добавление новой функции для извлечения JSON для чистой нагрузки, возобновляемых источников энергии, остаточной нагрузки и супер-зеленого порога",
-        "pt": "adicionando novo recurso para recuperar JSON para carga líquida, energia renovável, carga residual e limiar super verde",
-        "nl": "toevoegen van nieuwe functie om JSON voor netto belasting, hernieuwbare energie, restlast en super groene drempel op te halen",
-        "fr": "ajouter une nouvelle fonctionnalité pour récupérer JSON pour la charge nette, l'énergie renouvelable, la charge résiduelle et le seuil super vert",
-        "it": "aggiunta di nuova funzionalità per recuperare JSON per carico netto, energia rinnovabile, carico residuo e soglia super verde",
-        "es": "añadir nueva característica para recuperar JSON para carga neta, energía renovable, carga residual y umbral super verde",
-        "pl": "dodanie nowej funkcji do pobrania JSON dla obciążenia netto, energii odnawialnej, obciążenia resztkowego i super zielonego progu",
-        "uk": "додавання нової функції для отримання JSON для чистого навантаження, відновлюваної енергії, залишкового навантаження та над зеленим порогом",
-        "zh-cn": "添加新功能以检索 JSON 的净载荷、可再生能源、剩余载荷和超绿色阈值"
-      },
-      "1.0.0": {
-        "en": "using the official logo with thanks to „StromGedacht, TransnetBW GmbH“\nterminology bugfix: instead of yellow use orange, yellow was removed from underlying API",
-        "de": "mit dem offiziellen Logo dank „StromGedacht, TransnetBW GmbH“\nterminologie bugfix: anstelle der gelben Verwendung orange wurde gelb von der zugrunde liegenden API entfernt",
-        "ru": "используя официальный логотип благодаря „StromGedacht, TransnetBW GmbH“\nтерминология исправления: вместо желтого использования оранжевого, желтый был удален из базового API",
-        "pt": "usando o logotipo oficial com graças a „StromGedacht, TransnetBW GmbH“\nterminology bugfix: em vez de amarelo usar laranja, amarelo foi removido da API subjacente",
-        "nl": "met behulp van het officiële logo, met dank aan StromGeracht, TransnetBW GmbH\nterminologie bugfix: in plaats van geel gebruik oranje, geel werd verwijderd van onderliggende API",
-        "fr": "utilisant le logo officiel avec merci à „StromGedacht, TransnetBW GmbH\nterminologie bugfix: au lieu de jaune utiliser orange, jaune a été retiré de l'API sous-jacente",
-        "it": "utilizzando il logo ufficiale grazie a “StromGedacht, TransnetBW GmbH“\nterminologia bugfix: invece di colore giallo arancione, giallo è stato rimosso dall'API sottostante",
-        "es": "con el logo oficial gracias a „StromGedacht, TransnetBW GmbH“\nterminología bugfix: en lugar de uso amarillo naranja, amarillo fue eliminado de la API subyacente",
-        "pl": "przy użyciu oficjalnego logo dzięki \"StromGedacht, TransnetBW GmbH\"\nbugfix terminologii: zamiast żółtego używać pomarańczowy, żółty został usunięty z głównego API",
-        "uk": "за допомогою офіційного логотипу за допомогою \"StromGedacht, TransnetBW GmbH\"\nвиправлення термінології: замість жовтого використання помаранчевий, жовтий був видалений з основного API",
-        "zh-cn": "使用官方标志感谢“StromGedacht, TransnetBW GmbH”\n术语bugfix: 而不是黄色使用橙色, 黄色从基本的 API 中删除"
-      },
-      "0.2.0": {
-        "en": "timeseries are now also logged to InfluxDB-Adapter, if configured.",
-        "de": "zeitreihen werden nun auch bei InfluxDB-Adapter angemeldet, falls konfiguriert.",
-        "ru": "множества теперь также записываются в InfluxDB-Adapter, если настроены.",
-        "pt": "séries de tempos também são logados para InfluxDB-Adapter, se configurado.",
-        "nl": "tijdreeksen zijn nu ook aangemeld bij InfluxDB-Adapter, indien geconfigureerd.",
-        "fr": "les timeseries sont maintenant également connectées à InfluxDB-Adapter, si configurées.",
-        "it": "timeerie sono ora anche collegati a InfluxDB-Adapter, se configurati.",
-        "es": "timeseries are now also logged to InfluxDB-Adapter, if configured.",
-        "pl": "timeseries są teraz również zalogowane do InfluxDB- Adapter, jeśli skonfigurowane.",
-        "uk": "ласкаво просимо до InfluxDB-адаптера.",
-        "zh-cn": "如果配置, 时间序列现在也被登录到 InfluxDB- Adapter ."
-      },
-      "0.1.1": {
-        "en": "trying to make sure the adapter is restarted every hour",
-        "de": "versuchen, sicherzustellen, dass der adapter jede stunde neu gestartet wird",
-        "ru": "пытаться убедиться, что адаптер перезапускается каждый час",
-        "pt": "tentando garantir que o adaptador seja reiniciado a cada hora",
-        "nl": "proberen ervoor te zorgen dat de adapter elk uur opnieuw gestart wordt",
-        "fr": "essayant de s'assurer que l'adaptateur est redémarré toutes les heures",
-        "it": "cercando di assicurarsi che l'adattatore sia riavviato ogni ora",
-        "es": "tratando de asegurarse de que el adaptador se reinicia cada hora",
-        "pl": "próbując upewnić się, że adapter jest ponownie uruchamiany co godzinę",
-        "uk": "намагаючись переконатися, що адаптер перезавантажується кожні години",
-        "zh-cn": "试图确保适配器每小时重新启动"
-      },
-      "0.1.0": {
-        "en": "code cleanup\nadding timeseries\nadding sample to readme about how to visualize\nitests now functional",
-        "de": "code-reinigung\nzeitreihen hinzufügen\nhinzufügen von probe zu readme über die visualisierung\njetzt funktionsfähig",
-        "ru": "очистка кода\nдобавлять временные серии\nдобавить образец для чтения о том, как визуализировать\nitests теперь функциональный",
-        "pt": "limpeza de código\nadicionando tempos\nadicionar amostra para me ler sobre como visualizar\nagora funcional",
-        "nl": "code schoonmaakcode\n♪\nvoeg monster toe om me te lezen over hoe je je moet visualiseren\n_",
-        "fr": "nettoyage du code\najouter des temps\najouter de l'échantillon pour lire comment visualiser\nitests now functional",
-        "it": "pulizia del codice\naggiunta di timeerie\naggiungere il campione per leggere su come visualizzare\nè ora funzionale",
-        "es": "limpieza de código\nañadir tiempo\nañadir muestra para leerme sobre cómo visualizar\nitests now functional",
-        "pl": "czyszczenie kodu\ndodawanie razy\ndodać próbki do odczytu, jak wizualizować\nobecnie funkcjonalny",
-        "uk": "очищення коду\nдодаючи час\nдодавати зразок для читання про те, як візуалізувати\nтепер функціональні",
-        "zh-cn": "守则的清理\n增加时间\n增加样品,以了解如何看待图像\n目前最能发挥职能"
-      },
-      "0.0.6": {
-        "en": "experimenting with exit of adapter itself\nfixing integration test",
-        "de": "experimentieren mit ausgang des adapters selbst\nprüfung der integration",
-        "ru": "экспериментирование с выходом сам адаптер\nфиксация тестирования интеграции",
-        "pt": "experimentando com saída do próprio adaptador\nteste de integração de fixação",
-        "nl": "experimenteren met uitgang van adapter zelf\nintegratietest repareren",
-        "fr": "expérimenter la sortie de l'adaptateur lui-même\ntest d ' intégration",
-        "it": "sperimentare con l'uscita dell'adattatore stesso\ntest di integrazione di fissaggio",
-        "es": "experimentando con la salida del propio adaptador\nprueba de integración",
-        "pl": "eksperyment z wyjściem samego adaptera\nulepszanie testu integracji",
-        "uk": "експериментувати з виходом самого адаптера\nфіксація тестування інтеграції",
-        "zh-cn": "试验适应人员本身的撤离\n确定一体化试验"
-      },
-      "0.0.5": {
-        "en": "Fixing integration tests, partially\nIntegration tests don't fully functional, only one test can be run, because adapter isn't stopped in time",
-        "de": "Festlegen von Integrationstests, teilweise\nIntegrationstests sind nicht voll funktionsfähig, nur ein Test kann durchgeführt werden, weil Adapter nicht rechtzeitig gestoppt wird",
-        "ru": "Исправление интеграционных тестов, частично\nИнтеграционные тесты не полностью функциональны, только один тест можно запустить, потому что адаптер не останавливается вовремя",
-        "pt": "Fixação de testes de integração, parcialmente\nOs testes de integração não são totalmente funcionais, apenas um teste pode ser executado, porque o adaptador não é interrompido no tempo",
-        "nl": "Integratie testen maken, gedeeltelijk\nIntegratietests functioneren niet volledig, maar één test kan worden geleid, want adapter is niet gestopt op tijd",
-        "fr": "Essais d ' intégration, en partie\nLes tests d'intégration ne sont pas entièrement fonctionnels, un seul test peut être exécuté, car l'adaptateur n'est pas arrêté dans le temps",
-        "it": "Fissaggio dei test di integrazione, in parte\nI test di integrazione non sono completamente funzionali, solo un test può essere eseguito, perché l'adattatore non viene fermato in tempo",
-        "es": "Fijar pruebas de integración, parcialmente\nLas pruebas de integración no funcionan completamente, sólo se puede realizar una prueba, porque el adaptador no se detiene en el tiempo",
-        "pl": "Testy integracji Fixinga, częściowo przetestowane\nTesty integracji nie mogą być w pełni funkcjonalne, tylko jeden test może być uruchamiany, ponieważ adapter nie został zatrzymany w czasie",
-        "uk": "Виправлення інтеграційних випробувань, частково\nІнтеграційні тести не повністю функціональні, тільки один тест може бути запущений, оскільки адаптер не зупиняється в часі",
-        "zh-cn": "固定一体化试验,部分\n一体化试验完全发挥功能,只有一个试验能够进行,因为适应人员在时间内被阻拦。"
-      }
-    },
-    "titleLang": {
-      "en": "stromgedacht",
-      "de": "stromgedacht",
-      "ru": "Стромгедахт",
-      "pt": "stromgedacht",
-      "nl": "stromgedacht",
-      "fr": "stromgedacht",
-      "it": "stromgedacht",
-      "es": "stromgedacht",
-      "pl": "strogedacht",
-      "uk": "stromgedacht",
-      "zh-cn": "斯特罗姆格赫特"
-    },
-    "desc": {
-      "en": "Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used",
-      "de": "Liest die Werte von der Strom Gedacht API. Damit könnte überprüft werden, ob mehr Ökostrom im System vorhanden ist, sodass Intensivverbraucher genutzt werden könnten",
-      "ru": "Считывает значения из API Strom Gedacht. Его можно использовать для проверки наличия в системе большего количества зеленой энергии, чтобы можно было использовать интенсивных потребителей.",
-      "pt": "Lê os valores da API Strom Gedacht. Poderia ser usado para verificar se há mais energia verde no sistema, para que consumidores intensivos pudessem ser usados",
-      "nl": "Leest de waarden uit de Strom Gedacht API. Hiermee kan worden gecontroleerd of er meer groene energie in het systeem zit, zodat intensieve verbruikers kunnen worden ingezet",
-      "fr": "Lit les valeurs de l'API Strom Gedacht. Il pourrait être utilisé pour vérifier s'il y a plus d'énergie verte dans le système, de sorte que des consommateurs intensifs pourraient être utilisés.",
-      "it": "Legge i valori dall'API Strom Gedacht. Potrebbe essere utilizzato per verificare se c’è più energia verde nel sistema, in modo da poter utilizzare i consumatori intensivi",
-      "es": "Lee los valores de la API Strom Gedacht. Se podría utilizar para comprobar si hay más energía verde en el sistema, por lo que se podrían utilizar consumidores intensivos.",
-      "pl": "Odczytuje wartości z API Strom Gedacht. Można by go wykorzystać do sprawdzenia, czy w systemie jest więcej zielonej energii, aby można było wykorzystać odbiorniki intensywne",
-      "uk": "Читає значення з API Strom Gedacht. Його можна використовувати, щоб перевірити, чи є в системі більше зеленої енергії, щоб можна було використовувати інтенсивних споживачів",
-      "zh-cn": "从 Strom Gedacht API 读取值。它可以用来检查系统中是否有更多的绿色能源，因此可以使用密集型消费者"
-    },
-    "authors": [
-      "anierbeck <bcanhome@googlemail.com>"
-    ],
-    "keywords": [
-      "stromgedacht"
-    ],
-    "materialize": true,
-    "license": "Apache-2.0",
-    "mode": "schedule",
-    "schedule": "15 * * * *",
-    "allowInit": true,
-    "platform": "Javascript/Node.js",
-    "main": "build/main.js",
-    "icon": "stromgedacht_appicon.svg",
-    "enabled": true,
-    "extIcon": "https://raw.githubusercontent.com/anierbeck/ioBroker.stromgedacht/main/admin/stromgedacht_appicon.svg",
-    "readme": "https://github.com/anierbeck/ioBroker.stromgedacht/blob/main/README.md",
-    "loglevel": "info",
-    "type": "misc-data",
-    "compact": true,
-    "connectionType": "cloud",
-    "dataSource": "poll",
-    "adminUI": {
-      "config": "json"
-    },
-    "dependencies": [
-      {
-        "js-controller": ">=3.3.22"
-      }
-    ],
-    "globalDependencies": [
-      {
-        "admin": ">=5.1.13"
-      }
-    ]
-  },
-  "native": {
-    "zipcode": "76135",
-    "hoursInFuture": "24",
-    "daysInPast": "1"
-  },
-  "objects": [],
-  "instanceObjects": [
-    {
-      "_id": "info.connection",
-      "type": "state",
-      "common": {
-        "name": "connection",
-        "type": "boolean",
-        "role": "indicator.connected",
-        "read": true,
-        "write": false,
-        "def": false
-      }
-    },
-    {
-      "_id": "forecast",
-      "type": "device",
-      "common": {
-        "name": "Actual States",
-        "role": "states"
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states",
-      "type": "channel"
-    },
-    {
-      "_id": "forecast.states.json",
-      "type": "state",
-      "common": {
-        "name": "State Json",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.timeseries",
-      "type": "state",
-      "common": {
-        "name": "State timeseries",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.hoursInFuture",
-      "type": "state",
-      "common": {
-        "name": "State hours in future",
-        "type": "string",
-        "role": "hoursInFuture",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.lastUpdated",
-      "type": "state",
-      "common": {
-        "name": "timestamp of last update",
-        "type": "date",
-        "role": "date",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.supergruen",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.supergruen.timeseries",
-      "type": "state",
-      "common": {
-        "name": "State timeseries",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.gruen",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.gruen.timeseries",
-      "type": "state",
-      "common": {
-        "name": "State timeseries",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.orange",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.orange.timeseries",
-      "type": "state",
-      "common": {
-        "name": "State timeseries",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.rot",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.states.rot.timeseries",
-      "type": "state",
-      "common": {
-        "name": "State timeseries",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.load",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.load.json",
-      "type": "state",
-      "common": {
-        "name": "Load",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.load.lastUpdated",
-      "type": "state",
-      "common": {
-        "name": "timestamp of last update",
-        "type": "date",
-        "role": "date",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.renewableEnergy",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.renewableEnergy.json",
-      "type": "state",
-      "common": {
-        "name": "Renewable energy",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.renewableEnergy.lastUpdated",
-      "type": "state",
-      "common": {
-        "name": "timestamp of last update",
-        "type": "date",
-        "role": "date",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.residualLoad",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.residualLoad.json",
-      "type": "state",
-      "common": {
-        "name": "Residual load",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.residualLoad.lastUpdated",
-      "type": "state",
-      "common": {
-        "name": "timestamp of last update",
-        "type": "date",
-        "role": "date",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.superGreenThreshold",
-      "type": "channel",
-      "native": {}
-    },
-    {
-      "_id": "forecast.superGreenThreshold.json",
-      "type": "state",
-      "common": {
-        "name": "Supergreen threshold",
-        "type": "string",
-        "role": "json",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    },
-    {
-      "_id": "forecast.superGreenThreshold.lastUpdated",
-      "type": "state",
-      "common": {
-        "name": "timestamp of last update",
-        "type": "date",
-        "role": "date",
-        "read": true,
-        "write": true
-      },
-      "native": {}
-    }
-  ]
+	"common": {
+		"name": "stromgedacht",
+		"version": "1.1.0",
+		"news": {
+			"1.1.0": {
+				"en": "adding new feature to retrieve JSON for net load, renewable Energy, residual Load and super green threshold",
+				"de": "hinzufügen neuer Features zum Abrufen von JSON für Netzlast, erneuerbare Energien, Restlast und super grüne Schwelle",
+				"ru": "добавление новой функции для извлечения JSON для чистой нагрузки, возобновляемых источников энергии, остаточной нагрузки и супер-зеленого порога",
+				"pt": "adicionando novo recurso para recuperar JSON para carga líquida, energia renovável, carga residual e limiar super verde",
+				"nl": "toevoegen van nieuwe functie om JSON voor netto belasting, hernieuwbare energie, restlast en super groene drempel op te halen",
+				"fr": "ajouter une nouvelle fonctionnalité pour récupérer JSON pour la charge nette, l'énergie renouvelable, la charge résiduelle et le seuil super vert",
+				"it": "aggiunta di nuova funzionalità per recuperare JSON per carico netto, energia rinnovabile, carico residuo e soglia super verde",
+				"es": "añadir nueva característica para recuperar JSON para carga neta, energía renovable, carga residual y umbral super verde",
+				"pl": "dodanie nowej funkcji do pobrania JSON dla obciążenia netto, energii odnawialnej, obciążenia resztkowego i super zielonego progu",
+				"uk": "додавання нової функції для отримання JSON для чистого навантаження, відновлюваної енергії, залишкового навантаження та над зеленим порогом",
+				"zh-cn": "添加新功能以检索 JSON 的净载荷、可再生能源、剩余载荷和超绿色阈值"
+			},
+			"1.0.0": {
+				"en": "using the official logo with thanks to „StromGedacht, TransnetBW GmbH“\nterminology bugfix: instead of yellow use orange, yellow was removed from underlying API",
+				"de": "mit dem offiziellen Logo dank „StromGedacht, TransnetBW GmbH“\nterminologie bugfix: anstelle der gelben Verwendung orange wurde gelb von der zugrunde liegenden API entfernt",
+				"ru": "используя официальный логотип благодаря „StromGedacht, TransnetBW GmbH“\nтерминология исправления: вместо желтого использования оранжевого, желтый был удален из базового API",
+				"pt": "usando o logotipo oficial com graças a „StromGedacht, TransnetBW GmbH“\nterminology bugfix: em vez de amarelo usar laranja, amarelo foi removido da API subjacente",
+				"nl": "met behulp van het officiële logo, met dank aan StromGeracht, TransnetBW GmbH\nterminologie bugfix: in plaats van geel gebruik oranje, geel werd verwijderd van onderliggende API",
+				"fr": "utilisant le logo officiel avec merci à „StromGedacht, TransnetBW GmbH\nterminologie bugfix: au lieu de jaune utiliser orange, jaune a été retiré de l'API sous-jacente",
+				"it": "utilizzando il logo ufficiale grazie a “StromGedacht, TransnetBW GmbH“\nterminologia bugfix: invece di colore giallo arancione, giallo è stato rimosso dall'API sottostante",
+				"es": "con el logo oficial gracias a „StromGedacht, TransnetBW GmbH“\nterminología bugfix: en lugar de uso amarillo naranja, amarillo fue eliminado de la API subyacente",
+				"pl": "przy użyciu oficjalnego logo dzięki \"StromGedacht, TransnetBW GmbH\"\nbugfix terminologii: zamiast żółtego używać pomarańczowy, żółty został usunięty z głównego API",
+				"uk": "за допомогою офіційного логотипу за допомогою \"StromGedacht, TransnetBW GmbH\"\nвиправлення термінології: замість жовтого використання помаранчевий, жовтий був видалений з основного API",
+				"zh-cn": "使用官方标志感谢“StromGedacht, TransnetBW GmbH”\n术语bugfix: 而不是黄色使用橙色, 黄色从基本的 API 中删除"
+			},
+			"0.2.0": {
+				"en": "timeseries are now also logged to InfluxDB-Adapter, if configured.",
+				"de": "zeitreihen werden nun auch bei InfluxDB-Adapter angemeldet, falls konfiguriert.",
+				"ru": "множества теперь также записываются в InfluxDB-Adapter, если настроены.",
+				"pt": "séries de tempos também são logados para InfluxDB-Adapter, se configurado.",
+				"nl": "tijdreeksen zijn nu ook aangemeld bij InfluxDB-Adapter, indien geconfigureerd.",
+				"fr": "les timeseries sont maintenant également connectées à InfluxDB-Adapter, si configurées.",
+				"it": "timeerie sono ora anche collegati a InfluxDB-Adapter, se configurati.",
+				"es": "timeseries are now also logged to InfluxDB-Adapter, if configured.",
+				"pl": "timeseries są teraz również zalogowane do InfluxDB- Adapter, jeśli skonfigurowane.",
+				"uk": "ласкаво просимо до InfluxDB-адаптера.",
+				"zh-cn": "如果配置, 时间序列现在也被登录到 InfluxDB- Adapter ."
+			},
+			"0.1.1": {
+				"en": "trying to make sure the adapter is restarted every hour",
+				"de": "versuchen, sicherzustellen, dass der adapter jede stunde neu gestartet wird",
+				"ru": "пытаться убедиться, что адаптер перезапускается каждый час",
+				"pt": "tentando garantir que o adaptador seja reiniciado a cada hora",
+				"nl": "proberen ervoor te zorgen dat de adapter elk uur opnieuw gestart wordt",
+				"fr": "essayant de s'assurer que l'adaptateur est redémarré toutes les heures",
+				"it": "cercando di assicurarsi che l'adattatore sia riavviato ogni ora",
+				"es": "tratando de asegurarse de que el adaptador se reinicia cada hora",
+				"pl": "próbując upewnić się, że adapter jest ponownie uruchamiany co godzinę",
+				"uk": "намагаючись переконатися, що адаптер перезавантажується кожні години",
+				"zh-cn": "试图确保适配器每小时重新启动"
+			},
+			"0.1.0": {
+				"en": "code cleanup\nadding timeseries\nadding sample to readme about how to visualize\nitests now functional",
+				"de": "code-reinigung\nzeitreihen hinzufügen\nhinzufügen von probe zu readme über die visualisierung\njetzt funktionsfähig",
+				"ru": "очистка кода\nдобавлять временные серии\nдобавить образец для чтения о том, как визуализировать\nitests теперь функциональный",
+				"pt": "limpeza de código\nadicionando tempos\nadicionar amostra para me ler sobre como visualizar\nagora funcional",
+				"nl": "code schoonmaakcode\n♪\nvoeg monster toe om me te lezen over hoe je je moet visualiseren\n_",
+				"fr": "nettoyage du code\najouter des temps\najouter de l'échantillon pour lire comment visualiser\nitests now functional",
+				"it": "pulizia del codice\naggiunta di timeerie\naggiungere il campione per leggere su come visualizzare\nè ora funzionale",
+				"es": "limpieza de código\nañadir tiempo\nañadir muestra para leerme sobre cómo visualizar\nitests now functional",
+				"pl": "czyszczenie kodu\ndodawanie razy\ndodać próbki do odczytu, jak wizualizować\nobecnie funkcjonalny",
+				"uk": "очищення коду\nдодаючи час\nдодавати зразок для читання про те, як візуалізувати\nтепер функціональні",
+				"zh-cn": "守则的清理\n增加时间\n增加样品,以了解如何看待图像\n目前最能发挥职能"
+			},
+			"0.0.6": {
+				"en": "experimenting with exit of adapter itself\nfixing integration test",
+				"de": "experimentieren mit ausgang des adapters selbst\nprüfung der integration",
+				"ru": "экспериментирование с выходом сам адаптер\nфиксация тестирования интеграции",
+				"pt": "experimentando com saída do próprio adaptador\nteste de integração de fixação",
+				"nl": "experimenteren met uitgang van adapter zelf\nintegratietest repareren",
+				"fr": "expérimenter la sortie de l'adaptateur lui-même\ntest d ' intégration",
+				"it": "sperimentare con l'uscita dell'adattatore stesso\ntest di integrazione di fissaggio",
+				"es": "experimentando con la salida del propio adaptador\nprueba de integración",
+				"pl": "eksperyment z wyjściem samego adaptera\nulepszanie testu integracji",
+				"uk": "експериментувати з виходом самого адаптера\nфіксація тестування інтеграції",
+				"zh-cn": "试验适应人员本身的撤离\n确定一体化试验"
+			},
+			"0.0.5": {
+				"en": "Fixing integration tests, partially\nIntegration tests don't fully functional, only one test can be run, because adapter isn't stopped in time",
+				"de": "Festlegen von Integrationstests, teilweise\nIntegrationstests sind nicht voll funktionsfähig, nur ein Test kann durchgeführt werden, weil Adapter nicht rechtzeitig gestoppt wird",
+				"ru": "Исправление интеграционных тестов, частично\nИнтеграционные тесты не полностью функциональны, только один тест можно запустить, потому что адаптер не останавливается вовремя",
+				"pt": "Fixação de testes de integração, parcialmente\nOs testes de integração não são totalmente funcionais, apenas um teste pode ser executado, porque o adaptador não é interrompido no tempo",
+				"nl": "Integratie testen maken, gedeeltelijk\nIntegratietests functioneren niet volledig, maar één test kan worden geleid, want adapter is niet gestopt op tijd",
+				"fr": "Essais d ' intégration, en partie\nLes tests d'intégration ne sont pas entièrement fonctionnels, un seul test peut être exécuté, car l'adaptateur n'est pas arrêté dans le temps",
+				"it": "Fissaggio dei test di integrazione, in parte\nI test di integrazione non sono completamente funzionali, solo un test può essere eseguito, perché l'adattatore non viene fermato in tempo",
+				"es": "Fijar pruebas de integración, parcialmente\nLas pruebas de integración no funcionan completamente, sólo se puede realizar una prueba, porque el adaptador no se detiene en el tiempo",
+				"pl": "Testy integracji Fixinga, częściowo przetestowane\nTesty integracji nie mogą być w pełni funkcjonalne, tylko jeden test może być uruchamiany, ponieważ adapter nie został zatrzymany w czasie",
+				"uk": "Виправлення інтеграційних випробувань, частково\nІнтеграційні тести не повністю функціональні, тільки один тест може бути запущений, оскільки адаптер не зупиняється в часі",
+				"zh-cn": "固定一体化试验,部分\n一体化试验完全发挥功能,只有一个试验能够进行,因为适应人员在时间内被阻拦。"
+			}
+		},
+		"titleLang": {
+			"en": "stromgedacht",
+			"de": "stromgedacht",
+			"ru": "Стромгедахт",
+			"pt": "stromgedacht",
+			"nl": "stromgedacht",
+			"fr": "stromgedacht",
+			"it": "stromgedacht",
+			"es": "stromgedacht",
+			"pl": "strogedacht",
+			"uk": "stromgedacht",
+			"zh-cn": "斯特罗姆格赫特"
+		},
+		"desc": {
+			"en": "Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used",
+			"de": "Liest die Werte von der Strom Gedacht API. Damit könnte überprüft werden, ob mehr Ökostrom im System vorhanden ist, sodass Intensivverbraucher genutzt werden könnten",
+			"ru": "Считывает значения из API Strom Gedacht. Его можно использовать для проверки наличия в системе большего количества зеленой энергии, чтобы можно было использовать интенсивных потребителей.",
+			"pt": "Lê os valores da API Strom Gedacht. Poderia ser usado para verificar se há mais energia verde no sistema, para que consumidores intensivos pudessem ser usados",
+			"nl": "Leest de waarden uit de Strom Gedacht API. Hiermee kan worden gecontroleerd of er meer groene energie in het systeem zit, zodat intensieve verbruikers kunnen worden ingezet",
+			"fr": "Lit les valeurs de l'API Strom Gedacht. Il pourrait être utilisé pour vérifier s'il y a plus d'énergie verte dans le système, de sorte que des consommateurs intensifs pourraient être utilisés.",
+			"it": "Legge i valori dall'API Strom Gedacht. Potrebbe essere utilizzato per verificare se c’è più energia verde nel sistema, in modo da poter utilizzare i consumatori intensivi",
+			"es": "Lee los valores de la API Strom Gedacht. Se podría utilizar para comprobar si hay más energía verde en el sistema, por lo que se podrían utilizar consumidores intensivos.",
+			"pl": "Odczytuje wartości z API Strom Gedacht. Można by go wykorzystać do sprawdzenia, czy w systemie jest więcej zielonej energii, aby można było wykorzystać odbiorniki intensywne",
+			"uk": "Читає значення з API Strom Gedacht. Його можна використовувати, щоб перевірити, чи є в системі більше зеленої енергії, щоб можна було використовувати інтенсивних споживачів",
+			"zh-cn": "从 Strom Gedacht API 读取值。它可以用来检查系统中是否有更多的绿色能源，因此可以使用密集型消费者"
+		},
+		"authors": ["anierbeck <bcanhome@googlemail.com>"],
+		"keywords": ["stromgedacht"],
+		"materialize": true,
+		"license": "Apache-2.0",
+		"mode": "schedule",
+		"schedule": "15 * * * *",
+		"allowInit": true,
+		"platform": "Javascript/Node.js",
+		"main": "build/main.js",
+		"icon": "stromgedacht_appicon.svg",
+		"enabled": true,
+		"extIcon": "https://raw.githubusercontent.com/anierbeck/ioBroker.stromgedacht/main/admin/stromgedacht_appicon.svg",
+		"readme": "https://github.com/anierbeck/ioBroker.stromgedacht/blob/main/README.md",
+		"loglevel": "info",
+		"type": "misc-data",
+		"compact": true,
+		"connectionType": "cloud",
+		"dataSource": "poll",
+		"adminUI": {
+			"config": "json"
+		},
+		"dependencies": [
+			{
+				"js-controller": ">=3.3.22"
+			}
+		],
+		"globalDependencies": [
+			{
+				"admin": ">=5.1.13"
+			}
+		]
+	},
+	"native": {
+		"zipcode": "76135",
+		"hoursInFuture": "24",
+		"daysInPast": "1"
+	},
+	"objects": [],
+	"instanceObjects": [
+		{
+			"_id": "info.connection",
+			"type": "state",
+			"common": {
+				"name": "connection",
+				"type": "boolean",
+				"role": "indicator.connected",
+				"read": true,
+				"write": false,
+				"def": false
+			}
+		},
+		{
+			"_id": "forecast",
+			"type": "device",
+			"common": {
+				"name": "Actual States",
+				"role": "states"
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states",
+			"type": "channel"
+		},
+		{
+			"_id": "forecast.states.json",
+			"type": "state",
+			"common": {
+				"name": "State Json",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.timeseries",
+			"type": "state",
+			"common": {
+				"name": "State timeseries",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.hoursInFuture",
+			"type": "state",
+			"common": {
+				"name": "State hours in future",
+				"type": "string",
+				"role": "hoursInFuture",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.lastUpdated",
+			"type": "state",
+			"common": {
+				"name": "timestamp of last update",
+				"type": "date",
+				"role": "date",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.supergruen",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.supergruen.timeseries",
+			"type": "state",
+			"common": {
+				"name": "State timeseries",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.gruen",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.gruen.timeseries",
+			"type": "state",
+			"common": {
+				"name": "State timeseries",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.orange",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.orange.timeseries",
+			"type": "state",
+			"common": {
+				"name": "State timeseries",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.rot",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.states.rot.timeseries",
+			"type": "state",
+			"common": {
+				"name": "State timeseries",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.load",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.load.json",
+			"type": "state",
+			"common": {
+				"name": "Load",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.load.lastUpdated",
+			"type": "state",
+			"common": {
+				"name": "timestamp of last update",
+				"type": "string",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.renewableEnergy",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.renewableEnergy.json",
+			"type": "state",
+			"common": {
+				"name": "Renewable energy",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.renewableEnergy.lastUpdated",
+			"type": "state",
+			"common": {
+				"name": "timestamp of last update",
+				"type": "string",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.residualLoad",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.residualLoad.json",
+			"type": "state",
+			"common": {
+				"name": "Residual load",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.residualLoad.lastUpdated",
+			"type": "state",
+			"common": {
+				"name": "timestamp of last update",
+				"type": "string",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.superGreenThreshold",
+			"type": "channel",
+			"native": {}
+		},
+		{
+			"_id": "forecast.superGreenThreshold.json",
+			"type": "state",
+			"common": {
+				"name": "Supergreen threshold",
+				"type": "string",
+				"role": "json",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		},
+		{
+			"_id": "forecast.superGreenThreshold.lastUpdated",
+			"type": "state",
+			"common": {
+				"name": "timestamp of last update",
+				"type": "string",
+				"read": true,
+				"write": true
+			},
+			"native": {}
+		}
+	]
 }

@@ -148,8 +148,7 @@ The ioBroker.admin interface will then be available at http://localhost:8081/
 Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#command-line) for more details.
 
 ## Changelog
-
-### **WORK IN PROGRESS**
+### 1.1.0 (2024-02-25)
 
 -   adding new feature to retrieve JSON for net load, renewable Energy, residual Load and super green threshold
 

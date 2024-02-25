@@ -226,8 +226,7 @@
 			"type": "state",
 			"common": {
 				"name": "timestamp of last update",
-				"type": "date",
-				"role": "date",
+				"type": "string",
 				"read": true,
 				"write": true
 			},

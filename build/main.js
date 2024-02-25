@@ -14,6 +14,10 @@ var __copyProps = (to, from, except, desc) => {
   return to;
 };
 var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+  // If the importer is in node compatibility mode or this is not an ESM
+  // file that has been converted to a CommonJS file using a Babel-
+  // compatible transform (i.e. "__esModule" has not been set), then set
+  // "default" to the CommonJS "module.exports" for node compatibility.
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
@@ -45,6 +49,9 @@ class Stromgedacht extends utils.Adapter {
     this.on("ready", this.onReady.bind(this));
     this.on("unload", this.onUnload.bind(this));
   }
+  /**
+   * Is called when databases are connected and adapter received configuration.
+   */
   async onReady() {
     this.log.info(`config zipcode: ${this.config.zipcode}`);
     if (this.config.zipcode === void 0 || this.config.zipcode === "") {
@@ -101,6 +108,9 @@ class Stromgedacht extends utils.Adapter {
     this.terminate ? this.terminate("Everything done. Going to terminate till next schedule", 11) : process.exit(0);
     return;
   }
+  /**
+   * Is called when adapter shuts down - callback has to be called under any circumstances!
+   */
   onUnload(callback) {
     try {
       this.setState("info.connection", false, true);
@@ -110,6 +120,10 @@ class Stromgedacht extends utils.Adapter {
       callback();
     }
   }
+  /**
+   * Sends a request to the stromgedacht API to retrieve states based on the provided zipcode and hoursInFuture.
+   * @returns A promise that resolves to an AxiosResponse object containing the API response.
+   */
   async requestStates() {
     const zipcode = this.config.zipcode;
     const hoursInFuture = this.config.hoursInFuture;
@@ -141,7 +155,7 @@ class Stromgedacht extends utils.Adapter {
   async requestForecast() {
     const zipcode = this.config.zipcode;
     const daysInPast = this.config.daysInPast;
-    const fromDate = new Date();
+    const fromDate = /* @__PURE__ */ new Date();
     fromDate.setDate(fromDate.getDate() - daysInPast);
     const queryParams = {
       zip: zipcode,
@@ -168,6 +182,10 @@ class Stromgedacht extends utils.Adapter {
       throw error;
     });
   }
+  /**
+   * Parses the state from the provided JSON object and sets the corresponding states in the system.
+   * @param json - The JSON object containing the states.
+   */
   async parseState(json) {
     this.log.debug(`Parsing state ${JSON.stringify(json)}`);
     const states = json.states;
@@ -238,34 +256,44 @@ class Stromgedacht extends utils.Adapter {
     this.setForecastStates(gruenStates, "forecast.states.gruen", gruenTimeseries);
     this.setForecastStates(gelbStates, "forecast.states.orange", gelbTimeseries);
     this.setForecastStates(rotStates, "forecast.states.rot", rotTimeseries);
-    this.setStateAsync("forecast.states.lastUpdated", new Date().toString(), true);
+    this.setStateAsync("forecast.states.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
   }
+  /**
+   * Parses the forecast from the provided JSON object and sets the corresponding states in the system.
+   * @param json - The JSON object containing the forecast.
+   */
   parseForecast(json) {
     if (json.load != void 0) {
       this.setStateAsync("forecast.load.json", JSON.stringify(json.load), true);
-      this.setStateAsync("forecast.load.lastUpdated", new Date().toString(), true);
+      this.setStateAsync("forecast.load.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
     } else {
       this.log.error(`No load data received`);
     }
     if (json.renewableEnergy != void 0) {
       this.setStateAsync("forecast.renewableEnergy.json", JSON.stringify(json.renewableEnergy), true);
-      this.setStateAsync("forecast.renewableEnergy.lastUpdated", new Date().toString(), true);
+      this.setStateAsync("forecast.renewableEnergy.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
     } else {
       this.log.error(`No renewableEnergy data received`);
     }
     if (json.residualLoad != void 0) {
       this.setStateAsync("forecast.residualLoad.json", JSON.stringify(json.residualLoad), true);
-      this.setStateAsync("forecast.residualLoad.lastUpdated", new Date().toString(), true);
+      this.setStateAsync("forecast.residualLoad.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
     } else {
       this.log.error(`No residualLoad data received`);
     }
     if (json.superGreenThreshold != void 0) {
       this.setStateAsync("forecast.superGreenThreshold.json", JSON.stringify(json.superGreenThreshold), true);
-      this.setStateAsync("forecast.superGreenThreshold.lastUpdated", new Date().toString(), true);
+      this.setStateAsync("forecast.superGreenThreshold.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
     } else {
       this.log.error(`No superGreenThreshold data received`);
     }
   }
+  /**
+   * Adds data to InfluxDB.
+   * @param datapoint - The name of the datapoint where to store the data
+   * @param timestamp - The timestamp of the data
+   * @param value - The value of the data
+   */
   async addToInfluxDB(datapoint, timestamp, value) {
     if (this.config.influxinstance) {
       let influxInstance = this.config.influxinstance;
@@ -284,6 +312,13 @@ class Stromgedacht extends utils.Adapter {
       this.log.debug(`InfluxDB result: ${JSON.stringify(result)}`);
     }
   }
+  /**
+   * Sets the states and corresponding objects in the ioBroker adapter.
+   * @param states - The array of states to set
+   * @param stateIdPrefix - The prefix for the state IDs
+   * @param timeseries - The timeseries data to set
+   * @returns A promise that resolves when the states and objects are set
+   */
   async setForecastStates(states, stateIdPrefix, timeseries) {
     for (let i = 0; i < states.length; i++) {
       const stateId = `${stateIdPrefix}.${i}`;

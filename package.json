@@ -57,7 +57,7 @@
     "sinon": "^18.0.0",
     "sinon-chai": "^3.7.0",
     "source-map-support": "^0.5.21",
-    "testcontainers": "^10.10.1",
+    "testcontainers": "^10.13.1",
     "ts-node": "^10.9.2",
     "typescript": "~5.5.3"
   },

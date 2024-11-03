@@ -405,7 +405,7 @@ class Stromgedacht extends utils.Adapter {
 		this.setStateAsync(`${stateIdPrefix}.timeseries`, JSON.stringify(timeseries), true);
 	}
 
-	private getOffset(from: Date): number {
+	getOffset(from: Date): number {
 		const offSetMinutes = from.getMinutes();
 		const offSetSeconds = from.getSeconds();
 		const offSetMilliseconds = from.getMilliseconds();
@@ -413,7 +413,7 @@ class Stromgedacht extends utils.Adapter {
 		return offSet;
 	}
 
-	private getTimeOffset(startDate: Date, endDate: Date): number {
+	getTimeOffset(startDate: Date, endDate: Date): number {
 		// Calculate the time difference in milliseconds
 		const timeDifference = endDate.getTime() - startDate.getTime();
 

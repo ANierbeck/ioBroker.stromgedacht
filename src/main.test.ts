@@ -1,14 +1,6 @@
-/**
- * This is a dummy TypeScript test file using chai and mocha
- *
- * It's automatically excluded from npm and its build output is excluded from both git and npm.
- * It is advised to test all your modules with accompanying *.test.ts-files
- */
-
-// import { functionToTest } from "./moduleToTest";
+/* eslint-disable @typescript-eslint/no-var-requires */
 import axios from "axios";
 import { expect } from "chai";
-//import Stromgedacht from "./main";
 
 const stromgedachtApi = "https://api.stromgedacht.de/v1/statesRelative";
 const stromgedachtForecastApi = "https://api.stromgedacht.de/v1/forecast";
@@ -119,21 +111,6 @@ describe("parse JSON => create Timeseries", () => {
 	});
 });
 
-/**
- * unfortunately I was not able to test the Stromgedacht class
- */
-describe("main to test => requestStates to test", () => {
-	it(`should return a response`, () => {
-		/*
-		requestStates().to.be.a("function");
-		expect(requestStates()).to.be.a("function");
-		expect(requestStates()).to.be.a("promise");
-		expect(requestStates()).to.be.fulfilled;
-		*/
-	});
-	// ... more tests => it
-});
-
 function getTimeOffset(startDate: Date, endDate: Date) {
 	// Calculate the time difference in milliseconds
 	const timeDifference = endDate.getTime() - startDate.getTime();
@@ -151,4 +128,3 @@ function getOffset(from: Date): number {
 	const offSet = offSetMinutes * 60 * 1000 + offSetSeconds * 1000 + offSetMilliseconds;
 	return offSet;
 }
-// ... more test suites => describe

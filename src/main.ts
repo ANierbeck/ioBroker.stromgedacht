@@ -8,9 +8,9 @@
 import * as utils from "@iobroker/adapter-core";
 import axios from "axios";
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* tslint:disable no-var-requires */
 const adapterName = require("./../package.json").name.split(".").pop();
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+/* tslint:disable no-var-requires */
 const instanceObjects = require("./../io-package.json").instanceObjects;
 
 interface State {
@@ -89,15 +89,15 @@ class Stromgedacht extends utils.Adapter {
 					return;
 				}
 				this.log.debug(`Received states for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
-				this.setStateAsync("forecast.states.json", JSON.stringify(response.data), true);
-				this.setStateAsync("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
-				this.setStateAsync("info.connection", true, true);
+				this.setState("forecast.states.json", JSON.stringify(response.data), true);
+				this.setState("forecast.states.hoursInFuture", this.config.hoursInFuture, true);
+				this.setState("info.connection", true, true);
 				return response.data;
 			})
 			.then(async (data) => this.parseState(data))
 			.catch(async (error) => {
 				this.log.error(`Error: ${error.message}`);
-				await this.setStateAsync("info.connection", false, true);
+				this.setState("info.connection", false, true);
 				this.terminate ? this.terminate(15) : process.exit(15);
 			});
 
@@ -137,6 +137,7 @@ class Stromgedacht extends utils.Adapter {
 			this.log.info("cleaned everything up...");
 			callback();
 		} catch (e) {
+			this.log.error(`Error during unload: ${e}`);
 			callback();
 		}
 	}

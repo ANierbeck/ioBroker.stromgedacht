@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import axios from "axios";
 import { expect } from "chai";
 

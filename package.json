@@ -20,7 +20,7 @@
     "url": "https://github.com/ANierbeck/ioBroker.stromgedacht.git"
   },
   "engines": {
-    "node": ">= 16"
+    "node": ">= 20"
   },
   "dependencies": {
     "@iobroker/adapter-core": "^3.2.2",
@@ -35,11 +35,11 @@
     "@eslint/js": "^9.14.0",
     "@iobroker/adapter-dev": "^1.2.0",
     "@iobroker/testing": "^5.0.0",
-    "@tsconfig/node16": "^16.1.3",
+    "@tsconfig/node20": "^20.1.4",
     "@types/chai": "^5.0.1",
     "@types/chai-as-promised": "^8.0.1",
     "@types/mocha": "^10.0.7",
-    "@types/node": "^22.5.2",
+    "@types/node": "^20.16.5",
     "@types/node-fetch": "^2.6.12",
     "@types/proxyquire": "^1.3.31",
     "@types/sinon": "^17.0.3",

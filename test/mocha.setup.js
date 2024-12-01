@@ -1,7 +1,4 @@
-process.on("unhandledRejection", (r) => {
-	throw r;
-});
-("use strict");
+"use strict";
 
 // Makes ts-node ignore warnings, so mocha --watch does work
 process.env.TS_NODE_IGNORE_WARNINGS = "TRUE";

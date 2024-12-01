@@ -21,8 +21,8 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
   mod
 ));
-var utils = __toESM(require("@iobroker/adapter-core"));
-var import_axios = __toESM(require("axios"));
+var utils = __toESM(require("@iobroker/adapter-core"), 1);
+var import_axios = __toESM(require("axios"), 1);
 const adapterName = require("./../package.json").name.split(".").pop();
 const instanceObjects = require("./../io-package.json").instanceObjects;
 var StateEnum = /* @__PURE__ */ ((StateEnum2) => {

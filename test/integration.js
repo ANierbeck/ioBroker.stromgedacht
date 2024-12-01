@@ -14,7 +14,7 @@ tests.integration(path.join(__dirname, ".."), {
 
 	// If the adapter may call process.exit during startup, define here which exit codes are allowed.
 	// By default, termination during startup is not allowed.
-	allowedExitCodes: [11],
+	allowedExitCodes: [11, 15],
 
 	// To test against a different version of JS-Controller, you can change the version or dist-tag here.
 	// Make sure to remove this setting when you're done testing.

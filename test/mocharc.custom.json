@@ -1,5 +1,5 @@
 {
-	"require": ["test/mocha.setup.mjs", "ts-node/register/transpile-only", "ts-node/register", "source-map-support/register"],
-	"extension": ["ts", "mts"],
-	"watch-files": ["src/**/*.test.mts"]
+	"require": ["test/mocha.setup.js", "ts-node/register/transpile-only", "ts-node/register", "source-map-support/register"],
+	"extension": ["ts"],
+	"watch-files": ["src/**/*.test.ts"]
 }

@@ -1,7 +1,6 @@
 {
   "name": "iobroker.stromgedacht",
   "version": "1.1.0",
-  "type": "module",
   "description": "Reads the values from Strom Gedacht API. It could be used to check if there is more green energy in the system, so intensive consumers could be used",
   "author": {
     "name": "ANierbeck",
@@ -80,7 +79,7 @@
     "prebuild:ts": "rimraf build",
     "build:ts": "build-adapter ts",
     "watch:ts": "build-adapter ts --watch",
-    "test:ts": "mocha --require ts-node/register --config test/mocharc.custom.json src/**/*.test.mts",
+    "test:ts": "mocha --config test/mocharc.custom.json src/**/*.test.ts",
     "test:package": "mocha test/package --exit",
     "test:integration": "mocha test/integration --exit",
     "test": "npm run test:ts && npm run test:package",

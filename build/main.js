@@ -90,7 +90,11 @@ class Stromgedacht extends utils.Adapter {
     }).then(async (data) => this.parseState(data)).catch(async (error) => {
       this.log.error(`Error: ${error.message}`);
       this.setState("info.connection", false, true);
-      this.terminate ? this.terminate(15) : process.exit(15);
+      if (this.terminate) {
+        this.terminate(15);
+      } else {
+        process.exit(15);
+      }
     });
     this.requestForecast().then(async (response) => {
       if (response === null) {
@@ -101,12 +105,19 @@ class Stromgedacht extends utils.Adapter {
       return response.data;
     }).then(async (data) => this.parseForecast(data)).catch(async (error) => {
       this.log.error(`Error: ${error.message}`);
-      await this.setStateAsync("info.connection", false, true);
-      this.terminate ? this.terminate(15) : process.exit(15);
+      await this.setState("info.connection", false, true);
+      if (this.terminate) {
+        this.terminate(15);
+      } else {
+        process.exit(15);
+      }
     });
-    await this.setStateAsync("info.connection", false, true);
-    this.terminate ? this.terminate("Everything done. Going to terminate till next schedule", 11) : process.exit(0);
-    return;
+    await this.setState("info.connection", false, true);
+    if (this.terminate) {
+      this.terminate(15);
+    } else {
+      process.exit(15);
+    }
   }
   /**
    * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -252,12 +263,12 @@ class Stromgedacht extends utils.Adapter {
       }
     });
     this.log.debug(`Timeseries: ${JSON.stringify(timeseries)}`);
-    this.setStateAsync("forecast.states.timeseries", JSON.stringify(timeseries), true);
+    this.setState("forecast.states.timeseries", JSON.stringify(timeseries), true);
     this.setForecastStates(supergruenStates, "forecast.states.supergruen", supergruenTimeseries);
     this.setForecastStates(gruenStates, "forecast.states.gruen", gruenTimeseries);
     this.setForecastStates(gelbStates, "forecast.states.orange", gelbTimeseries);
     this.setForecastStates(rotStates, "forecast.states.rot", rotTimeseries);
-    this.setStateAsync("forecast.states.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
+    this.setState("forecast.states.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
   }
   /**
    * Parses the forecast from the provided JSON object and sets the corresponding states in the system.
@@ -265,26 +276,26 @@ class Stromgedacht extends utils.Adapter {
    */
   parseForecast(json) {
     if (json.load != void 0) {
-      this.setStateAsync("forecast.load.json", JSON.stringify(json.load), true);
-      this.setStateAsync("forecast.load.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
+      this.setState("forecast.load.json", JSON.stringify(json.load), true);
+      this.setState("forecast.load.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
     } else {
       this.log.error(`No load data received`);
     }
     if (json.renewableEnergy != void 0) {
-      this.setStateAsync("forecast.renewableEnergy.json", JSON.stringify(json.renewableEnergy), true);
-      this.setStateAsync("forecast.renewableEnergy.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
+      this.setState("forecast.renewableEnergy.json", JSON.stringify(json.renewableEnergy), true);
+      this.setState("forecast.renewableEnergy.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
     } else {
       this.log.error(`No renewableEnergy data received`);
     }
     if (json.residualLoad != void 0) {
-      this.setStateAsync("forecast.residualLoad.json", JSON.stringify(json.residualLoad), true);
-      this.setStateAsync("forecast.residualLoad.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
+      this.setState("forecast.residualLoad.json", JSON.stringify(json.residualLoad), true);
+      this.setState("forecast.residualLoad.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
     } else {
       this.log.error(`No residualLoad data received`);
     }
     if (json.superGreenThreshold != void 0) {
-      this.setStateAsync("forecast.superGreenThreshold.json", JSON.stringify(json.superGreenThreshold), true);
-      this.setStateAsync("forecast.superGreenThreshold.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
+      this.setState("forecast.superGreenThreshold.json", JSON.stringify(json.superGreenThreshold), true);
+      this.setState("forecast.superGreenThreshold.lastUpdated", (/* @__PURE__ */ new Date()).toString(), true);
     } else {
       this.log.error(`No superGreenThreshold data received`);
     }

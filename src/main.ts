@@ -6,7 +6,7 @@
 // The adapter-core module gives you access to the core ioBroker functions
 // you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 // tslint:disable no-var-requires
 const adapterName = require("./../package.json").name.split(".").pop();
@@ -157,7 +157,7 @@ class Stromgedacht extends utils.Adapter {
 	 * Sends a request to the stromgedacht API to retrieve states based on the provided zipcode and hoursInFuture.
 	 * @returns A promise that resolves to an AxiosResponse object containing the API response.
 	 */
-	async requestStates(): Promise<axios.AxiosResponse<any, any>> {
+	async requestStates(): Promise<AxiosResponse<any, any>> {
 		const zipcode = this.config.zipcode;
 		const hoursInFuture = this.config.hoursInFuture;
 
@@ -190,7 +190,7 @@ class Stromgedacht extends utils.Adapter {
 			});
 	}
 
-	async requestForecast(): Promise<axios.AxiosResponse<any, any>> {
+	async requestForecast(): Promise<AxiosResponse<any, any>> {
 		const zipcode = this.config.zipcode;
 		const daysInPast = this.config.daysInPast;
 

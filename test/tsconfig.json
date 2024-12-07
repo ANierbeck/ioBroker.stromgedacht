@@ -3,5 +3,5 @@
 	"compilerOptions": {
 		"noImplicitAny": false
 	},
-	"include": ["./**/*.js", "package.js", "mocha.setup.js"]
+	"include": ["./**/*.mjs", "package.js", "mocha.setup.js"]
 }

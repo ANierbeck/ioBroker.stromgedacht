@@ -30,17 +30,6 @@
 		// "noUnusedParameters": true,
 		// Uncomment this if you want the old behavior of catch variables being `any`
 		// "useUnknownInCatchVariables": false,
-		
-		"sourceMap": true,
-		"inlineSourceMap": false, 
-
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleResolution": "Node",
-		"strict": true,
-		"esModuleInterop": true,
-		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true
 	},
 	"include": ["src/**/*.ts", "test/**/*.ts"],
 	"exclude": ["build/**", "node_modules/**", "widgets/**"]

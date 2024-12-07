@@ -50,14 +50,16 @@ describe("stromgedacht forecast => call", () => {
 describe("parse JSON => states", () => {
 	it("should return a valid response", async () => {
 		const json = JSON.parse(sampleStateJSON);
-		expect(json.states).to.be.an("array");
+		expect(json).to.be.an("object");
+		const states = json.states;
+		expect(states).to.be.an("array");
 	});
 });
 
 describe("parse JSON => checkStates", () => {
 	it("should return a valid response", async () => {
 		const json = JSON.parse(sampleStateJSON);
-		json.states.forEach((state: any) => {
+		json.states.forEach((state) => {
 			expect(state.state).to.be.a("number");
 		});
 	});
@@ -66,7 +68,7 @@ describe("parse JSON => checkStates", () => {
 describe("parse JSON => create Timeseries", () => {
 	it("should generate a valid timeseries", async () => {
 		const json = JSON.parse(sampleStateJSON);
-		const timeseries: any[] = [];
+		const timeseries = [];
 
 		const state = json.states[0];
 
@@ -91,7 +93,7 @@ describe("parse JSON => create Timeseries", () => {
 			expect(timeslotState).to.be.equal(1);
 		}
 
-		json.states.forEach((state: any) => {
+		json.states.forEach((state) => {
 			const from = (state.from = new Date(state.from));
 			const to = (state.to = new Date(state.to));
 			const timeDifference = getTimeOffset(from, to);
@@ -110,7 +112,7 @@ describe("parse JSON => create Timeseries", () => {
 	});
 });
 
-function getTimeOffset(startDate: Date, endDate: Date) {
+function getTimeOffset(startDate, endDate) {
 	// Calculate the time difference in milliseconds
 	const timeDifference = endDate.getTime() - startDate.getTime();
 
@@ -120,7 +122,7 @@ function getTimeOffset(startDate: Date, endDate: Date) {
 	return hoursOffset;
 }
 
-function getOffset(from: Date): number {
+function getOffset(from) {
 	const offSetMinutes = from.getMinutes();
 	const offSetSeconds = from.getSeconds();
 	const offSetMilliseconds = from.getMilliseconds();

@@ -1,7 +1,7 @@
 {
     "common": {
         "name": "stromgedacht",
-        "version": "1.1.0",
+        "version": "1.1.1-SNAPSHOT",
         "news": {
             "1.1.0": {
                 "en": "adding new feature to retrieve JSON for net load, renewable Energy, residual Load and super green threshold",

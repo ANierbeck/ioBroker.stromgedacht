@@ -112,12 +112,6 @@ class Stromgedacht extends utils.Adapter {
         process.exit(15);
       }
     });
-    await this.setState("info.connection", false, true);
-    if (this.terminate) {
-      this.terminate(15);
-    } else {
-      process.exit(15);
-    }
   }
   /**
    * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -173,7 +167,7 @@ class Stromgedacht extends utils.Adapter {
     toDate.setDate(toDate.getDate() + 1);
     const queryParams = {
       zip: zipcode,
-      from: fromDate.toDateString()
+      from: fromDate.toDateString(),
       to: toDate.toDateString()
     };
     return (0, import_axios.default)({

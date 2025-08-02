@@ -168,10 +168,13 @@ class Stromgedacht extends utils.Adapter {
     const zipcode = this.config.zipcode;
     const daysInPast = this.config.daysInPast;
     const fromDate = /* @__PURE__ */ new Date();
+    const toDate = /* @__PURE__ */ new Date();
     fromDate.setDate(fromDate.getDate() - daysInPast);
+    toDate.setDate(toDate.getDate() + 1);
     const queryParams = {
       zip: zipcode,
       from: fromDate.toDateString()
+      to: toDate.toDateString()
     };
     return (0, import_axios.default)({
       method: "get",

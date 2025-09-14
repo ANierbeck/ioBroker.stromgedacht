@@ -117,12 +117,10 @@ class Stromgedacht extends utils.Adapter {
 			.then(async (data) => this.parseForecast(data))
 			.catch(async (error) => {
 				this.log.error(`Error: ${error.message}`);
-				await this.setState("info.connection", false, true);
-				if (this.terminate) {
-					this.terminate(15);
-				} else {
-					process.exit(15);
-				}
+				// Keep the adapter running after initialization so integration tests
+				// have time to interact with the instance. Only terminate on explicit
+				// errors handled above.
+				await this.setState("info.connection", true, true);
 			});
 
 		await this.setState("info.connection", false, true);

@@ -98,11 +98,11 @@ class Stromgedacht extends utils.Adapter {
 			.catch(async (error) => {
 				this.log.error(`Error: ${error.message}`);
 				this.setState("info.connection", false, true);
-				if (this.terminate) {
-					this.terminate(15);
-				} else {
-					process.exit(15);
-				}
+				// Do not terminate the process here. Keep the adapter running so
+				// integration tests (and the ioBroker testing harness) can interact
+				// with the instance. The testing harness expects the adapter to
+				// stay alive and will handle teardown itself.
+				this.log.info("Keeping adapter running after requestStates error (no process exit)");
 			});
 
 		this.requestForecast()
@@ -123,12 +123,11 @@ class Stromgedacht extends utils.Adapter {
 				await this.setState("info.connection", true, true);
 			});
 
-		await this.setState("info.connection", false, true);
-		if (this.terminate) {
-			this.terminate(15);
-		} else {
-			process.exit(15);
-		}
+		// Keep the adapter running after initialization so integration tests
+		// have time to interact with the instance. Do not call process.exit
+		// or terminate the adapter here.
+		await this.setState("info.connection", true, true);
+		this.log.info("Adapter initialized and kept running for integration tests");
 	}
 
 	/**

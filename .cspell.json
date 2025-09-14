@@ -1,0 +1,28 @@
+{
+  "version": "0.2",
+  "language": "en",
+  "words": [
+    "Stromgedacht",
+    "StromGedacht",
+    "ioBroker",
+    "Lovelace",
+    "ApexCharts",
+    "apexcharts-card",
+    "TransnetBW",
+    "InfluxDB",
+    "dev-server",
+    "Apex-Chard",
+    "StromGedacht,",
+    "StromGedacht."
+  ],
+  "ignorePaths": [
+    "build/**",
+    "coverage/**",
+    "node_modules/**",
+    ".git/**",
+    ".vscode/**"
+  ],
+  "ignoreRegExpList": [
+    "^https?://.*$"
+  ]
+}

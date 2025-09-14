@@ -103,6 +103,47 @@ before(function () {
 			err && (err as any).message ? (err as any).message : err,
 		);
 	}
+
+	// Additionally, try to patch the @iobroker/testing DBConnection if it's loaded later
+	// The testing package sometimes constructs a DBConnection instance which delegates
+	// to the states client; ensure the DBConnection.prototype.delStateAsync exists.
+	try {
+		const testingModule = await import("@iobroker/testing");
+		const testing = (testingModule && (testingModule as any).default) || testingModule;
+		if (testing && testing.DBConnection) {
+			const DBConn = testing.DBConnection as any;
+			if (DBConn && DBConn.prototype && !DBConn.prototype.delStateAsync) {
+				console.info("mocha.setup: patching @iobroker/testing DBConnection.prototype.delStateAsync");
+				DBConn.prototype.delStateAsync = function (this: any, id: string) {
+					// if underlying states client has delStateAsync, forward; otherwise wrap.
+					const client = this._statesClient || this.states || this.client;
+					if (client && typeof client.delStateAsync === "function") {
+						return client.delStateAsync(id);
+					}
+					const candidate = client && (client.delState || client.delStateSync || client.delStatePromise);
+					if (candidate && typeof candidate === "function") {
+						return new Promise((resolve, reject) => {
+							try {
+								const r = candidate.call(client, id);
+								if (r && typeof r.then === "function") return resolve(r);
+								resolve(r);
+							} catch (e) {
+								reject(e);
+							}
+						});
+					}
+					// fallback: return resolved promise
+					return Promise.resolve();
+				};
+			}
+		}
+	} catch (err) {
+		// non-fatal
+		console.debug(
+			"mocha.setup: failed to patch @iobroker/testing DBConnection:",
+			err && (err as any).message ? (err as any).message : err,
+		);
+	}
 })();
 
 export {};

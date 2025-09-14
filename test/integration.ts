@@ -2,16 +2,16 @@ import { tests } from "@iobroker/testing";
 import assert from "assert";
 import fs from "fs/promises";
 import path from "path";
-import { fileURLToPath } from "url";
 
 let adapterName: string;
 
 const zipCode = "70173";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Use process.cwd() as the repository root. Mocha runs tests from the project
+// root, so `process.cwd()` points to the repo root here.
+const projectRoot = process.cwd();
 
-tests.integration(path.join(__dirname, ".."), {
+tests.integration(projectRoot, {
 	allowedExitCodes: [11, 15],
 	controllerVersion: "latest",
 	defineAdditionalTests({ suite }) {
@@ -21,7 +21,7 @@ tests.integration(path.join(__dirname, ".."), {
 			before(async () => {
 				harness = getHarness();
 				// load package.json here to avoid top-level await / require
-				const pkgRaw = await fs.readFile(path.join(__dirname, "..", "package.json"), "utf8");
+				const pkgRaw = await fs.readFile(path.join(projectRoot, "package.json"), "utf8");
 				const pkg = JSON.parse(pkgRaw) as any;
 				adapterName = pkg.name.split(".").pop();
 			});

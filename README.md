@@ -1,7 +1,7 @@
+# ioBroker.stromgedacht
+
 ![Logo](admin/stromgedacht_appicon.svg)
 ![Logo](admin/StromGedacht-Horizontal_white_Footer.svg)
-
-# ioBroker.stromgedacht
 
 [![NPM version](https://img.shields.io/npm/v/iobroker.stromgedacht.svg)](https://www.npmjs.com/package/iobroker.stromgedacht)
 [![Downloads](https://img.shields.io/npm/dm/iobroker.stromgedacht.svg)](https://www.npmjs.com/package/iobroker.stromgedacht)
@@ -23,9 +23,10 @@ The API used by this adapter is provided by „StromGedacht, TransnetBW GmbH“.
 ## Settings
 
 this adapter needs just two settings.
-| setting | description |
-|---------|-------------|
-| zipcode | needed for the API, it's the select mechanism for the region|
+
+| setting       | description                                                                                                                |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| zipcode       | needed for the API, it's the select mechanism for the region                                                               |
 | hoursInFuture | a value between 1 and 48, the power prediction for the requested time. 48h is the maximum provided by the stromgedacht api |
 
 ## How to use?
@@ -95,19 +96,20 @@ This section is intended for the developer. It can be deleted later.
 ### Scripts in `package.json`
 
 Several npm scripts are predefined for your convenience. You can run them using `npm run <scriptname>`
-| Script name | Description |
-|-------------|-------------|
-| `build` | Compile the TypeScript sources. |
-| `watch` | Compile the TypeScript sources and watch for changes. |
-| `test:ts` | Executes the tests you defined in `*.test.ts` files. |
-| `test:package` | Ensures your `package.json` and `io-package.json` are valid. |
-| `test:integration` | Tests the adapter startup with an actual instance of ioBroker. |
-| `test` | Performs a minimal test run on package files and your tests. |
-| `check` | Performs a type-check on your code (without compiling anything). |
-| `coverage` | Generates code coverage using your test files. |
-| `lint` | Runs `ESLint` to check your code for formatting errors and potential bugs. |
-| `translate` | Translates texts in your adapter to all required languages, see [`@iobroker/adapter-dev`](https://github.com/ioBroker/adapter-dev#manage-translations) for more details. |
-| `release` | Creates a new release, see [`@alcalzone/release-script`](https://github.com/AlCalzone/release-script#usage) for more details. |
+
+| Script name        | Description                                                                                                                                                              |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `build`            | Compile the TypeScript sources.                                                                                                                                          |
+| `watch`            | Compile the TypeScript sources and watch for changes.                                                                                                                    |
+| `test:ts`          | Executes the tests you defined in `*.test.ts` files.                                                                                                                     |
+| `test:package`     | Ensures your `package.json` and `io-package.json` are valid.                                                                                                             |
+| `test:integration` | Tests the adapter startup with an actual instance of ioBroker.                                                                                                           |
+| `test`             | Performs a minimal test run on package files and your tests.                                                                                                             |
+| `check`            | Performs a type-check on your code (without compiling anything).                                                                                                         |
+| `coverage`         | Generates code coverage using your test files.                                                                                                                           |
+| `lint`             | Runs `ESLint` to check your code for formatting errors and potential bugs.                                                                                               |
+| `translate`        | Translates texts in your adapter to all required languages, see [`@iobroker/adapter-dev`](https://github.com/ioBroker/adapter-dev#manage-translations) for more details. |
+| `release`          | Creates a new release, see [`@alcalzone/release-script`](https://github.com/AlCalzone/release-script#usage) for more details.                                            |
 
 ### Configuring the compilation
 
@@ -143,69 +145,70 @@ You may start `dev-server` by calling from your dev directory:
 dev-server watch
 ```
 
-The ioBroker.admin interface will then be available at http://localhost:8081/
+The ioBroker.admin interface will then be available at <http://localhost:8081/>
 
 Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#command-line) for more details.
 
 ## Changelog
 
-### 1.1.0 (2024-02-25)
-
-- adding new feature to retrieve JSON for net load, renewable Energy, residual Load and super green threshold
-
-### 1.0.0 (2024-02-19)
-
-- using the official logo with thanks to „StromGedacht, TransnetBW GmbH“
-- terminology bugfix: instead of yellow use orange, yellow was removed from underlying API
-
-### 0.2.0 (2024-01-05)
-
-- timeseries are now also logged to InfluxDB-Adapter, if configured.
-
-### 0.1.1 (2024-01-05)
-
-- trying to make sure the adapter is restarted every hour
-
-### 0.1.0 (2024-01-03)
-
-- code cleanup
-- adding timeseries
-- adding sample to readme about how to visualize
-- itests now functional
-
-### 0.0.6 (2023-12-30)
-
-- experimenting with exit of adapter itself
-- fixing integration test
-
-### 0.0.5 (2023-12-29)
-
-- Fixing integration tests, partially
-- Integration tests don't fully functional, only one test can be run, because adapter isn't stopped in time
-
-### 0.0.4 (2023-12-27)
-
-- scheduler is not rescheduled due to already running instance.
-
-### 0.0.3 (2023-12-27)
-
-- fixing integration tests by making them fail again. Problem is due to missing connection to database
-- debug log messages are now in debug level
-- trying to run as scheduled instance
-
-### 0.0.2 (2023-12-22)
-
-- 0.0.2 - more tests and integration tests
-
-### 0.0.1 (2023-12-22)
-
-- initial release
-
 ## License
 
-    							 Apache License
-    					   Version 2.0, January 2004
-    					http://www.apache.org/licenses/
+```text
+Apache License
+Version 2.0, January 2004
+http://www.apache.org/licenses/
+
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+1. Definitions.
+
+    "License" shall mean the terms and conditions for use, reproduction,
+    and distribution as defined by Sections 1 through 9 of this document.
+
+    "Licensor" shall mean the copyright owner or entity authorized by
+    the copyright owner that is granting the License.
+
+    "Legal Entity" shall mean the union of the acting entity and all
+    other entities that control, are controlled by, or are under common
+    control with that entity. For the purposes of this definition,
+    "control" means (i) the power, direct or indirect, to cause the
+    direction or management of such entity, whether by contract or
+    otherwise, or (ii) ownership of fifty percent (50%) or more of the
+    outstanding shares, or (iii) beneficial ownership of such entity.
+
+    "You" (or "Your") shall mean an individual or Legal Entity
+    exercising permissions granted by this License.
+
+    "Source" form shall mean the preferred form for making modifications,
+    including but not limited to software source code, documentation
+    source, and configuration files.
+
+    "Object" form shall mean any form resulting from mechanical
+    transformation or translation of a Source form, including but
+    not limited to compiled object code, generated documentation,
+    and conversions to other media types.
+
+    "Work" shall mean the work of authorship, whether in Source or
+    Object form, made available under the License, as indicated by a
+    copyright notice that is included in or attached to the work
+    (an example is provided in the Appendix below).
+
+    "Derivative Works" shall mean any work, whether in Source or
+    Object form, that is based on (or derived from) the Work and for which
+    the editorial revisions, annotations, elaborations, or other modifications
+    represent, as a whole, an original work of authorship. For the purposes
+    of this License, Derivative Works shall not include works that remain
+    separable from, or merely link (or bind by name) to the interfaces of,
+    the Work and Derivative Works thereof.
+
+    "Contribution" shall mean any work of authorship, including
+    the original version of the Work and any modifications or additions
+    to that Work or Derivative Works thereof, that is intentionally
+    submitted to Licensor for inclusion in the Work by the copyright owner
+    or by an individual or Legal Entity authorized to submit on behalf of
+    the copyright owner. For the purposes of this definition, "submitted"
+    means any form of electronic, verbal, or written communication sent
+    to the Licensor or its representatives, including but not limited to
 
 TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 
@@ -404,3 +407,4 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+```

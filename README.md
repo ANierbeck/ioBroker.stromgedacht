@@ -148,57 +148,58 @@ The ioBroker.admin interface will then be available at http://localhost:8081/
 Please refer to the [`dev-server` documentation](https://github.com/ioBroker/dev-server#command-line) for more details.
 
 ## Changelog
+
 ### 1.1.0 (2024-02-25)
 
--   adding new feature to retrieve JSON for net load, renewable Energy, residual Load and super green threshold
+- adding new feature to retrieve JSON for net load, renewable Energy, residual Load and super green threshold
 
 ### 1.0.0 (2024-02-19)
 
--   using the official logo with thanks to „StromGedacht, TransnetBW GmbH“
--   terminology bugfix: instead of yellow use orange, yellow was removed from underlying API
+- using the official logo with thanks to „StromGedacht, TransnetBW GmbH“
+- terminology bugfix: instead of yellow use orange, yellow was removed from underlying API
 
 ### 0.2.0 (2024-01-05)
 
--   timeseries are now also logged to InfluxDB-Adapter, if configured.
+- timeseries are now also logged to InfluxDB-Adapter, if configured.
 
 ### 0.1.1 (2024-01-05)
 
--   trying to make sure the adapter is restarted every hour
+- trying to make sure the adapter is restarted every hour
 
 ### 0.1.0 (2024-01-03)
 
--   code cleanup
--   adding timeseries
--   adding sample to readme about how to visualize
--   itests now functional
+- code cleanup
+- adding timeseries
+- adding sample to readme about how to visualize
+- itests now functional
 
 ### 0.0.6 (2023-12-30)
 
--   experimenting with exit of adapter itself
--   fixing integration test
+- experimenting with exit of adapter itself
+- fixing integration test
 
 ### 0.0.5 (2023-12-29)
 
--   Fixing integration tests, partially
--   Integration tests don't fully functional, only one test can be run, because adapter isn't stopped in time
+- Fixing integration tests, partially
+- Integration tests don't fully functional, only one test can be run, because adapter isn't stopped in time
 
 ### 0.0.4 (2023-12-27)
 
--   scheduler is not rescheduled due to already running instance.
+- scheduler is not rescheduled due to already running instance.
 
 ### 0.0.3 (2023-12-27)
 
--   fixing integration tests by making them fail again. Problem is due to missing connection to database
--   debug log messages are now in debug level
--   trying to run as scheduled instance
+- fixing integration tests by making them fail again. Problem is due to missing connection to database
+- debug log messages are now in debug level
+- trying to run as scheduled instance
 
 ### 0.0.2 (2023-12-22)
 
--   0.0.2 - more tests and integration tests
+- 0.0.2 - more tests and integration tests
 
 ### 0.0.1 (2023-12-22)
 
--   initial release
+- initial release
 
 ## License
 

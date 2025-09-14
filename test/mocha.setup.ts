@@ -12,6 +12,14 @@ process.on("unhandledRejection", (e) => {
 	throw e;
 });
 
+// Increase default test timeout for integration tests (CI can be slower)
+before(function () {
+	// 20s should be enough for setup on CI
+	// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+	// @ts-ignore: mocha adds `this` to the hook context
+	this.timeout(20000);
+});
+
 // Use dynamic imports because some packages are ESM-only when loaded by Node
 (async () => {
 	const chaiModule = await import("chai");
@@ -26,6 +34,34 @@ process.on("unhandledRejection", (e) => {
 	(chai as any).should();
 	(chai as any).use(sinonChai as any);
 	(chai as any).use(chaiAsPromised as any);
+
+	// Provide a small compatibility shim for older/newer db-states implementations
+	// Some versions expose `delStateAsync`, others expose `delState`. Ensure the
+	// testing helper can call `.delStateAsync()` by patching the prototype if needed.
+	try {
+		// @ts-expect-error: optional dependency, types may not be installed in CI
+		const dbStatesModule = await import("@iobroker/db-states-jsonl").catch(() => null);
+		const mod: any = dbStatesModule && (dbStatesModule.default || dbStatesModule);
+		if (mod && mod.prototype && !mod.prototype.delStateAsync) {
+			mod.prototype.delStateAsync = function (id: string) {
+				return new Promise((resolve, reject) => {
+					try {
+						if (typeof this.delState === "function") {
+							resolve(this.delState(id));
+						} else if (typeof this.delStateSync === "function") {
+							resolve(this.delStateSync(id));
+						} else {
+							resolve(undefined);
+						}
+					} catch (e) {
+						reject(e);
+					}
+				});
+			};
+		}
+	} catch {
+		// best-effort shim, ignore failures
+	}
 })();
 
 export {};

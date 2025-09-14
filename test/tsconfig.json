@@ -3,5 +3,6 @@
 	"compilerOptions": {
 		"noImplicitAny": false
 	},
-	"include": ["./**/*.mjs", "package.js", "mocha.setup.js"]
+	// Include all files in the test folder so editors (and tsc) see the test sources
+	"include": ["./**/*"]
 }

@@ -35,32 +35,73 @@ before(function () {
 	(chai as any).use(sinonChai as any);
 	(chai as any).use(chaiAsPromised as any);
 
-	// Provide a small compatibility shim for older/newer db-states implementations
-	// Some versions expose `delStateAsync`, others expose `delState`. Ensure the
-	// testing helper can call `.delStateAsync()` by patching the prototype if needed.
+	// Provide a compatibility shim for older/newer db-states implementations.
+	// Some versions expose `delStateAsync`, others expose `delState` or `delStateSync`.
+	// This helper tries to patch both the prototype and common instance shapes so the
+	// test harness can call `delStateAsync()` reliably in CI.
 	try {
-		// @ts-expect-error: optional dependency, types may not be installed in CI
-		const dbStatesModule = await import("@iobroker/db-states-jsonl").catch(() => null);
-		const mod: any = dbStatesModule && (dbStatesModule.default || dbStatesModule);
-		if (mod && mod.prototype && !mod.prototype.delStateAsync) {
-			mod.prototype.delStateAsync = function (id: string) {
+		// optional dependency: import safely and tolerate absence in some CI setups
+		let dbStatesModule: any = null;
+		try {
+			dbStatesModule = await import("@iobroker/db-states-jsonl");
+		} catch {
+			dbStatesModule = null;
+		}
+		let mod: any = dbStatesModule;
+		if (dbStatesModule && (dbStatesModule as any).default) {
+			mod = (dbStatesModule as any).default;
+		}
+
+		const makeAsync = (fn?: (...args: any[]) => any): ((id: string) => Promise<any>) | undefined => {
+			if (!fn) return undefined;
+			return function (this: any, id: string): Promise<any> {
 				return new Promise((resolve, reject) => {
 					try {
-						if (typeof this.delState === "function") {
-							resolve(this.delState(id));
-						} else if (typeof this.delStateSync === "function") {
-							resolve(this.delStateSync(id));
-						} else {
-							resolve(undefined);
-						}
-					} catch (e) {
-						reject(e);
+						const res = fn.call(this, id);
+						if (res && typeof res.then === "function") return resolve(res);
+						resolve(res);
+					} catch (err) {
+						reject(err);
 					}
 				});
 			};
+		};
+
+		if (mod) {
+			// Patch prototype if available
+			if (mod.prototype) {
+				if (!mod.prototype.delStateAsync) {
+					const candidate =
+						mod.prototype.delState || mod.prototype.delStateSync || mod.prototype.delStatePromise;
+					if (candidate) {
+						console.info("mocha.setup: patching db-states prototype to provide delStateAsync");
+						mod.prototype.delStateAsync = makeAsync(candidate);
+					}
+				}
+			}
+
+			// Also try to patch a common instance shape that some test harnesses use
+			try {
+				const probe = new (mod as any)();
+				const instCandidate = probe.delState || probe.delStateSync || probe.delStatePromise;
+				if (instCandidate && !probe.delStateAsync) {
+					console.info("mocha.setup: patching db-states instance to provide delStateAsync");
+					(probe as any).delStateAsync = makeAsync(instCandidate);
+					// attach back to prototype so other instances benefit
+					if ((mod as any).prototype && !(mod as any).prototype.delStateAsync) {
+						(mod as any).prototype.delStateAsync = (probe as any).delStateAsync;
+					}
+				}
+			} catch {
+				// Instantiation may fail in some CI configs; that's fine — prototype patch is sufficient.
+			}
 		}
-	} catch {
-		// best-effort shim, ignore failures
+	} catch (err) {
+		// best-effort shim, ignore failures but surface a debug message
+		console.debug(
+			"mocha.setup: db-states compatibility shim failed:",
+			err && (err as any).message ? (err as any).message : err,
+		);
 	}
 })();
 

@@ -82,6 +82,16 @@ class Stromgedacht extends utils.Adapter {
 			await this.setObjectNotExistsAsync(obj._id, obj);
 		}
 
+		// Ensure a non-null forecast JSON state exists immediately to
+		// avoid race conditions in CI/tests that read the state before
+		// the external request completes. The value will be overwritten
+		// when real data arrives.
+		try {
+			await this.setStateAsync("forecast.states.json", "{}", true);
+		} catch (e) {
+			this.log.debug(`Failed to set initial forecast.states.json: ${e}`);
+		}
+
 		this.requestStates()
 			.then(async (response) => {
 				if (response === null) {

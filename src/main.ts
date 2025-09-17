@@ -241,8 +241,25 @@ if (require.main !== module) {
 }
 
 // Export the class itself for unit tests that need to call parsing helpers
-// without starting the whole adapter instance.
-// CommonJS export for require(...) users
-(module.exports as any).Stromgedacht = Stromgedacht;
+// without starting the whole adapter instance. Use a robust approach to
+// attach the class to CommonJS exports because some bundlers/setups expose
+// `module.exports` as a getter-only object which causes direct assignment
+// to throw (TypeError: Cannot set property ... which has only a getter).
+try {
+	Object.defineProperty(module.exports, "Stromgedacht", {
+		value: Stromgedacht,
+		enumerable: true,
+		writable: true,
+		configurable: true,
+	});
+} catch {
+	try {
+		// Fallback: assign to exports object
+		(exports as any).Stromgedacht = Stromgedacht;
+	} catch {
+		// last resort: ignore — the ES export below still provides the class
+	}
+}
+
 // ES export for TypeScript import users
 export { Stromgedacht };

@@ -107,6 +107,7 @@ export const mochaHooks = {
 		// Additionally, try to patch the @iobroker/testing DBConnection if it's loaded later
 		// The testing package sometimes constructs a DBConnection instance which delegates
 		// to the states client; ensure the DBConnection.prototype.delStateAsync exists.
+		// We attempt to patch the @iobroker/testing DBConnection prototype for compatibility.
 		try {
 			const testingModule = await import("@iobroker/testing");
 			const testing = (testingModule && (testingModule as any).default) || testingModule;

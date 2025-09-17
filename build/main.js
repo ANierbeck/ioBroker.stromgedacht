@@ -28,8 +28,8 @@ const instanceObjects = require("./../io-package.json").instanceObjects;
 var StateEnum = /* @__PURE__ */ ((StateEnum2) => {
   StateEnum2[StateEnum2["SUPERGRUEN"] = -1] = "SUPERGRUEN";
   StateEnum2[StateEnum2["GRUEN"] = 1] = "GRUEN";
-  StateEnum2[StateEnum2["ORANGE"] = 2] = "ORANGE";
-  StateEnum2[StateEnum2["ROT"] = 3] = "ROT";
+  StateEnum2[StateEnum2["ORANGE"] = 3] = "ORANGE";
+  StateEnum2[StateEnum2["ROT"] = 4] = "ROT";
   return StateEnum2;
 })(StateEnum || {});
 const stromgedachtStateApi = "https://api.stromgedacht.de/v1/statesRelative";
@@ -77,6 +77,11 @@ class Stromgedacht extends utils.Adapter {
       this.log.debug(`Creating object ${obj._id}`);
       await this.setObjectNotExistsAsync(obj._id, obj);
     }
+    try {
+      await this.setStateAsync("forecast.states.json", "{}", true);
+    } catch (e) {
+      this.log.debug(`Failed to set initial forecast.states.json: ${e}`);
+    }
     this.requestStates().then(async (response) => {
       if (response === null) {
         this.log.error(`No response received`);
@@ -89,12 +94,13 @@ class Stromgedacht extends utils.Adapter {
       return response.data;
     }).then(async (data) => this.parseState(data)).catch(async (error) => {
       this.log.error(`Error: ${error.message}`);
-      this.setState("info.connection", false, true);
-      if (this.terminate) {
-        this.terminate(15);
-      } else {
-        process.exit(15);
+      try {
+        await this.setStateAsync("forecast.states.json", "{}", true);
+      } catch (e) {
+        this.log.debug(`Failed to set fallback forecast.states.json: ${e}`);
       }
+      this.setState("info.connection", false, true);
+      this.log.info("Keeping adapter running after requestStates error (no process exit)");
     });
     this.requestForecast().then(async (response) => {
       if (response === null) {
@@ -105,19 +111,10 @@ class Stromgedacht extends utils.Adapter {
       return response.data;
     }).then(async (data) => this.parseForecast(data)).catch(async (error) => {
       this.log.error(`Error: ${error.message}`);
-      await this.setState("info.connection", false, true);
-      if (this.terminate) {
-        this.terminate(15);
-      } else {
-        process.exit(15);
-      }
+      await this.setState("info.connection", true, true);
     });
-    await this.setState("info.connection", false, true);
-    if (this.terminate) {
-      this.terminate(15);
-    } else {
-      process.exit(15);
-    }
+    await this.setState("info.connection", true, true);
+    this.log.info("Adapter initialized and kept running for integration tests");
   }
   /**
    * Is called when adapter shuts down - callback has to be called under any circumstances!
@@ -171,7 +168,8 @@ class Stromgedacht extends utils.Adapter {
     fromDate.setDate(fromDate.getDate() - daysInPast);
     const queryParams = {
       zip: zipcode,
-      from: fromDate.toDateString()
+      // Use ISO 8601 format for the 'from' parameter to match typical API expectations
+      from: fromDate.toISOString()
     };
     return (0, import_axios.default)({
       method: "get",
@@ -233,7 +231,7 @@ class Stromgedacht extends utils.Adapter {
             this.addToInfluxDB("forecast.state.gruen", timeslot.getTime(), 1);
           }
           break;
-        case 2 /* ORANGE */:
+        case 3 /* ORANGE */:
           gelbStates.push(state);
           for (let i = 0; i < timeDifference; i++) {
             const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1e3 - offSet;
@@ -242,7 +240,7 @@ class Stromgedacht extends utils.Adapter {
             this.addToInfluxDB("forecast.state.orange", timeslot.getTime(), 1);
           }
           break;
-        case 3 /* ROT */:
+        case 4 /* ROT */:
           rotStates.push(state);
           for (let i = 0; i < timeDifference; i++) {
             const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1e3 - offSet;

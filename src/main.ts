@@ -7,24 +7,12 @@
 // you need to create an adapter
 import * as utils from "@iobroker/adapter-core";
 import axios, { AxiosResponse } from "axios";
+import { parseForecast, parseState } from "./parser";
 
 // tslint:disable no-var-requires
 const adapterName = require("./../package.json").name.split(".").pop();
 /* tslint:disable no-var-requires */
 const instanceObjects = require("./../io-package.json").instanceObjects;
-
-interface State {
-	from: string;
-	to: string;
-	state: number;
-}
-
-enum StateEnum {
-	SUPERGRUEN = -1,
-	GRUEN = 1,
-	ORANGE = 2,
-	ROT = 3,
-}
 
 const stromgedachtStateApi = "https://api.stromgedacht.de/v1/statesRelative";
 const stromgedachtForecastApi = "https://api.stromgedacht.de/v1/forecast";
@@ -104,7 +92,7 @@ class Stromgedacht extends utils.Adapter {
 				this.setState("info.connection", true, true);
 				return response.data;
 			})
-			.then(async (data) => this.parseState(data))
+			.then(async (data) => parseState(this, data))
 			.catch(async (error) => {
 				this.log.error(`Error: ${error.message}`);
 				// Ensure tests that expect a state value do not fail when the
@@ -133,7 +121,7 @@ class Stromgedacht extends utils.Adapter {
 				this.log.debug(`Received forecast for ${this.config.zipcode}: ${JSON.stringify(response.data)}`);
 				return response.data;
 			})
-			.then(async (data) => this.parseForecast(data))
+			.then(async (data) => parseForecast(this, data))
 			.catch(async (error) => {
 				this.log.error(`Error: ${error.message}`);
 				// Keep the adapter running after initialization so integration tests
@@ -215,7 +203,8 @@ class Stromgedacht extends utils.Adapter {
 
 		const queryParams = {
 			zip: zipcode,
-			from: fromDate.toDateString(),
+			// Use ISO 8601 format for the 'from' parameter to match typical API expectations
+			from: fromDate.toISOString(),
 		};
 
 		return axios({
@@ -241,215 +230,6 @@ class Stromgedacht extends utils.Adapter {
 				throw error;
 			});
 	}
-
-	/**
-	 * Parses the state from the provided JSON object and sets the corresponding states in the system.
-	 * @param json - The JSON object containing the states.
-	 */
-	async parseState(json: any): Promise<void> {
-		this.log.debug(`Parsing state ${JSON.stringify(json)}`);
-		const states: State[] = json.states;
-		this.log.debug(`States: ${JSON.stringify(states)}`);
-
-		const supergruenStates: State[] = [];
-		const supergruenTimeseries: [Date, number][] = [];
-		const gruenStates: State[] = [];
-		const gruenTimeseries: [Date, number][] = [];
-		const gelbStates: State[] = [];
-		const gelbTimeseries: [Date, number][] = [];
-		const rotStates: State[] = [];
-		const rotTimeseries: [Date, number][] = [];
-		const timeseries: [Date, number][] = [];
-		states.forEach((state: any) => {
-			const timeDifference = this.getTimeOffset(new Date(state.from), new Date(state.to));
-			const offSet = this.getOffset(new Date(state.from));
-
-			switch (state.state) {
-				case StateEnum.SUPERGRUEN: //supergruen
-					supergruenStates.push(state);
-					for (let i = 0; i < timeDifference; i++) {
-						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
-						const timeslot = new Date(newTime);
-						supergruenTimeseries.push([timeslot, 1]);
-						//at this point we can push the specific supergreen data to influxdb
-						this.addToInfluxDB("forecast.state.supergruen", timeslot.getTime(), 1);
-					}
-					break;
-				case StateEnum.GRUEN: //gruen
-					gruenStates.push(state);
-					for (let i = 0; i < timeDifference; i++) {
-						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
-						const timeslot = new Date(newTime);
-						gruenTimeseries.push([timeslot, 1]);
-						//at this point we can push the specific green data to influxdb
-						this.addToInfluxDB("forecast.state.gruen", timeslot.getTime(), 1);
-					}
-					break;
-				case StateEnum.ORANGE: //orange
-					gelbStates.push(state);
-					for (let i = 0; i < timeDifference; i++) {
-						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
-						const timeslot = new Date(newTime);
-						gelbTimeseries.push([timeslot, 1]);
-						//at this point we can push the specific orange data to influxdb
-						this.addToInfluxDB("forecast.state.orange", timeslot.getTime(), 1);
-					}
-					break;
-				case StateEnum.ROT: //rot
-					rotStates.push(state);
-					for (let i = 0; i < timeDifference; i++) {
-						const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
-						const timeslot = new Date(newTime);
-						rotTimeseries.push([timeslot, 1]);
-						//at this point we can push the specific red data to influxdb
-						this.addToInfluxDB("forecast.state.red", timeslot.getTime(), 1);
-					}
-					break;
-				default:
-					break;
-			}
-
-			for (let i = 0; i < timeDifference; i++) {
-				const newTime = (state.from = new Date(state.from)).getTime() + i * 60 * 60 * 1000 - offSet;
-				const timeslot = new Date(newTime);
-				const timeslotState = state.state;
-				timeseries.push([timeslot, timeslotState]);
-				//at this point we can push "all data" to influxdb
-				this.addToInfluxDB("forecast.states", timeslot.getTime(), timeslotState);
-			}
-		});
-
-		this.log.debug(`Timeseries: ${JSON.stringify(timeseries)}`);
-		this.setState("forecast.states.timeseries", JSON.stringify(timeseries), true);
-		this.setForecastStates(supergruenStates, "forecast.states.supergruen", supergruenTimeseries);
-		this.setForecastStates(gruenStates, "forecast.states.gruen", gruenTimeseries);
-		this.setForecastStates(gelbStates, "forecast.states.orange", gelbTimeseries);
-		this.setForecastStates(rotStates, "forecast.states.rot", rotTimeseries);
-		this.setState("forecast.states.lastUpdated", new Date().toString(), true);
-	}
-
-	/**
-	 * Parses the forecast from the provided JSON object and sets the corresponding states in the system.
-	 * @param json - The JSON object containing the forecast.
-	 */
-	parseForecast(json: any): any {
-		if (json.load != undefined) {
-			this.setState("forecast.load.json", JSON.stringify(json.load), true);
-			this.setState("forecast.load.lastUpdated", new Date().toString(), true);
-		} else {
-			this.log.error(`No load data received`);
-		}
-		if (json.renewableEnergy != undefined) {
-			this.setState("forecast.renewableEnergy.json", JSON.stringify(json.renewableEnergy), true);
-			this.setState("forecast.renewableEnergy.lastUpdated", new Date().toString(), true);
-		} else {
-			this.log.error(`No renewableEnergy data received`);
-		}
-		if (json.residualLoad != undefined) {
-			this.setState("forecast.residualLoad.json", JSON.stringify(json.residualLoad), true);
-			this.setState("forecast.residualLoad.lastUpdated", new Date().toString(), true);
-		} else {
-			this.log.error(`No residualLoad data received`);
-		}
-		if (json.superGreenThreshold != undefined) {
-			this.setState("forecast.superGreenThreshold.json", JSON.stringify(json.superGreenThreshold), true);
-			this.setState("forecast.superGreenThreshold.lastUpdated", new Date().toString(), true);
-		} else {
-			this.log.error(`No superGreenThreshold data received`);
-		}
-	}
-
-	/**
-	 * Adds data to InfluxDB.
-	 * @param datapoint - The name of the datapoint where to store the data
-	 * @param timestamp - The timestamp of the data
-	 * @param value - The value of the data
-	 */
-	private async addToInfluxDB(datapoint: string, timestamp: number, value: number): Promise<void> {
-		if (this.config.influxinstance) {
-			let influxInstance = this.config.influxinstance;
-
-			// Fallback for older instance configs
-			if (!influxInstance.startsWith("influxdb.")) {
-				influxInstance = `influxdb.${influxInstance}`;
-			}
-
-			const result = await this.sendToAsync(influxInstance, "storeState", {
-				id: `${this.namespace}.${datapoint}`,
-				state: {
-					ts: timestamp,
-					val: value,
-					ack: true,
-					from: `system.adapter.${this.namespace}`,
-				},
-			});
-			this.log.debug(`InfluxDB result: ${JSON.stringify(result)}`);
-		}
-	}
-
-	/**
-	 * Sets the states and corresponding objects in the ioBroker adapter.
-	 * @param states - The array of states to set
-	 * @param stateIdPrefix - The prefix for the state IDs
-	 * @param timeseries - The timeseries data to set
-	 * @returns A promise that resolves when the states and objects are set
-	 */
-	private async setForecastStates(
-		states: State[],
-		stateIdPrefix: string,
-		timeseries: [Date, number][],
-	): Promise<void> {
-		for (let i = 0; i < states.length; i++) {
-			const stateId = `${stateIdPrefix}.${i}`;
-			this.log.debug(`state ${stateId}`);
-			await this.setObjectNotExists(`${stateId}.begin`, {
-				type: "state",
-				common: {
-					name: `Begin of ${stateIdPrefix}`,
-					type: "string",
-					role: "time",
-					read: true,
-					write: false,
-				},
-				native: {},
-			});
-			await this.setObjectNotExists(`${stateId}.end`, {
-				type: "state",
-				common: {
-					name: `End of ${stateIdPrefix}`,
-					type: "string",
-					role: "time",
-					read: true,
-					write: false,
-				},
-				native: {},
-			});
-			const state = states[i];
-			this.log.debug(`Setting state ${stateId} to ${JSON.stringify(state)}`);
-			this.setState(`${stateId}.begin`, state.from.toString(), true);
-			this.setState(`${stateId}.end`, state.to.toString(), true);
-		}
-
-		this.setStateAsync(`${stateIdPrefix}.timeseries`, JSON.stringify(timeseries), true);
-	}
-
-	getOffset(from: Date): number {
-		const offSetMinutes = from.getMinutes();
-		const offSetSeconds = from.getSeconds();
-		const offSetMilliseconds = from.getMilliseconds();
-		const offSet = offSetMinutes * 60 * 1000 + offSetSeconds * 1000 + offSetMilliseconds;
-		return offSet;
-	}
-
-	getTimeOffset(startDate: Date, endDate: Date): number {
-		// Calculate the time difference in milliseconds
-		const timeDifference = endDate.getTime() - startDate.getTime();
-
-		// Convert the time difference to hours
-		const hoursOffset = timeDifference / (1000 * 60 * 60);
-
-		return hoursOffset;
-	}
 }
 
 if (require.main !== module) {
@@ -459,3 +239,10 @@ if (require.main !== module) {
 	// otherwise start the instance directly
 	(() => new Stromgedacht())();
 }
+
+// Export the class itself for unit tests that need to call parsing helpers
+// without starting the whole adapter instance.
+// CommonJS export for require(...) users
+(module.exports as any).Stromgedacht = Stromgedacht;
+// ES export for TypeScript import users
+export { Stromgedacht };

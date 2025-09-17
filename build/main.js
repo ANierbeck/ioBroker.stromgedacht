@@ -375,6 +375,28 @@ class Stromgedacht extends utils.Adapter {
     return hoursOffset;
   }
 }
+// Ensure a compatible export shape for different test harnesses that may
+// expect a `Stromgedacht` property on module.exports. Use defineProperty so
+// the property is writable/configurable where possible, falling back to a
+// direct assignment for older environments.
+try {
+  Object.defineProperty(module.exports, "Stromgedacht", {
+    value: Stromgedacht,
+    enumerable: true,
+    writable: true,
+    configurable: true,
+  });
+} catch (e) {
+  try {
+    // Some bundlers set module.exports as a read-only getter — try assigning
+    // to exports object instead.
+    exports.Stromgedacht = Stromgedacht;
+  } catch (err) {
+    // Last resort: ignore and continue; other code paths below still export
+    // a factory for instantiation.
+  }
+}
+
 if (require.main !== module) {
   module.exports = (options) => new Stromgedacht(options);
 } else {
